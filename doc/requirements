@@ -1,0 +1,46 @@
+Moscow:
+
+Must have:
+
+Functional:
+  - Authentication
+    * Username
+    * Password
+    * Database
+  - Scoring
+    * The score of both players has to be shown
+    * User should be able to enter name with associated score
+    * Game should show top 5
+  - Gameplay
+    * Should start with a start button
+    * Has an AI to play against
+    * Is playable with mouse only
+    * After a goal players have to be reset to their goal position
+    
+Non functional:
+  - Databases
+    * SQL
+    * JDBC
+    * Prepared statements
+
+Should have:
+
+Functional:
+  - Gameplay
+    * After a goal players have to be reset to their goal position
+    
+Could have:
+
+Functional:
+  - Gameplay
+    * A mode to play in 3D
+    * online multiplayer mode
+    * split-screen multiplayer mode
+Non functional:
+  - Gameplay
+    * Anti-cheat
+    
+Wont have:
+  - Gameplay
+    * Different kinds of player boards
+  
