@@ -21,7 +21,7 @@ plugins {
 group 'nl.tudelft.cse.sem.template'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 12
+sourceCompatibility = 13
 
 repositories {
     mavenCentral()
@@ -68,6 +68,7 @@ pmd {
 }
 
 spotbugs {
+    toolVersion = '4.0.0-beta4'
     sourceSets = [sourceSets.main]
     ignoreFailures = false
     effort = "default"
