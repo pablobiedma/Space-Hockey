@@ -1,87 +1,62 @@
-import com.github.spotbugs.SpotBugsTask
+buildscript {
+    
 
-plugins {
-    id 'java'
-//    id 'eclipse' // optional (to generate Eclipse project files)
-//    id 'idea' // optional (to generate IntelliJ IDEA project files)
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        jcenter()
+        google()
+    }
+    dependencies {
+        
 
-    // Test coverage
-    id 'jacoco'
-
-    // Code style
-    id 'checkstyle'
-
-    // PMD
-    id 'pmd'
-
-    // FindBugs / SpotBugs
-    id "com.github.spotbugs" version "2.0.1"
-}
-
-group 'nl.tudelft.cse.sem.template'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 13
-
-repositories {
-    mavenCentral()
-}
-
-test {
-    useJUnitPlatform()
-
-    jacoco {
-        enabled = true
-        includes = ['nl.tudelft.cse.sem.*']
-        excludes = []
     }
 }
 
-dependencies {
-    testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
-    spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
-}
+allprojects {
 
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            enabled = true
-            element = 'CLASS'
-            includes = ['nl.tudelft.cse.sem.*']
+    version = '1.0'
+    ext {
+        appName = "my-gdx-game"
+        gdxVersion = '1.9.10'
+        roboVMVersion = '2.3.8'
+        box2DLightsVersion = '1.4'
+        ashleyVersion = '1.7.0'
+        aiVersion = '1.8.0'
+    }
 
-            limit {
-                counter = 'LINE'
-                value = 'TOTALCOUNT'
-                maximum = 0.3
-            }
-        }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        google()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
 }
 
-checkstyle {
-    toolVersion "8.25"
-	configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+project(":desktop") {
+    apply plugin: "java-library"
+
+
+    dependencies {
+        implementation project(":core")
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        
+    }
 }
 
-pmd {
-    incrementalAnalysis = true
-}
+project(":core") {
+    apply plugin: "java-library"
 
-spotbugs {
-    toolVersion = '4.0.0-beta4'
-    sourceSets = [sourceSets.main]
-    ignoreFailures = false
-    effort = "default"
-    reportLevel = "high"
-    visitors = ["FindSqlInjection", "SwitchFallthrough"]
-    excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
-}
 
-tasks.withType(SpotBugsTask) {
-    reports.xml.enabled = false
-    reports.html.enabled = true
-}
-
-wrapper {
-    distributionType = Wrapper.DistributionType.ALL
+    dependencies {
+        api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        
+    }
 }
