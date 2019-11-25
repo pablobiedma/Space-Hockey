@@ -1,7 +1,9 @@
 package client;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 public class PasswordService {
     /**
      * Creates a hash of a plain-text password.
@@ -9,7 +11,16 @@ public class PasswordService {
      * @return hash of the password.
      */
     public static String hashPassword(String pwd) {
-        return "";
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        assert md != null;
+        byte[] hash = md.digest(pwd.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(hash);
     }
 
     /**
@@ -19,6 +30,6 @@ public class PasswordService {
      * @return true if correct, else false.
      */
     public static boolean checkPassword(String pwd, String hash) {
-        return true;
+        return hashPassword(pwd).equals(hash);
     }
 }
