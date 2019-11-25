@@ -10,16 +10,8 @@ public class PasswordService {
      * @param pwd password to hash.
      * @return hash of the password.
      */
-    public static String hashPassword(String pwd) {
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        assert md != null;
-        byte[] hash = md.digest(pwd.getBytes(StandardCharsets.UTF_8));
+    public static String hashPassword(String pwd) throws NoSuchAlgorithmException {
+        byte[] hash = MessageDigest.getInstance("SHA-256").digest(pwd.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(hash);
     }
 
@@ -29,7 +21,7 @@ public class PasswordService {
      * @param hash hash of the correct password.
      * @return true if correct, else false.
      */
-    public static boolean checkPassword(String pwd, String hash) {
+    public static boolean checkPassword(String pwd, String hash) throws NoSuchAlgorithmException {
         return hashPassword(pwd).equals(hash);
     }
 }
