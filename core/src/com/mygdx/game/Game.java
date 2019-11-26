@@ -60,28 +60,28 @@ public class Game extends ApplicationAdapter {
 
 		Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-//		//Label title = new Label("Buttons with Skins",mySkin,"big-black");
+//		Label title = new Label("Buttons with Skins",mySkin);
 //		title.setSize(Gdx.graphics.getWidth(),row_height*2);
 //		title.setPosition(0,Gdx.graphics.getHeight()-row_height*2);
 //		title.setAlignment(Align.center);
 //		stage.addActor(title);
-
-		// Button
-		Button button1 = new Button(mySkin);
-		button1.setSize(col_width*4,row_height);
-		button1.setPosition(col_width,Gdx.graphics.getHeight()-row_height*3);
-		button1.addListener(new InputListener(){
-			@Override
-			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				outputLabel.setText("Press a Button");
-			}
-			@Override
-			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-				outputLabel.setText("Pressed Button");
-				return true;
-			}
-		});
-		stage.addActor(button1);
+//
+//		// Button
+//		Button button1 = new Button(mySkin);
+//		button1.setSize(col_width*4,row_height);
+//		button1.setPosition(col_width,Gdx.graphics.getHeight()-row_height*3);
+//		button1.addListener(new InputListener(){
+//			@Override
+//			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+//				outputLabel.setText("Press a Button");
+//			}
+//			@Override
+//			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+//				outputLabel.setText("Pressed Button");
+//				return true;
+//			}
+//		});
+//		stage.addActor(button1);
 
 		// Text Button
 		Button button2 = new TextButton("Text Button",mySkin);
