@@ -84,10 +84,11 @@ public class Game extends ApplicationAdapter {
 //		stage.addActor(button1);
 
 		// Text Button
-		Button button2 = new TextButton("Text Button",mySkin);
+		Button button2 = new TextButton("Start game",mySkin);
 		button2.setSize(col_width*4,row_height);
 		button2.setPosition(col_width*7,Gdx.graphics.getHeight()-row_height*3);
 		button2.addListener(new InputListener(){
+			//add listener here 
 			@Override
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 				outputLabel.setText("Press a Button");
