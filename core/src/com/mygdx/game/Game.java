@@ -88,7 +88,7 @@ public class Game extends ApplicationAdapter {
 		button2.setSize(col_width*4,row_height);
 		button2.setPosition(col_width*7,Gdx.graphics.getHeight()-row_height*3);
 		button2.addListener(new InputListener(){
-			//add listener here 
+			//add listener here
 			@Override
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 				outputLabel.setText("Press a Button");
@@ -138,11 +138,11 @@ public class Game extends ApplicationAdapter {
 //		});
 //		stage.addActor(button4);
 //
-//		outputLabel = new Label("Press a Button",mySkin,"black");
-//		outputLabel.setSize(Gdx.graphics.getWidth(),row_height);
-//		outputLabel.setPosition(0,row_height);
-//		outputLabel.setAlignment(Align.center);
-//		stage.addActor(outputLabel);
+		outputLabel = new Label("Press a Button",mySkin);
+		outputLabel.setSize(Gdx.graphics.getWidth(),row_height);
+		outputLabel.setPosition(0,row_height);
+		outputLabel.setAlignment(Align.center);
+		stage.addActor(outputLabel);
 	}
 
 	@Override
