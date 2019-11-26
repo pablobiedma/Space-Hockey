@@ -17,15 +17,34 @@ public class DBController {
      */
     public static boolean userExists(final String username) throws SQLException {
         Connection connection = DriverManager.getConnection(URL);
+        try {
+            String query = "select Username from User where Username = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            try {
+                preparedStatement.setString(1, username);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                try {
+                    return resultSet.next();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                } finally {
+                    resultSet.close();
+                }
 
-        String query = "select Username from User where Username = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, username);
-        ResultSet resultSet = preparedStatement.executeQuery();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            } finally {
+                preparedStatement.close();
+            }
 
-        connection.close();
-        preparedStatement.close();
-        return resultSet.next();
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            connection.close();
+        }
     }
 
     /**
@@ -37,16 +56,34 @@ public class DBController {
     public static String getHashedPassword(final String username) throws SQLException {
         assert userExists(username);
         Connection connection = DriverManager.getConnection(URL);
-        String query = "select Password from User where Username = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, username);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        resultSet.next();
+        try {
+            String query = "select Password from User where Username = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            try {
+                preparedStatement.setString(1, username);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                try {
+                    resultSet.next();
+                    return resultSet.getString("Password");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                } finally {
+                    resultSet.close();
+                }
 
-        resultSet.close();
-        connection.close();
-        preparedStatement.close();
-        return resultSet.getString("Password");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                preparedStatement.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            connection.close();
+        }
     }
 
     /**
@@ -57,16 +94,25 @@ public class DBController {
      */
     public static void createUser(final String username, final String hashedPassword) throws SQLException {
         Connection connection = DriverManager.getConnection(URL);
-        String query = "insert into User (Username, Password) VALUES (?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-        preparedStatement.setString(1, username);
-        preparedStatement.setString(2, hashedPassword);
-        if (!userExists(username)) {
-            preparedStatement.execute();
+        try {
+            String query = "insert into User (Username, Password) VALUES (?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            try {
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, hashedPassword);
+                if (!userExists(username)) {
+                    preparedStatement.execute();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                preparedStatement.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
         }
 
-        preparedStatement.close();
-        connection.close();
     }
 }

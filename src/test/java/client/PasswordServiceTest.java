@@ -6,8 +6,8 @@ import java.security.NoSuchAlgorithmException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PasswordServiceTest {
-    private String password = "password";
-    private String hash = "XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=";
+    private static String password = "password";
+    private static String hash = "XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=";
     @Test
     void hashTest() throws NoSuchAlgorithmException {
         assertEquals(hash, PasswordService.hashPassword(password));
