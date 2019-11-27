@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 //import com.badlogic.gdx.graphics.Texture;
 //import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -46,14 +47,18 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 //	}
 //}
 public class Game extends ApplicationAdapter {
+	//SpriteBatch batch;
 	private Stage stage;
 	private Label outputLabel;
+	//Texture img;
 
 	@Override
 	public void create () {
+		//batch = new SpriteBatch();
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
+     	//img = new Texture("badlogic.jpg");
 		int Help_Guides = 12;
 		int row_height = Gdx.graphics.getWidth() / 12;
 		int col_width = Gdx.graphics.getWidth() / 12;
@@ -86,12 +91,12 @@ public class Game extends ApplicationAdapter {
 		// Text Button
 		Button button2 = new TextButton("Start game",mySkin);
 		button2.setSize(col_width*4,row_height);
-		button2.setPosition(col_width*7,Gdx.graphics.getHeight()-row_height*3);
+		button2.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*4);
 		button2.addListener(new InputListener(){
 			//add listener here
 			@Override
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				outputLabel.setText("Press a Button");
+				outputLabel.setText("Press button to start");
 			}
 			@Override
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
