@@ -100,7 +100,7 @@ public class Game extends ApplicationAdapter {
 			}
 			@Override
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-				outputLabel.setText("Pressed Text Button");
+				stage = new Stage(new ScreenViewport());
 				return true;
 			}
 		});
