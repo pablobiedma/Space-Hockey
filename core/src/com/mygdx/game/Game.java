@@ -100,7 +100,29 @@ public class Game extends ApplicationAdapter {
 			}
 			@Override
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 				stage = new Stage(new ScreenViewport());
+				Gdx.input.setInputProcessor(stage);
+				int Help_Guides = 12;
+				int row_height = Gdx.graphics.getWidth() / 12;
+				int col_width = Gdx.graphics.getWidth() / 12;
+				Button button3 = new TextButton("Quit game",mySkin);
+				button3.setSize(col_width*4,row_height);
+				button3.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*8);
+				button3.addListener(new InputListener(){
+					//add listener here
+					@Override
+					public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+						outputLabel.setText("Press button to quit");
+					}
+					@Override
+					public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+						//stage = new Stage(new ScreenViewport());
+						System.exit(0);
+						return true;
+					}
+				});
+				stage.addActor(button3);
 				return true;
 			}
 		});
@@ -143,7 +165,7 @@ public class Game extends ApplicationAdapter {
 //		});
 //		stage.addActor(button4);
 //
-		outputLabel = new Label("Press a Button",mySkin);
+		outputLabel = new Label("Press Start",mySkin);
 		outputLabel.setSize(Gdx.graphics.getWidth(),row_height);
 		outputLabel.setPosition(0,row_height);
 		outputLabel.setAlignment(Align.center);
