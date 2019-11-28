@@ -1,7 +1,7 @@
-import Game.Game;
 import Game.Player;
 import client.Authentication;
 import Game.Level;
+import database.DBController;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -51,12 +51,11 @@ public class Application {
             }
 
             System.out.println("Game started!");
-            Game game = new Game(player);
-            Level level = game.getLevel();
+            Level level = new Level(player);
             level.start();
 
             while (!level.isFinished()) {
-                printGameInfo(game);
+                printGameInfo(level);
                 int choice = Integer.parseInt(sc.nextLine());
                 if (choice == GOALFOR_CHOICE) {
                     level.goalFor();
@@ -77,11 +76,11 @@ public class Application {
         }
     }
 
-    private static void printGameInfo(Game game) {
+    private static void printGameInfo(Level level) {
         String menu = "--- GAME INFO----\n"+
                 "Current score: " +
-                game.getLevel().getPlayerGoals() + " : " + game.getLevel().getAiGoals() + '\n' +
-                "Current points: " + game.getLevel().getScore() + '\n' +
+                level.getPlayerGoals() + " : " + level.getAiGoals() + '\n' +
+                "Current points: " + level.getScore() + '\n' +
                 "Choose: \n" +
                 "1. Score a goal.\n" +
                 "2. Concede a goal.\n";
@@ -93,8 +92,12 @@ public class Application {
         String username = sc.nextLine();
         System.out.println("And password:");
         String password = sc.nextLine();
-        player = new Player(username, 0);
-        return Authentication.signIn(username, password);
+        if (Authentication.signIn(username, password)) {
+            player = new Player(username, new DBController().getScore(username));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private static boolean signUp(Scanner sc) throws SQLException, NoSuchAlgorithmException {
