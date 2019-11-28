@@ -97,19 +97,27 @@ public class DBController {
     public static void createUser(final String username, final String hashedPassword) throws SQLException {
         Connection connection = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
         try {
-            String query = "insert into User (Username, Password) VALUES (?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            String queryUser = "insert into User (Username, Password) VALUES (?,?)";
+            String queryScore = "insert into Score (username, score, chosen_name) VALUES (?,?,?)";
+            PreparedStatement preparedStatementUser = connection.prepareStatement(queryUser);
+            PreparedStatement preparedStatementScore = connection.prepareStatement(queryScore);
             try {
-                preparedStatement.setString(1, username);
-                preparedStatement.setString(2, hashedPassword);
+                preparedStatementUser.setString(1, username);
+                preparedStatementUser.setString(2, hashedPassword);
+                preparedStatementScore.setString(1, username);
+                preparedStatementScore.setInt(2, 0);
+                preparedStatementScore.setString(3, username);
                 if (!userExists(username)) {
-                    preparedStatement.execute();
+                    preparedStatementUser.execute();
+                    preparedStatementScore.execute();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                preparedStatement.close();
+                preparedStatementUser.close();
+                preparedStatementScore.close();
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
