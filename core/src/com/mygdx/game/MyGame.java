@@ -14,7 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.game.screens.GameScreen;
+import com.mygdx.game.screens.MenuScreen;
 
 //public class Game extends ApplicationAdapter {
 ////	SpriteBatch batch;
@@ -46,15 +49,14 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 ////		img.dispose();
 //	}
 //}
-public class Game extends ApplicationAdapter {
-	//SpriteBatch batch;
-	private Stage stage;
-	private Label outputLabel;
-	//Texture img;
-
+public class MyGame extends com.badlogic.gdx.Game {
+	static public Skin gameSkin;
 	@Override
 	public void create () {
+		gameSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+		this.setScreen(new MenuScreen(this));
 		//batch = new SpriteBatch();
+		/*
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
@@ -106,6 +108,15 @@ public class Game extends ApplicationAdapter {
 				int Help_Guides = 12;
 				int row_height = Gdx.graphics.getWidth() / 12;
 				int col_width = Gdx.graphics.getWidth() / 12;
+
+				//Puck thingy
+				Texture puckTexture = new Texture("sprite/sprite_puck.png");
+				Image puck = new Image(puckTexture);
+				puck.setPosition(Gdx.input.getX(), Gdx.input.getY());
+				puck.scaleBy(-0.8f);
+				stage.addActor(puck);
+
+
 				Button button3 = new TextButton("Quit game",mySkin);
 				button3.setSize(col_width*4,row_height);
 				button3.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*8);
@@ -170,14 +181,16 @@ public class Game extends ApplicationAdapter {
 		outputLabel.setPosition(0,row_height);
 		outputLabel.setAlignment(Align.center);
 		stage.addActor(outputLabel);
+
+		 */
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act();
-		stage.draw();
+		super.render();
+	}
 
+	@Override
+	public void dispose() {
 	}
 }
