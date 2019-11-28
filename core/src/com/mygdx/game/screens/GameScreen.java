@@ -52,7 +52,8 @@ public class GameScreen implements Screen {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 //stage = new Stage(new ScreenViewport());
-                System.exit(0);
+                //System.exit(0);
+                game.setScreen(new MenuScreen(game));
                 return true;
             }
         });
