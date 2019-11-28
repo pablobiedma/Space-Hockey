@@ -1,22 +1,29 @@
 package Game;
 
+import database.DBController;
+
 public class Level {
+    //constants regarding scoring and game rules
     private static final int MAX_GOALS = 7;
-    private static final double POINTS_PER_GOAL_SCORED = 2.0;
-    private static final double POINTS_PER_GOAL_CONCEDED = -1.0;
-    private static final double POINTS_PER_WIN = 5.0;
-    private static final double POINTS_PER_LOSS = -3.0;
+    private static final double POINTS_PER_GOAL_SCORED = 2;
+    private static final double POINTS_PER_GOAL_CONCEDED = -1;
+    private static final double POINTS_PER_WIN = 5;
+    private static final double POINTS_PER_LOSS = -3;
+    //fields
     private double score = 0;
     private boolean started;
     private boolean finished;
     private int playerGoals = 0, aiGoals = 0;
 
+    private Player player;
+
     /**
      * Constructor. Creates a new Level.
      */
-    public Level() {
-        started = false;
-        finished = false;
+    public Level(Player player) {
+        this.started = false;
+        this.finished = false;
+        this.player = player;
     }
 
     /**
@@ -24,6 +31,22 @@ public class Level {
      */
     public void start() {
         started = true;
+    }
+
+    /**
+     * Getter for player.
+     * @return player for the level.
+     */
+    public Player getPlayer() {
+        return player;
+    }
+
+    /**
+     * Setter for the player.
+     * @param player value to set.
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     /**
@@ -129,11 +152,20 @@ public class Level {
      */
     public void checkIfFinished() {
         if(playerGoals >= MAX_GOALS) {
-            finished = true;
             score += POINTS_PER_WIN;
+            finalizeGame();
         } else if (aiGoals >= MAX_GOALS) {
-            finished = true;
             score += POINTS_PER_LOSS;
+            finalizeGame();
         }
+    }
+
+    /**
+     * Finalizes the game. Updates database, updates player points.
+     */
+    public void finalizeGame() {
+        player.updatePoints(score);
+        player.updateDBScore(new DBController());
+        finished = true;
     }
 }

@@ -1,15 +1,17 @@
 package Game;
 
+import database.DBController;
+
 public class Player {
-    private double points;
+    private int points;
     private String username;
 
     /**
-     * Constructor for player's class.
-     * @param username for the player.
-     * @param points of the player.
+     * Constructor for player.
+     * @param database
+     * @param username
      */
-    public Player(String username, double points) {
+    public Player(String username, int points) {
         this.username = username;
         this.points = points;
     }
@@ -26,7 +28,7 @@ public class Player {
      * Setter for points.
      * @param points value to set.
      */
-    public void setPoints(double points) {
+    public void setPoints(int points) {
         this.points = points;
     }
 
@@ -52,5 +54,12 @@ public class Player {
      */
     public void updatePoints(double amount) {
         points += amount;
+    }
+
+    /**
+     *
+     */
+    public void updateDBScore(DBController database) {
+        database.updateScore(username, points);
     }
 }
