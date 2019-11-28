@@ -1,4 +1,4 @@
-package Game;
+package game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,11 +54,30 @@ class LevelTest {
     }
 
     @Test
-    void checkIfFinished() {
+    void getPlayer() {
+        assertEquals(player, level.getPlayer());
+    }
+
+    @Test
+    void setPlayer() {
+        Player player2 = new Player("some_player", 10);
+        level.setPlayer(player2);
+        assertEquals(player2, level.getPlayer());
+    }
+
+    @Test
+    void playerWins() {
         for(int i = 0; i < 7; i++) {
             level.goalFor();
         }
-        System.out.println(level.getPlayerGoals() + ":" + level.getAiGoals());
+        assertTrue(level.isFinished());
+    }
+
+    @Test
+    void aiWins() {
+        for(int i = 0; i < 7; i++) {
+            level.goalAgainst();
+        }
         assertTrue(level.isFinished());
     }
 

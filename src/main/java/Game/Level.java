@@ -1,6 +1,6 @@
-package Game;
+package game;
 
-import database.DBController;
+import database.DatabaseControler;
 
 public class Level {
     //constants regarding scoring and game rules
@@ -13,7 +13,8 @@ public class Level {
     private double score = 0;
     private boolean started;
     private boolean finished;
-    private int playerGoals = 0, aiGoals = 0;
+    private int playerGoals = 0;
+    private int aiGoals = 0;
 
     private Player player;
 
@@ -150,8 +151,8 @@ public class Level {
     /**
      * Checks if the game is finished. If yes, changes the values of inProgress and finished fields.
      */
-    public void checkIfFinished() {
-        if(playerGoals >= MAX_GOALS) {
+    private void checkIfFinished() {
+        if (playerGoals >= MAX_GOALS) {
             score += POINTS_PER_WIN;
             finalizeGame();
         } else if (aiGoals >= MAX_GOALS) {
@@ -163,9 +164,9 @@ public class Level {
     /**
      * Finalizes the game. Updates database, updates player points.
      */
-    public void finalizeGame() {
+    private void finalizeGame() {
         player.updatePoints(score);
-        player.updateDBScore(new DBController());
+        player.updateDatabaseScore(new DatabaseControler());
         finished = true;
     }
 }

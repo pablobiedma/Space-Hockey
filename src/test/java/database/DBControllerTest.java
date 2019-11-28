@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DBControllerTest {
-    private transient DBController database;
+    private transient DatabaseControler database;
     @BeforeEach
     void setupTestEnvironment() {
-        database = new DBController();
+        database = new DatabaseControler();
     }
 
     @Test

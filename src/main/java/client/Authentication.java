@@ -1,30 +1,34 @@
 package client;
 
-import database.DBController;
-
-import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
+import database.DatabaseControler;
 
 public class Authentication {
 
-    private transient PasswordService ps = new PasswordService();
+    private transient PasswordService ps = new PasswordService("SHA-256");
+    private transient DatabaseControler database;
+
+    /**
+     * Constructor for authentication class.
+     * @param database used for authentication.
+     */
+
+    public Authentication(DatabaseControler database) {
+        this.database = database;
+    }
 
     /**
      * Attempts to sign in with given credentials.
-     * @param database used for authentication.
      * @param username to log in.
      * @param password to log in.
      * @return true if signed in, else false.
-     * @throws SQLException for wrong queries.
-     * @throws NoSuchAlgorithmException for invalid hashing algorithm.
      */
-    public boolean signIn(DBController database, String username, String password) throws SQLException, NoSuchAlgorithmException {
-        if(!database.userExists(username)) {
+    public boolean signIn(String username, String password) {
+        if (!database.userExists(username)) {
             System.out.println("Account with this username was not found!");
             return false;
         }
 
-        if(ps.checkPassword(password, database.getHashedPassword(username))){
+        if (!ps.checkPassword(password, database.getHashedPassword(username))) {
             System.out.println("Password is incorrect!");
             return false;
         }
@@ -38,12 +42,10 @@ public class Authentication {
      * @param username to log in.
      * @param password to log in.
      * @return true if signed up, else false.
-     * @throws SQLException for wrong queries.
-     * @throws NoSuchAlgorithmException for invalid hashing algorithm.
      */
 
-    public boolean signUp(DBController database, String username, String password) throws SQLException, NoSuchAlgorithmException {
-        if(database.userExists(username)){
+    public boolean signUp(String username, String password) {
+        if (database.userExists(username)) {
             System.out.println("Account with this username already exists!");
             return false;
         } else {
