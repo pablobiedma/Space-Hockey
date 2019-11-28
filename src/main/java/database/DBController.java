@@ -1,13 +1,15 @@
 package database;
 import java.sql.*;
+import java.util.TimeZone;
 
 public class DBController {
 
     /**
      * URL of the database
      */
-    private static final String URL = "jdbc:mysql://projects-db.ewi.tudelft.nl/projects_SEMgroup45?" +
-            "user=pu_SEMgroup45&password=rVZRdo6MaZkz";
+    private static final String URL = "jdbc:mysql://projects-db.ewi.tudelft.nl/projects_SEMgroup45?serverTimezone=" + TimeZone.getDefault().getID();
+    private static final String DB_USERNAME = "pu_SEMgroup45";
+    private static final String DB_PASSWORD = "rVZRdo6MaZkz";
 
     /**
      * Checks if a user exists in the database.
@@ -16,7 +18,7 @@ public class DBController {
      * @throws SQLException if prepared statement is wrong.
      */
     public static boolean userExists(final String username) throws SQLException {
-        Connection connection = DriverManager.getConnection(URL);
+        Connection connection = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
         try {
             String query = "select Username from User where Username = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -55,7 +57,7 @@ public class DBController {
      */
     public static String getHashedPassword(final String username) throws SQLException {
         assert userExists(username);
-        Connection connection = DriverManager.getConnection(URL);
+        Connection connection = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
         try {
             String query = "select Password from User where Username = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -93,7 +95,7 @@ public class DBController {
      * @throws SQLException if prepared statement is invalid.
      */
     public static void createUser(final String username, final String hashedPassword) throws SQLException {
-        Connection connection = DriverManager.getConnection(URL);
+        Connection connection = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
         try {
             String query = "insert into User (Username, Password) VALUES (?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
