@@ -7,21 +7,24 @@ import java.sql.SQLException;
 
 public class Authentication {
 
+    private transient PasswordService ps = new PasswordService();
+
     /**
      * Attempts to sign in with given credentials.
+     * @param database used for authentication.
      * @param username to log in.
      * @param password to log in.
      * @return true if signed in, else false.
      * @throws SQLException for wrong queries.
      * @throws NoSuchAlgorithmException for invalid hashing algorithm.
      */
-    public static boolean signIn(String username, String password) throws SQLException, NoSuchAlgorithmException {
-        if(!DBController.userExists(username)) {
+    public boolean signIn(DBController database, String username, String password) throws SQLException, NoSuchAlgorithmException {
+        if(!database.userExists(username)) {
             System.out.println("Account with this username was not found!");
             return false;
         }
 
-        if(!PasswordService.checkPassword(password, DBController.getHashedPassword(username))){
+        if(ps.checkPassword(password, database.getHashedPassword(username))){
             System.out.println("Password is incorrect!");
             return false;
         }
@@ -39,12 +42,12 @@ public class Authentication {
      * @throws NoSuchAlgorithmException for invalid hashing algorithm.
      */
 
-    public static boolean signUp(String username, String password) throws SQLException, NoSuchAlgorithmException {
-        if(DBController.userExists(username)){
+    public boolean signUp(DBController database, String username, String password) throws SQLException, NoSuchAlgorithmException {
+        if(database.userExists(username)){
             System.out.println("Account with this username already exists!");
             return false;
         } else {
-            DBController.createUser(username, PasswordService.hashPassword(password));
+            database.createUser(username, ps.hashPassword(password));
             System.out.println("Account created successfully!");
             return true;
         }

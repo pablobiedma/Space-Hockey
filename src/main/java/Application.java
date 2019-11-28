@@ -11,6 +11,8 @@ import java.util.Scanner;
  * Demo class for authentication.
  */
 public class Application {
+    private static DBController database = new DBController();
+    private static Authentication authService = new Authentication();
     private static Player player;
     final static int GOALFOR_CHOICE = 1;
     final static int GOALAGAINST_CHOICE = 2;
@@ -92,8 +94,8 @@ public class Application {
         String username = sc.nextLine();
         System.out.println("And password:");
         String password = sc.nextLine();
-        if (Authentication.signIn(username, password)) {
-            player = new Player(username, new DBController().getScore(username));
+        if (authService.signIn(database, username, password)) {
+            player = new Player(username, database.getScore(username));
             return true;
         } else {
             return false;
@@ -105,6 +107,6 @@ public class Application {
         String username = sc.nextLine();
         System.out.println("And password:");
         String password = sc.nextLine();
-        return Authentication.signUp(username, password);
+        return authService.signUp(database,username, password);
     }
 }
