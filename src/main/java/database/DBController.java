@@ -4,10 +4,9 @@ import java.util.TimeZone;
 
 public class DBController {
 
-    /**
-     * URL of the database
-     */
-    private static final String URL = "jdbc:mysql://projects-db.ewi.tudelft.nl/projects_SEMgroup45?serverTimezone=" + TimeZone.getDefault().getID();
+    //Database information
+    private static final String URL = "jdbc:mysql://projects-db.ewi.tudelft.nl/projects_SEMgroup45?serverTimezone="
+            + TimeZone.getDefault().getID();
     private static final String DB_USERNAME = "pu_SEMgroup45";
     private static final String DB_PASSWORD = "rVZRdo6MaZkz";
 
@@ -17,8 +16,8 @@ public class DBController {
      * @return true if exists, else false.
      * @throws SQLException if prepared statement is wrong.
      */
-    public static boolean userExists(final String username) throws SQLException {
-        Connection connection = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
+    public boolean userExists(final String username) {
+        Connection connection = setUpConnection();
         try {
             String query = "select Username from User where Username = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -29,24 +28,26 @@ public class DBController {
                     return resultSet.next();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return false;
                 } finally {
                     resultSet.close();
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
-                return false;
             } finally {
                 preparedStatement.close();
             }
 
         } catch(Exception e) {
             e.printStackTrace();
-            return false;
         } finally {
-            connection.close();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return false;
     }
 
     /**
@@ -55,9 +56,9 @@ public class DBController {
      * @return hashed password of the user.
      * @throws SQLException if prepared statement is invalid.
      */
-    public static String getHashedPassword(final String username) throws SQLException {
+    public String getHashedPassword(final String username)  {
         assert userExists(username);
-        Connection connection = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
+        Connection connection = setUpConnection();
         try {
             String query = "select Password from User where Username = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -69,14 +70,12 @@ public class DBController {
                     return resultSet.getString("Password");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return null;
                 } finally {
                     resultSet.close();
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
             } finally {
                 preparedStatement.close();
             }
@@ -84,8 +83,13 @@ public class DBController {
             e.printStackTrace();
             return null;
         } finally {
-            connection.close();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return null;
     }
 
     /**
@@ -94,8 +98,8 @@ public class DBController {
      * @param hashedPassword of the user.
      * @throws SQLException if prepared statement is invalid.
      */
-    public static void createUser(final String username, final String hashedPassword) throws SQLException {
-        Connection connection = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
+    public void createUser(final String username, final String hashedPassword) {
+        Connection connection = setUpConnection();
         try {
             String queryUser = "insert into User (Username, Password) VALUES (?,?)";
             String queryScore = "insert into Score (username, score, chosen_name) VALUES (?,?,?)";
@@ -121,8 +125,96 @@ public class DBController {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            connection.close();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-
     }
+
+    /**
+     * Gets score of a user from the database.
+     * @param username of the user.
+     * @return the score of the user.
+     * @throws SQLException if database error.
+     */
+    public int getScore(String username) {
+        assert userExists(username);
+        Connection connection = setUpConnection();
+        try {
+            String query = "select score from Score where Username = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            try {
+                preparedStatement.setString(1, username);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                try {
+                    resultSet.next();
+                    return resultSet.getInt("Score");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    resultSet.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                preparedStatement.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Updates the score of a user.
+     * @param username of the user.
+     * @throws SQLException
+     * @return
+     */
+    public void updateScore(String username, int score) {
+        assert userExists(username);
+        Connection connection = setUpConnection();
+        try {
+            String query = "update Score SET score = ? where Username = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            try {
+                preparedStatement.setInt(1,score);
+                preparedStatement.setString(2, username);
+                preparedStatement.execute();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                preparedStatement.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Connection setUpConnection() {
+        try {
+            return DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
 }
