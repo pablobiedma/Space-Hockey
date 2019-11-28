@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class DBControllerTest {
     @Test
     void userExistsTest() throws SQLException {
-        assertTrue(DBController.userExists("mstyczen"));
-        assertFalse(DBController.userExists("hello"));
+        assertFalse(DBController.userExists("----------"));
+        assertTrue(DBController.userExists("hello"));
     }
 
     @Test
     public void getPasswordHashTest() throws SQLException {
-        assertEquals("XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg", DBController.getHashedPassword("mstyczen"));
+        assertEquals("LPJNul+wow4m6DsqxbninhsWHlwfp0JecwQzYpOLmCQ=", DBController.getHashedPassword("hello"));
     }
 
     @Test
