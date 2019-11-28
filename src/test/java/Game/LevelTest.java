@@ -7,11 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LevelTest {
 
-    private static Level level;
+    private transient Level level;
+    private transient Player player;
 
     @BeforeEach
     void setupTestEnvironment() {
-        level = new Level();
+        player = new Player("test", 0);
+        level = new Level(player);
     }
 
     @Test
@@ -56,6 +58,7 @@ class LevelTest {
         for(int i = 0; i < 7; i++) {
             level.goalFor();
         }
+        System.out.println(level.getPlayerGoals() + ":" + level.getAiGoals());
         assertTrue(level.isFinished());
     }
 
