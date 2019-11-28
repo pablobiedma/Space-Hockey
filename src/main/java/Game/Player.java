@@ -1,6 +1,6 @@
-package Game;
+package game;
 
-import database.DBController;
+import database.DatabaseControler;
 
 public class Player {
     private int points;
@@ -8,8 +8,8 @@ public class Player {
 
     /**
      * Constructor for player.
-     * @param database
-     * @param username
+     * @param username for the player.
+     * @param points the player has.
      */
     public Player(String username, int points) {
         this.username = username;
@@ -57,9 +57,10 @@ public class Player {
     }
 
     /**
-     *
+     * Updates the score in the database.
+     * @param database to update.
      */
-    public void updateDBScore(DBController database) {
+    public void updateDatabaseScore(DatabaseControler database) {
         database.updateScore(username, points);
     }
 }

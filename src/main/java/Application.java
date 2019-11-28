@@ -1,7 +1,7 @@
-import Game.Player;
 import client.Authentication;
-import Game.Level;
-import database.DBController;
+import database.DatabaseControler;
+import game.Level;
+import game.Player;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -11,19 +11,24 @@ import java.util.Scanner;
  * Demo class for authentication.
  */
 public class Application {
-    private static DBController database = new DBController();
-    private static Authentication authService = new Authentication();
+    private static DatabaseControler database = new DatabaseControler();
+    private static Authentication authService = new Authentication(database);
     private static Player player;
-    final static int GOALFOR_CHOICE = 1;
-    final static int GOALAGAINST_CHOICE = 2;
-    final static int SIGN_IN_CHOICE = 1;
-    final static int SIGN_UP_CHOICE = 2;
-    public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
+    private static final int GOALFOR_CHOICE = 1;
+    private static final int GOALAGAINST_CHOICE = 2;
+    private static final int SIGN_IN_CHOICE = 1;
+    private static final int SIGN_UP_CHOICE = 2;
+
+    /**
+     * Main method to demonstrate the work of the app backend.
+     * @param args arguments for the method.
+     */
+    public static void main(String[] args) {
 
 
         System.out.println(
-                "--- AIR HOCKEY MENU ---\n" +
-                        "1. SIGN IN.\n2. SIGN UP.\n"
+                "--- AIR HOCKEY MENU ---\n"
+                        + "1. SIGN IN.\n2. SIGN UP.\n"
         );
 
 
@@ -68,9 +73,9 @@ public class Application {
                 }
             }
 
-            System.out.println("Game finished. " +
-                    "\nFinal score: " + level.getPlayerGoals() + " : " + level.getAiGoals() + "\n" +
-                    "Total points earned: " + level.getScore());
+            System.out.println("Game finished. "
+                    + "\nFinal score: " + level.getPlayerGoals() + " : " + level.getAiGoals() + "\n"
+                    + "Total points earned: " + level.getScore());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -79,13 +84,13 @@ public class Application {
     }
 
     private static void printGameInfo(Level level) {
-        String menu = "--- GAME INFO----\n"+
-                "Current score: " +
-                level.getPlayerGoals() + " : " + level.getAiGoals() + '\n' +
-                "Current points: " + level.getScore() + '\n' +
-                "Choose: \n" +
-                "1. Score a goal.\n" +
-                "2. Concede a goal.\n";
+        String menu = "--- GAME INFO----\n"
+                + "Current score: "
+                + level.getPlayerGoals() + " : " + level.getAiGoals() + '\n'
+                + "Current points: " + level.getScore() + '\n'
+                + "Choose: \n"
+                + "1. Score a goal.\n"
+                + "2. Concede a goal.\n";
         System.out.println(menu);
     }
 
@@ -94,7 +99,7 @@ public class Application {
         String username = sc.nextLine();
         System.out.println("And password:");
         String password = sc.nextLine();
-        if (authService.signIn(database, username, password)) {
+        if (authService.signIn(username, password)) {
             player = new Player(username, database.getScore(username));
             return true;
         } else {
@@ -107,6 +112,6 @@ public class Application {
         String username = sc.nextLine();
         System.out.println("And password:");
         String password = sc.nextLine();
-        return authService.signUp(database,username, password);
+        return authService.signUp(username, password);
     }
 }

@@ -1,11 +1,17 @@
 package database;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.TimeZone;
 
-public class DBController {
+public class DatabaseControler {
 
     //Database information
-    private static final String URL = "jdbc:mysql://projects-db.ewi.tudelft.nl/projects_SEMgroup45?serverTimezone="
+    private static final String URL =
+            "jdbc:mysql://projects-db.ewi.tudelft.nl/projects_SEMgroup45?serverTimezone="
             + TimeZone.getDefault().getID();
     private static final String DB_USERNAME = "pu_SEMgroup45";
     private static final String DB_PASSWORD = "rVZRdo6MaZkz";
@@ -14,7 +20,6 @@ public class DBController {
      * Checks if a user exists in the database.
      * @param username of the user.
      * @return true if exists, else false.
-     * @throws SQLException if prepared statement is wrong.
      */
     public boolean userExists(final String username) {
         Connection connection = setUpConnection();
@@ -38,7 +43,7 @@ public class DBController {
                 preparedStatement.close();
             }
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
@@ -54,7 +59,6 @@ public class DBController {
      * Returns hashed password of the user.
      * @param username of the user.
      * @return hashed password of the user.
-     * @throws SQLException if prepared statement is invalid.
      */
     public String getHashedPassword(final String username)  {
         assert userExists(username);
@@ -137,7 +141,6 @@ public class DBController {
      * Gets score of a user from the database.
      * @param username of the user.
      * @return the score of the user.
-     * @throws SQLException if database error.
      */
     public int getScore(String username) {
         assert userExists(username);
@@ -177,8 +180,6 @@ public class DBController {
     /**
      * Updates the score of a user.
      * @param username of the user.
-     * @throws SQLException
-     * @return
      */
     public void updateScore(String username, int score) {
         assert userExists(username);
@@ -206,7 +207,11 @@ public class DBController {
         }
     }
 
-    public Connection setUpConnection() {
+    /**
+     * Sets up a connection with the database.
+     * @return created Connetion object.
+     */
+    private Connection setUpConnection() {
         try {
             return DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
         } catch (SQLException e) {

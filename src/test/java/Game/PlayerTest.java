@@ -1,20 +1,19 @@
-package Game;
+package game;
 
-import database.DBController;
+import database.DatabaseControler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
     @Mock
-    private transient DBController database;
+    private transient DatabaseControler database;
 
     private transient Player player;
     @BeforeEach
@@ -52,8 +51,8 @@ class PlayerTest {
 
     @Test
     void updateDBScore() {
-        database = Mockito.mock(DBController.class);
-        player.updateDBScore(database);
+        database = Mockito.mock(DatabaseControler.class);
+        player.updateDatabaseScore(database);
         verify(database, times(1)).updateScore(anyString(), anyInt());
     }
 }
