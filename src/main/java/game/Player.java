@@ -1,6 +1,6 @@
 package game;
 
-import database.DatabaseControler;
+import database.DatabaseController;
 
 public class Player {
     private int points;
@@ -60,7 +60,7 @@ public class Player {
      * Updates the score in the database.
      * @param database to update.
      */
-    public void updateDatabaseScore(DatabaseControler database) {
+    public void updateDatabaseScore(DatabaseController database) {
         database.updateScore(username, points);
     }
 }

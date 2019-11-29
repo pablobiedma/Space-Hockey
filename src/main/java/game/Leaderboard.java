@@ -1,6 +1,6 @@
 package game;
 
-import database.DatabaseControler;
+import database.DatabaseController;
 import java.util.Comparator;
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class Leaderboard {
      *Instantiates a leaderboard.
      * @param database to read the scores from.
      */
-    public Leaderboard(DatabaseControler database) {
+    public Leaderboard(DatabaseController database) {
         players = database.getAllScores();
         for(Player player : players) {
             System.out.println(player.getUsername() + " " + player.getPoints());

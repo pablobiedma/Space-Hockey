@@ -1,6 +1,6 @@
 package game;
 
-import database.DatabaseControler;
+import database.DatabaseController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LeaderboardTest {
 
-    private transient DatabaseControler database;
+    private transient DatabaseController database;
     private transient Leaderboard leaderboard;
     private transient List<Player> top3;
 
@@ -26,7 +26,7 @@ class LeaderboardTest {
 
 
 
-        database = Mockito.mock(DatabaseControler.class);
+        database = Mockito.mock(DatabaseController.class);
         Mockito.when(database.getAllScores()).thenReturn(players);
         leaderboard = new Leaderboard(database);
         top3 = leaderboard.makeLeaderboard(3);

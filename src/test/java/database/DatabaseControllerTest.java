@@ -2,15 +2,20 @@ package database;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DBControllerTest {
-    private transient DatabaseControler database;
+class DatabaseControllerTest {
+    private transient DatabaseController database;
+    private transient Connection connection;
     @BeforeEach
     void setupTestEnvironment() {
-        database = new DatabaseControler(DatabaseConnector.setUpConnection());
+        connection = Mockito.mock(Connection.class);
+        database = new DatabaseController(DatabaseConnector.setUpConnection());
     }
 
     @Test
@@ -36,5 +41,16 @@ class DBControllerTest {
         String hashedPassword = "XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg";
         database.createUser(username, hashedPassword);
         assertTrue(database.userExists(username));
+    }
+
+    @Test
+    void getConnection() {
+        assertNotNull(database.getConnection());
+    }
+
+    @Test
+    void setConnection() {
+        database.setConnection(null);
+        assertNull(database.getConnection());
     }
 }

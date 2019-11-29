@@ -1,18 +1,18 @@
 package client;
 
-import database.DatabaseControler;
+import database.DatabaseController;
 
 public class Authentication {
 
     private transient PasswordService ps = new PasswordService("SHA-256");
-    private transient DatabaseControler database;
+    private transient DatabaseController database;
 
     /**
      * Constructor for authentication class.
      * @param database used for authentication.
      */
 
-    public Authentication(DatabaseControler database) {
+    public Authentication(DatabaseController database) {
         this.database = database;
     }
 

@@ -7,11 +7,11 @@ import java.util.TimeZone;
 
 public class DatabaseConnector {
     //Database information
-    private static final String URL =
+    private static String URL =
             "jdbc:mysql://projects-db.ewi.tudelft.nl/projects_SEMgroup45?serverTimezone="
                     + TimeZone.getDefault().getID();
-    private static final String DB_USERNAME = "pu_SEMgroup45";
-    private static final String DB_PASSWORD = "rVZRdo6MaZkz";
+    private static String DB_USERNAME = "pu_SEMgroup45";
+    private static String DB_PASSWORD = "rVZRdo6MaZkz";
 
     /**
      * Sets up a connection with the database.
@@ -24,5 +24,27 @@ public class DatabaseConnector {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Changes the database credentials.
+     * @param url of the database.
+     * @param username used for login.
+     * @param password used for login.
+     */
+    public static void setCredentials(String url, String username, String password) {
+        URL = url;
+        DB_USERNAME = username;
+        DB_PASSWORD = password;
+    }
+
+    /**
+     * Resets the database credentials.
+     */
+    public static void resetCredentials() {
+        URL = "jdbc:mysql://projects-db.ewi.tudelft.nl/projects_SEMgroup45?serverTimezone="
+                + TimeZone.getDefault().getID();
+        DB_USERNAME = "pu_SEMgroup45";
+        DB_PASSWORD = "rVZRdo6MaZkz";
     }
 }

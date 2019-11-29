@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class DatabaseControler {
+public class DatabaseController {
     private Connection connection;
 
     /**
      * Constructor for database controller.
      * @param connection with the database.
      */
-    public DatabaseControler(Connection connection) {
+    public DatabaseController(Connection connection) {
         this.connection = connection;
     }
 
