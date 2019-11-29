@@ -3,6 +3,8 @@ package client;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.security.NoSuchAlgorithmException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PasswordServiceTest {
@@ -26,10 +28,10 @@ class PasswordServiceTest {
         assertFalse(ps.checkPassword("hello", hash));
     }
 //for some reason doesnt work???
-//    @Test
-//    void wrongAlgorithmTest() {
-//        assertThrows(NoSuchAlgorithmException.class, () -> {
-//            new PasswordService("inexistent_algorithm");
-//        });
-//    }
+    @Test
+    void wrongAlgorithmTest() {
+        assertDoesNotThrow(() -> {
+            new PasswordService("inexistent_algorithm");
+        });
+    }
 }

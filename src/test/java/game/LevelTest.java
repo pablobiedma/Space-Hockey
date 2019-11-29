@@ -110,4 +110,15 @@ class LevelTest {
         level.start();
         assertTrue(level.isStarted());
     }
+
+    @Test
+    void getScore() {
+        assertEquals(0, level.getScore());
+    }
+
+    @Test
+    void setScore() {
+        level.setScore(1);
+        assertEquals(1, level.getScore());
+    }
 }
