@@ -1,14 +1,13 @@
 package client;
 
-import database.DatabaseControler;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 
+import database.DatabaseController;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 class AuthenticationTest {
     private static final String EXISTENT_USER = "existent_user";
@@ -16,12 +15,12 @@ class AuthenticationTest {
     private static final String PASSWORD = "password";
     public static final String HASH = new PasswordService("SHA-256").hashPassword(PASSWORD);
     private transient Authentication auth;
-    private transient DatabaseControler database;
+    private transient DatabaseController database;
 
 
     @BeforeEach
     void setUp() {
-        database = Mockito.mock(DatabaseControler.class);
+        database = Mockito.mock(DatabaseController.class);
         Mockito.when(database.userExists(EXISTENT_USER)).thenReturn(true);
         Mockito.when(database.userExists(NON_EXISTENT_USER)).thenReturn(false);
         Mockito.when(database.getHashedPassword(EXISTENT_USER)).thenReturn(HASH);
