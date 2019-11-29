@@ -10,7 +10,7 @@ class DBControllerTest {
     private transient DatabaseControler database;
     @BeforeEach
     void setupTestEnvironment() {
-        database = new DatabaseControler();
+        database = new DatabaseControler(DatabaseConnector.setUpConnection());
     }
 
     @Test

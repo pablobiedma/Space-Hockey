@@ -1,5 +1,6 @@
 package game;
 
+import database.DatabaseConnector;
 import database.DatabaseControler;
 
 public class Level {
@@ -166,7 +167,7 @@ public class Level {
      */
     private void finalizeGame() {
         player.updatePoints(score);
-        player.updateDatabaseScore(new DatabaseControler());
+        player.updateDatabaseScore(new DatabaseControler(DatabaseConnector.setUpConnection()));
         finished = true;
     }
 }
