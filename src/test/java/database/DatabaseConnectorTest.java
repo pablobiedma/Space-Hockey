@@ -1,11 +1,11 @@
 package database;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class DatabaseConnectorTest {
 
@@ -31,7 +31,9 @@ class DatabaseConnectorTest {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(connection != null) connection.close();
+            if (connection != null) {
+                connection.close();
+            }
         }
     }
 }

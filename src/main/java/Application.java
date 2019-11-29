@@ -74,7 +74,8 @@
 //            }
 //
 //            System.out.println("Game finished. "
-//                    + "\nFinal score: " + level.getPlayerGoals() + " : " + level.getAiGoals() + "\n"
+//                    + "\nFinal score: " + level.getPlayerGoals()
+//                    + " : " + level.getAiGoals() + "\n"
 //                    + "Total points earned: " + level.getScore());
 //        } catch (Exception e) {
 //            e.printStackTrace();
@@ -94,7 +95,7 @@
 //        System.out.println(menu);
 //    }
 //
-//    private static boolean authenticate(Scanner sc) throws SQLException, NoSuchAlgorithmException {
+//    private static boolean authenticate(Scanner sc) {
 //        System.out.println("Please enter your username:");
 //        String username = sc.nextLine();
 //        System.out.println("And password:");

@@ -13,7 +13,7 @@ public class Leaderboard {
      */
     public Leaderboard(DatabaseController database) {
         players = database.getAllScores();
-        for(Player player : players) {
+        for (Player player : players) {
             System.out.println(player.getUsername() + " " + player.getPoints());
         }
     }

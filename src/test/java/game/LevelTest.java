@@ -1,9 +1,12 @@
 package game;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class LevelTest {
 
@@ -67,7 +70,7 @@ class LevelTest {
 
     @Test
     void playerWins() {
-        for(int i = 0; i < 7; i++) {
+        for (int i = 0; i < 7; i++) {
             level.goalFor();
         }
         assertTrue(level.isFinished());
@@ -75,7 +78,7 @@ class LevelTest {
 
     @Test
     void aiWins() {
-        for(int i = 0; i < 7; i++) {
+        for (int i = 0; i < 7; i++) {
             level.goalAgainst();
         }
         assertTrue(level.isFinished());

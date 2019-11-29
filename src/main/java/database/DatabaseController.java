@@ -190,7 +190,7 @@ public class DatabaseController {
             try {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
-                    while(resultSet.next()) {
+                    while (resultSet.next()) {
                         String username = resultSet.getString("username");
                         int score = resultSet.getInt("score");
                         Player player = new Player(username,score);
