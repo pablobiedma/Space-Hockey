@@ -10,8 +10,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Air Hockey";
         config.useGL30 = true;
-        config.height = 900;
-        config.width = 1366;
+        config.height = 1000;
+        config.width = 1000;
 		new LwjglApplication(new MyGame(), config);
 	}
 }
