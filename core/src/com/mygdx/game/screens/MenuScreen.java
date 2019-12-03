@@ -33,7 +33,7 @@ public class MenuScreen implements Screen {
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         // Text Button
-        Button startGameButton = new TextButton("Start game",mySkin);
+        Button startGameButton = new TextButton("Login",mySkin);
         startGameButton.setSize(col_width*4,row_height);
         startGameButton.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*4);
         startGameButton.addListener(new InputListener(){
@@ -53,7 +53,7 @@ public class MenuScreen implements Screen {
         //Puck thingy
         Button button3 = new TextButton("Close",mySkin);
         button3.setSize(col_width*4,row_height);
-        button3.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*6);
+        button3.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*8);
         button3.addListener(new InputListener(){
             //add listener here
             @Override
@@ -67,6 +67,22 @@ public class MenuScreen implements Screen {
             }
         });
         stage.addActor(button3);
+        Button button4 = new TextButton("Sign Up",mySkin);
+        button4.setSize(col_width*4,row_height);
+        button4.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*6);
+        button4.addListener(new InputListener(){
+            //add listener here
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+            }
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                //stage = new Stage(new ScreenViewport());
+                System.exit(0);
+                return true;
+            }
+        });
+        stage.addActor(button4);
 
 //		// ImageButton
 //		ImageButton button3 = new ImageButton(mySkin);
