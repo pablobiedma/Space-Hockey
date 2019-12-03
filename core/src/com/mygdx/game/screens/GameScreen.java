@@ -7,94 +7,136 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygdx.game.MyGame;
+import com.mygdx.game.movement.KeyCodeSet;
+import com.mygdx.game.movement.MovementController;
 
-public class GameScreen extends ApplicationAdapter implements Screen, InputProcessor {
+/**
+ * Game screen class - implements the game screen functionality.
+ */
+public class GameScreen extends ApplicationAdapter implements Screen {
+
+    /**
+     * Constants section:
+     */
+    public static final float VIEWPORT_SIZE = 50;
+
+    public static final float PADDLE_RADIUS = 1;
+    public static final float PADDLE_DENSITY = 0.5f;
+    public static final float PADDLE_FRICTION = 0.1f;
+    public static final float PADDLE_RESTITUTION = 0.1f;
+
+    public static final float PUCK_RADIUS = 0.75f;
+    public static final float PUCK_DENSITY = 0.5f;
+    public static final float PUCK_FRICTION = 0.05f;
+    public static final float PUCK_RESTITUTION = 0.9f;
+
+    public static final float WALL_HEIGHT = 10;
+    public static final float WALL_WIDTH = 20;
+    public static final float WALL_THICKNESS = 0.2f;
+
+    public static final KeyCodeSet BLUE_PADDLE_KEYS = new KeyCodeSet(Input.Keys.DPAD_LEFT, Input.Keys.DPAD_RIGHT, Input.Keys.DPAD_UP, Input.Keys.DPAD_DOWN);
+    public static final KeyCodeSet RED_PADDLE_KEYS = new KeyCodeSet(Input.Keys.A, Input.Keys.D, Input.Keys.W, Input.Keys.S);
+    public static final int RESOLUTION = 1000;
+
     SpriteBatch batch;
-    Sprite controller;
+    Sprite redPaddleSprite;
+    Sprite bluePaddleSprite;
+    Sprite puckSprite;
+    Sprite pitchSprite;
+    Body redPaddleBody;
+    Body bluePaddleBody;
     Body puckBody;
-    private Stage stage;
-    private Game game;
+    MovementController bluePaddleController;
+    MovementController redPaddleController;
     World world;
     Box2DDebugRenderer debugRenderer;
     Camera camera;
-    Matrix4 debugMatrix;
+    Stage stage;
 
-    boolean drawSprite = true;
-    final float PIXELS_TO_METERS = 100f;
-    float torque = 2f;
-    public GameScreen(Game aGame) {
+    public GameScreen() {
         Box2D.init();
-        batch = new SpriteBatch();
-
-        Texture puckTexture = new Texture("sprite/sprite_air_hockey_controller.png");
-        Image puck = new Image(puckTexture);
-        controller = new Sprite(puckTexture);
-        controller.setPosition(Gdx.input.getX(), Gdx.input.getY());
-
         world = new World(new Vector2(0, 0), true);
-        Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        //game = aGame;
-        //stage = new Stage(new ScreenViewport());
 
+        initializeSprites();
+        initializeBodies();
+        initializeFixtures();
+        initializeWalls();
+        initializeMovementControllers();
+
+        debugRenderer = new Box2DDebugRenderer();
+        camera = new OrthographicCamera(VIEWPORT_SIZE,VIEWPORT_SIZE);
+    }
+
+    private void initializeMovementControllers() {
+        bluePaddleController = new MovementController(bluePaddleBody, BLUE_PADDLE_KEYS, false);
+        redPaddleController = new MovementController(redPaddleBody, RED_PADDLE_KEYS, true);
+    }
+
+    private void initializeFixtures() {
+
+        //initialize puck and paddles
+        FixtureDef paddleFixtureDef = getFixtureDef(new CircleShape(), PADDLE_RADIUS, PADDLE_DENSITY, PADDLE_FRICTION, PADDLE_RESTITUTION);
+        FixtureDef puckFixtureDef = getFixtureDef(new CircleShape(), PUCK_RADIUS, PUCK_DENSITY, PUCK_FRICTION, PUCK_RESTITUTION);
+
+        redPaddleBody.createFixture(paddleFixtureDef);
+        bluePaddleBody.createFixture(paddleFixtureDef);
+        puckBody.createFixture(puckFixtureDef);
+    }
+
+    private FixtureDef getFixtureDef(CircleShape shape, float radius, float density, float friction, float restitution) {
+        shape.setRadius(radius);
+
+        FixtureDef res = new FixtureDef();
+        res.shape = shape;
+        res.density = density;
+        res.friction = friction;
+        res.restitution = restitution;
+        shape.dispose();
+        return res;
+    }
+
+    private void initializeWalls() {
+        initializeWall(0, -WALL_HEIGHT, WALL_WIDTH, WALL_THICKNESS);
+        initializeWall(0, WALL_HEIGHT, WALL_WIDTH, WALL_THICKNESS);
+        initializeWall(WALL_WIDTH, 0, WALL_THICKNESS, WALL_HEIGHT);
+        initializeWall(-WALL_WIDTH, 0, WALL_THICKNESS, WALL_HEIGHT);
+    }
+
+    private void initializeWall(float x, float y, float width, float height) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(x, y);
+        Body wallBody  = world.createBody(bodyDef);
+
+        PolygonShape wall = new PolygonShape();
+        wall.setAsBox(width, height);
+        wallBody.createFixture(wall, 0);
+    }
+
+    private void initializeBodies() {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        //puckDef.position.set(Gdx.input.getX(), Gdx.input.getY());
-        bodyDef.position.set(controller.getX(), controller.getY());
+
+        bodyDef.position.set(0, 0);
         puckBody  = world.createBody(bodyDef);
 
-        PolygonShape shape = new PolygonShape();
-        // We are a box, so this makes sense, no?
-        // Basically set the physics polygon to a box with the same dimensions
-        //as our sprite
-        shape.setAsBox(controller.getWidth()/2, controller.getHeight()/2);
+        bodyDef.position.set(VIEWPORT_SIZE/4, 0);
+        bluePaddleBody  = world.createBody(bodyDef);
 
-        // FixtureDef is a confusing expression for physical properties
-        // Basically this is where you, in addition to defining the shape of the
-        //body
-        // you also define it's properties like density, restitution and others
-        //we will see shortly
-        // If you are wondering, density and area are used to calculate over all
-        //mass
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 0.1f;
+        bodyDef.position.set(-VIEWPORT_SIZE/4, 0);
+        redPaddleBody = world.createBody(bodyDef);
+    }
 
-        Fixture fixture = puckBody.createFixture(fixtureDef);
-
-        // Shape is the only disposable of the lot, so get rid of it
-        shape.dispose();
-
-        Gdx.input.setInputProcessor(this);
-        /*
-        Texture boardTexture = new Texture("sprite/sprite_air_hockey_table.png");
-        Image board = new Image(boardTexture);
-        board.setPosition(300, 150);
-        board.scaleBy(-.5f);
-        board.setWidth(1500);
-        //stage.addActor(board);
-        */
-
-
-
-        /*
-        //Puck thingy
-        Texture puckTexture = new Texture("sprite/sprite_air_hockey_controller.png");
-        Image puck = new Image(puckTexture);
-        puck.setPosition(Gdx.input.getX(), Gdx.input.getY());
-        puck.scaleBy(-0.8f);
-        stage.addActor(puck);
-        */
-
+    /**
+     * Initializes the sprites.
+     */
+    private void initializeSprites() {
+        Texture bluePaddleTexture = new Texture("sprite/blue-paddle.png");
+        bluePaddleSprite = new Sprite(bluePaddleTexture);
+        bluePaddleSprite.setSize(2* PADDLE_RADIUS / VIEWPORT_SIZE * RESOLUTION, 2 * PADDLE_RADIUS / VIEWPORT_SIZE * RESOLUTION);
 
         debugRenderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.
@@ -123,55 +165,70 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
         stage.addActor(quitButton);
 
          */
+        Texture redPaddleTexture = new Texture("sprite/red-paddle.png");
+        redPaddleSprite = new Sprite(redPaddleTexture);
+        redPaddleSprite.setSize(2* PADDLE_RADIUS / VIEWPORT_SIZE * RESOLUTION, 2 * PADDLE_RADIUS / VIEWPORT_SIZE * RESOLUTION);
 
+        Texture puckTexture = new Texture("sprite/puck.png");
+        puckSprite = new Sprite(puckTexture);
+        puckSprite.setSize(2 * PUCK_RADIUS / VIEWPORT_SIZE * RESOLUTION, 2 * PUCK_RADIUS / VIEWPORT_SIZE * RESOLUTION);
+
+        Texture pitchTexture = new Texture("sprite/pitch.png");
+        pitchSprite = new Sprite(pitchTexture);
+        pitchSprite.setSize(2 * WALL_WIDTH/VIEWPORT_SIZE * RESOLUTION, 2 * WALL_HEIGHT/VIEWPORT_SIZE * RESOLUTION);
+        pitchSprite.setPosition(translateCoordinateX(pitchSprite, 0), translateCoordinateY(pitchSprite, 0));
     }
+
     @Override
+    /**
+     * Shows the view.
+     */
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        batch = new SpriteBatch();
     }
 
     @Override
+    /**
+     * Renders the view.
+     */
     public void render(float delta) {
         camera.update();
         world.step(1/60f, 6, 2);
-        puckBody.applyTorque(torque, true);
-        controller.setPosition((puckBody.getPosition().x)
-                , puckBody.getPosition().y);
-        //controller.setRotation((float)Math.toDegrees(puckBody.getAngle()));
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
+
+//        FOR SOME REASON THE TEXTURES WON'T WORK, TO DO
         batch.begin();
+        pitchSprite.draw(batch);
 
+        puckSprite.setPosition(translateCoordinateX(puckSprite, puckBody.getPosition().x), translateCoordinateY(puckSprite, puckBody.getPosition().y));
+        puckSprite.draw(batch);
 
-        if(Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT))
-            puckBody.setLinearVelocity(100f, 0f);
-        if(Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT))
-            puckBody.setLinearVelocity(-100f, 0f);
-        if(Gdx.input.isKeyPressed(Input.Keys.DPAD_UP))
-            puckBody.setLinearVelocity(0, 100f);
-        if(Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN))
-            puckBody.setLinearVelocity(-0, -100f);
-        batch.draw(controller, controller.getX(), controller.getY());
+        redPaddleSprite.setPosition(translateCoordinateX(redPaddleSprite, redPaddleBody.getPosition().x),
+                translateCoordinateY(redPaddleSprite, redPaddleBody.getPosition().y));
+        redPaddleSprite.draw(batch);
+
+        bluePaddleSprite.setPosition(translateCoordinateY(bluePaddleSprite, bluePaddleBody.getPosition().x),
+                translateCoordinateX(bluePaddleSprite, bluePaddleBody.getPosition().y));
+        bluePaddleSprite.draw(batch);
+
         batch.end();
-        /*
-        stage.getActors().get(1).setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
 
-        if(stage.getActors().get(1).getX() > 100 && stage.getActors().get(1).getY() > 10) {
-
-        }
-
-         */
-        //stage.act();
-        //stage.draw();
-        //debugRenderer.render(world, Gdx.graphics.get);
-        //debugRenderer.render(world, debugMatrix);
+        bluePaddleController.updateVelocity();
+        redPaddleController.updateVelocity();
+        debugRenderer.render(world, camera.combined);
     }
 
     @Override
     public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void create() {
 
     }
 
@@ -192,55 +249,14 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 
     @Override
     public void dispose() {
-        //stage.dispose();
         world.dispose();
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-
-
-        return false;
+    private float translateCoordinateX(Sprite s, float x) {
+        return RESOLUTION/2 + x / VIEWPORT_SIZE * RESOLUTION - s.getWidth() / 2;
     }
 
-    @Override
-    public boolean keyUp(int keycode) {
-        // On right or left arrow set the velocity at a fixed rate in that
-        //direction
-        if(keycode == Input.Keys.RIGHT)
-            puckBody.setLinearVelocity(1f, 0f);
-        if(keycode == Input.Keys.LEFT)
-            puckBody.setLinearVelocity(-1f,0f);
-        return true;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
+    private float translateCoordinateY(Sprite s, float y) {
+        return RESOLUTION/2 + y / VIEWPORT_SIZE * RESOLUTION - s.getHeight() / 2;
     }
 }
