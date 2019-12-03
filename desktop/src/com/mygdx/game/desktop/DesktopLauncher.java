@@ -8,6 +8,10 @@ import com.mygdx.game.MyGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.title = "Air Hockey";
+        config.useGL30 = true;
+        config.height = 900;
+        config.width = 1366;
 		new LwjglApplication(new MyGame(), config);
 	}
 }
