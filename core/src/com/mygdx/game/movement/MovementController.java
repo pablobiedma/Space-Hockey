@@ -2,13 +2,14 @@ package com.mygdx.game.movement;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.mygdx.game.Config;
 
 public class MovementController {
     private KeyCodeSet keycodes;
     private Body body;
     private boolean isOnTheLeft;
 
-    private final static int SPEED = 12;
+
 
     public MovementController(Body body, KeyCodeSet keycodes, boolean isOnTheLeft) {
         this.body = body;
@@ -19,9 +20,9 @@ public class MovementController {
     public void updateVelocity() {
         if (crossedHalf()) {
             if (isOnTheLeft) {
-                body.setLinearVelocity(-SPEED,0);
+                body.setLinearVelocity(-Config.PADDLE_SPPED,0);
             } else {
-                body.setLinearVelocity(SPEED,0);
+                body.setLinearVelocity(Config.PADDLE_SPPED,0);
             }
 
         } else {
@@ -29,16 +30,16 @@ public class MovementController {
             float horizontal = 0;
 
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeLeft())) {
-                horizontal -= SPEED;
+                horizontal -= Config.PADDLE_SPPED;
             }
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeRight())) {
-                horizontal += SPEED;
+                horizontal += Config.PADDLE_SPPED;
             }
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeUp())) {
-                vertical += SPEED;
+                vertical += Config.PADDLE_SPPED;
             }
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeDown())) {
-                vertical -= SPEED;
+                vertical -= Config.PADDLE_SPPED;
             }
             body.setLinearVelocity(horizontal, vertical);
         }

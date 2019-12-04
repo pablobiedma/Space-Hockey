@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.Config;
 import com.mygdx.game.movement.MovementController;
+import com.mygdx.game.physics.CoordinateTranslator;
 
 /**
  * Game screen class - implements the game screen functionality.
@@ -148,10 +149,11 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         pitchSprite = new Sprite(pitchTexture);
         float pitchWidth = 2 * Config.WALL_WIDTH / Config.VIEWPORT_SIZE * Config.RESOLUTION;
         float pitchHeight = 2 * Config.WALL_HEIGHT / Config.VIEWPORT_SIZE * Config.RESOLUTION;
+
         pitchSprite.setSize(pitchWidth, pitchHeight);
         pitchSprite.setPosition(
-                translateCoordinateX(pitchSprite, 0),
-                translateCoordinateY(pitchSprite, 0));
+                CoordinateTranslator.translateX(pitchSprite, 0),
+                CoordinateTranslator.translateY(pitchSprite, 0));
     }
 
     @Override
@@ -174,25 +176,33 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
-        pitchSprite.draw(batch);
-
-        puckSprite.setPosition(translateCoordinateX(puckSprite, puckBody.getPosition().x), translateCoordinateY(puckSprite, puckBody.getPosition().y));
-        puckSprite.draw(batch);
-
-        redPaddleSprite.setPosition(translateCoordinateX(redPaddleSprite, redPaddleBody.getPosition().x),
-                translateCoordinateY(redPaddleSprite, redPaddleBody.getPosition().y));
-        redPaddleSprite.draw(batch);
-
-        bluePaddleSprite.setPosition(translateCoordinateX(bluePaddleSprite, bluePaddleBody.getPosition().x),
-                translateCoordinateY(bluePaddleSprite, bluePaddleBody.getPosition().y));
-        bluePaddleSprite.draw(batch);
-
-        batch.end();
+        drawSprites();
 
         bluePaddleController.updateVelocity();
         redPaddleController.updateVelocity();
         debugRenderer.render(world, camera.combined);
+    }
+
+    private void drawSprites() {
+        batch.begin();
+        pitchSprite.draw(batch);
+
+        puckSprite.setPosition(
+                CoordinateTranslator.translateX(puckSprite, puckBody.getPosition().x),
+                CoordinateTranslator.translateY(puckSprite, puckBody.getPosition().y));
+        puckSprite.draw(batch);
+
+        redPaddleSprite.setPosition(
+                CoordinateTranslator.translateX(redPaddleSprite, redPaddleBody.getPosition().x),
+                CoordinateTranslator.translateY(redPaddleSprite, redPaddleBody.getPosition().y));
+        redPaddleSprite.draw(batch);
+
+        bluePaddleSprite.setPosition(
+                CoordinateTranslator.translateX(bluePaddleSprite, bluePaddleBody.getPosition().x),
+                CoordinateTranslator.translateY(bluePaddleSprite, bluePaddleBody.getPosition().y));
+        bluePaddleSprite.draw(batch);
+
+        batch.end();
     }
 
     @Override
@@ -223,13 +233,5 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     @Override
     public void dispose() {
         world.dispose();
-    }
-
-    private float translateCoordinateX(Sprite s, float x) {
-        return Config.RESOLUTION / 2 + x / Config.VIEWPORT_SIZE * Config.RESOLUTION - s.getWidth() / 2;
-    }
-
-    private float translateCoordinateY(Sprite s, float y) {
-        return Config.RESOLUTION / 2 + y / Config.VIEWPORT_SIZE * Config.RESOLUTION - s.getHeight() / 2;
     }
 }
