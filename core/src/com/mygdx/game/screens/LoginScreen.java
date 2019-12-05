@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 
 public class LoginScreen implements Screen {
@@ -28,7 +29,7 @@ public class LoginScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         TextButton btnLogin = new TextButton("Login", skin);
-        btnLogin.setPosition(INPUT_BOX_X, 300);
+        btnLogin.setPosition(INPUT_BOX_X, 100);
         btnLogin.setSize(300, 60);
         btnLogin.addListener(new ClickListener(){
 
@@ -48,7 +49,7 @@ public class LoginScreen implements Screen {
         txfPassword.setPosition(INPUT_BOX_X, 200);
         txfPassword.setSize(300, 40);
         txfPassword.setPasswordCharacter('*');
-        //txfPassword.setPasswordMode(false);
+        txfPassword.setPasswordMode(true);
 //        char ch = new Character('*');
 //
         stage.addActor(txfPassword);
@@ -61,9 +62,12 @@ public class LoginScreen implements Screen {
         if(username.equals("admin") && password.equals("pass")){
             game.setScreen(new GameScreen(game));
         }else{
-//            txfPassword.clearSelection();
-//            txfPassword.clear();
+
+            txfPassword.clear();
+            txfPassword.clearSelection();
             System.out.println("Try again");
+
+           //txfPassword.setStyle();
         }
     }
 
