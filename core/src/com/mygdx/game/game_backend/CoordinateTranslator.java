@@ -1,4 +1,4 @@
-package com.mygdx.game.physics;
+package com.mygdx.game.game_backend;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -24,5 +24,14 @@ public class CoordinateTranslator {
      */
     public static float translateY(Sprite s, float y) {
         return Config.RESOLUTION / 2 + y / Config.VIEWPORT_SIZE * Config.RESOLUTION - s.getHeight() / 2;
+    }
+
+    /**
+     * Translates size to pixel resolution.
+     * @param size to translate.
+     * @return the new size in the pixel coordinates.
+     */
+    public static float translateSize(float size) {
+        return 2 * size / Config.VIEWPORT_SIZE * Config.RESOLUTION;
     }
 }
