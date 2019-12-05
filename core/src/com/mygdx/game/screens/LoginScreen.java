@@ -80,12 +80,7 @@ public class LoginScreen implements Screen {
         if(username.equals("admin") && password.equals("pass")){
             game.setScreen(new GameScreen(game));
         }else{
-
-            txfPassword.clear();
-            txfPassword.clearSelection();
             System.out.println("Try again");
-
-           //txfPassword.setStyle();
         }
     }
 
