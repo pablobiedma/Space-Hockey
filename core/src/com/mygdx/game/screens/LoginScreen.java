@@ -18,10 +18,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class LoginScreen implements Screen {
     public static final int INPUT_BOX_X = 200;
+    public static final int WIDTH = 300;
+    public static final int HEIGHT = 40;
     private Game game;
     private Stage stage;
     private TextField txfUsername;
     private TextField txfPassword;
+    int row_height = Gdx.graphics.getWidth() / 12;
+    int col_width = Gdx.graphics.getWidth() / 12;
 
     public LoginScreen(Game g){
             game = g;
@@ -29,8 +33,11 @@ public class LoginScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         TextButton btnLogin = new TextButton("Login", skin);
-        btnLogin.setPosition(INPUT_BOX_X, 100);
-        btnLogin.setSize(300, 60);
+        TextButton goBack = new TextButton("Back", skin);
+        goBack.setPosition(col_width*5,Gdx.graphics.getHeight()-row_height*8);
+        goBack.setSize(col_width*2,row_height-20);
+        btnLogin.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*6);
+        btnLogin.setSize(col_width*4,row_height);
         btnLogin.addListener(new ClickListener(){
 
             @Override
@@ -41,19 +48,30 @@ public class LoginScreen implements Screen {
 
 
         });
+        goBack.addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent e, float x, float y, int point, int button){
+                game.setScreen(new MenuScreen(game));
+                return true;
+            }
+
+
+        });
         txfUsername = new TextField("", skin);
-        txfUsername.setPosition(INPUT_BOX_X, 250);
-        txfUsername.setSize(300, 40);
+        txfUsername.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*3);
+        txfUsername.setSize(col_width*4, HEIGHT);
         stage.addActor(txfUsername);
         txfPassword = new TextField("", skin);
-        txfPassword.setPosition(INPUT_BOX_X, 200);
-        txfPassword.setSize(300, 40);
+        txfPassword.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*4);
+        txfPassword.setSize(col_width*4, HEIGHT);
         txfPassword.setPasswordCharacter('*');
         txfPassword.setPasswordMode(true);
 //        char ch = new Character('*');
 //
         stage.addActor(txfPassword);
         stage.addActor(btnLogin);
+        stage.addActor(goBack);
 
     }
     public void btnLoginClicked() {

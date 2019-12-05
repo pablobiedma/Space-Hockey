@@ -49,8 +49,8 @@ public class MenuScreen implements Screen {
 
         //Puck thingy
         Button button3 = new TextButton("Close",mySkin);
-        button3.setSize(col_width*4,row_height);
-        button3.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*8);
+        button3.setSize(col_width*2,row_height-20);
+        button3.setPosition(col_width*5,Gdx.graphics.getHeight()-row_height*8);
         button3.addListener(new InputListener(){
             //add listener here
             @Override
