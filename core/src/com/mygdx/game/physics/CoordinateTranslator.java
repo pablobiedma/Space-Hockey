@@ -1,7 +1,6 @@
 package com.mygdx.game.physics;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.mygdx.game.Config;
 
 /**
  * Class used to translate Viewport coordinates to pixel coordinates. Needed for positioning the sprites.

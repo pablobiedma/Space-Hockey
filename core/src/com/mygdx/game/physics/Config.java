@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.physics;
 
 import com.badlogic.gdx.Input;
 import com.mygdx.game.movement.KeyCodeSet;

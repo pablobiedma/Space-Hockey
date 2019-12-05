@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.mygdx.game.Config;
+import com.mygdx.game.physics.Config;
 import com.mygdx.game.movement.MovementController;
 import com.mygdx.game.physics.CoordinateTranslator;
 

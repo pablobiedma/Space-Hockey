@@ -2,7 +2,7 @@ package com.mygdx.game.movement;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.mygdx.game.Config;
+import com.mygdx.game.physics.Config;
 
 public class MovementController {
     private KeyCodeSet keycodes;
