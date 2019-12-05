@@ -1,6 +1,5 @@
 package com.mygdx.game.screens;
 
-import client.Authentication;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -9,24 +8,19 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import database.DatabaseConnector;
-import database.DatabaseController;
-
-import java.net.Authenticator;
 
 public class MenuScreen implements Screen {
     private Stage stage;
     private Game game;
-    private LoginScreen login;
 
     public MenuScreen(Game aGame) {
         game = aGame;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+       // loginscreen = new LoginScreen(game);
 
         //img = new Texture("badlogic.jpg");
         int Help_Guides = 12;
@@ -47,20 +41,7 @@ public class MenuScreen implements Screen {
             }
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                boolean login = false;
-                while(login==false) {
-                    LoginScreen listener = new LoginScreen();
-                    Gdx.input.getTextInput(listener, "Login", "Insert your username", "user");
-                    LoginScreen listener2 = new LoginScreen();
-                    Gdx.input.getTextInput(listener2, "Login2", "Insert your password", "password");
-                    DatabaseController dbcontrol = new DatabaseController(DatabaseConnector.setUpConnection());
-                    Authentication auth = new Authentication(dbcontrol);
-                    login = auth.signIn(listener.toString(), listener2.toString());
-                    Label.LabelStyle style = new Label.LabelStyle();
-                    //style.background = .newDrawable("white", 0, 0, 0, 1);  // Set the drawable you want to use
-                    Label label = new Label("Wrong password, try again you idiot!", style);
-                }
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new LoginScreen(game));
                 return true;
             }
         });
