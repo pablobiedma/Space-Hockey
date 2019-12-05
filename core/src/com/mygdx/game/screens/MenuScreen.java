@@ -47,7 +47,6 @@ public class MenuScreen implements Screen {
             }
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                //stage = new Stage(new ScreenViewport());
                 System.exit(0);
                 return true;
             }
@@ -63,7 +62,6 @@ public class MenuScreen implements Screen {
             }
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                //stage = new Stage(new ScreenViewport());
                 System.exit(0);
                 return true;
             }

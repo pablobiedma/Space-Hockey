@@ -1,9 +1,17 @@
-package com.mygdx.game.physics;
+package com.mygdx.game.game_backend;
 
 import com.badlogic.gdx.Input;
 import com.mygdx.game.movement.KeyCodeSet;
 
 public final class Config {
+    /**
+     * Texture paths
+     */
+    public static final String BLUE_PADDLE_TEXTURE_PATH = "sprite/blue-paddle.png";
+    public static final String RED_PADDLE_TEXTURE_PATH = "sprite/red-paddle.png";
+    public static final String PUCK_TEXTURE_PATH = "sprite/puck.png";
+    public static final String PITCH_TEXTURE_PATH = "sprite/pitch.png";
+
     /**
      * Resolution and viewport parameters.
      */
@@ -13,10 +21,13 @@ public final class Config {
     /**
      * Paddle parameters.
      */
+    public static final float RED_PADDLE_X = -VIEWPORT_SIZE/4;
+    public static final float BLUE_PADDLE_X = VIEWPORT_SIZE/4;
     public static final float PADDLE_RADIUS = 1.5f;
     public static final float PADDLE_DENSITY = 0.5f;
     public static final float PADDLE_FRICTION = 0.1f;
     public static final float PADDLE_RESTITUTION = 0.1f;
+    public static final float PADDLE_SPEED = 15;
 
     /**
      * Puck parameters.
@@ -25,12 +36,11 @@ public final class Config {
     public static final float PUCK_DENSITY = 0.3f;
     public static final float PUCK_FRICTION = 0.05f;
     public static final float PUCK_RESTITUTION = 0.9f;
-    public static final float PADDLE_SPPED = 15;
 
     /**
      * Wall parameters.
      */
-    public static final float WALL_HEIGHT = 10;
+    public static final float WALL_HEIGHT = 11;
     public static final float WALL_WIDTH = 20;
     public static final float WALL_THICKNESS = 0.2f;
 
