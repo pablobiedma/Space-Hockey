@@ -1,6 +1,7 @@
 package com.mygdx.game.game_backend;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.movement.KeyCodeSet;
 
 public final class Config {
