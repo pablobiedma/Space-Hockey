@@ -25,14 +25,14 @@ public class GameOperator {
     public GameOperator(World world) {
 
         redPaddle = new Paddle(world, Config.RED_PADDLE_TEXTURE_PATH,
-                CoordinateTranslator.translateSize(Config.PADDLE_RADIUS),
+                CoordinateTranslator.translateSize(2 * Config.PADDLE_RADIUS),
                 Config.RED_PADDLE_X, 0, Config.RED_PADDLE_KEYS);
 
         bluePaddle = new Paddle(world, Config.BLUE_PADDLE_TEXTURE_PATH,
-                CoordinateTranslator.translateSize(Config.PADDLE_RADIUS),
+                CoordinateTranslator.translateSize(2 * Config.PADDLE_RADIUS),
                 Config.BLUE_PADDLE_X, 0, Config.BLUE_PADDLE_KEYS);
         puck = new Puck(world, Config.PUCK_TEXTURE_PATH,
-                CoordinateTranslator.translateSize(Config.PUCK_RADIUS), 0, 0);
+                CoordinateTranslator.translateSize(2 * Config.PUCK_RADIUS), 0, 0);
 
         walls = new Walls (world, Config.WALL_WIDTH, Config.WALL_HEIGHT, Config.WALL_THICKNESS);
         pitch = new Pitch();

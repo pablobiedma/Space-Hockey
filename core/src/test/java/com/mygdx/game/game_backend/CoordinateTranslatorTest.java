@@ -30,6 +30,6 @@ public class CoordinateTranslatorTest {
 
     @Test
     void translateSize() {
-        assertEquals(Config.RESOLUTION, CoordinateTranslator.translateSize(Config.VIEWPORT_SIZE/2));
+        assertEquals(Config.RESOLUTION, CoordinateTranslator.translateSize(Config.VIEWPORT_SIZE));
     }
 }

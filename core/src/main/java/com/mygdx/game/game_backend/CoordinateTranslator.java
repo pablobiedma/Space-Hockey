@@ -32,6 +32,6 @@ public class CoordinateTranslator {
      * @return the new size in the pixel coordinates.
      */
     public static float translateSize(float size) {
-        return 2 * size / Config.VIEWPORT_SIZE * Config.RESOLUTION;
+        return size / Config.VIEWPORT_SIZE * Config.RESOLUTION;
     }
 }
