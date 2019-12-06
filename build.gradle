@@ -134,8 +134,15 @@ tasks.withType(SpotBugsTask) {
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
 }
+
 project(":core") {
     apply plugin: "java-library"
+    apply plugin: "pmd"
+    apply plugin: "checkstyle"
+    apply plugin: "jacoco"
+//    apply plugin: "com.github.spotbugs"
+
+
     dependencies {
         testCompile "org.mockito:mockito-core:1.+"
         testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
