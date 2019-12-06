@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class KeyCodeSetTest {
+    public static final int NEW_VALUE = 100;
     private transient KeyCodeSet keyCodeSet;
 
     @BeforeEach
@@ -14,22 +15,30 @@ class KeyCodeSetTest {
     }
 
     @Test
-    void getKeyCodeUp() {
+    void getAndSetKeyCodeUp() {
         assertEquals(3, keyCodeSet.getKeyCodeUp());
+        keyCodeSet.setKeyCodeUp(NEW_VALUE);
+        assertEquals(keyCodeSet.getKeyCodeUp(), NEW_VALUE);
     }
 
     @Test
-    void getKeyCodeDown() {
+    void getAndSetKeyCodeDown() {
         assertEquals(4, keyCodeSet.getKeyCodeDown());
+        keyCodeSet.setKeyCodeDown(NEW_VALUE);
+        assertEquals(keyCodeSet.getKeyCodeDown(), NEW_VALUE);
     }
 
     @Test
-    void getKeyCodeLeft() {
+    void getAndSetKeyCodeLeft() {
         assertEquals(1, keyCodeSet.getKeyCodeLeft());
+        keyCodeSet.setKeyCodeLeft(NEW_VALUE);
+        assertEquals(keyCodeSet.getKeyCodeLeft(), NEW_VALUE);
     }
 
     @Test
-    void getKeyCodeRight() {
+    void getAndSetKeyCodeRight() {
         assertEquals(2, keyCodeSet.getKeyCodeRight());
+        keyCodeSet.setKeyCodeRight(NEW_VALUE);
+        assertEquals(keyCodeSet.getKeyCodeRight(), NEW_VALUE);
     }
 }

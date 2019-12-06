@@ -14,6 +14,11 @@ public abstract class DynamicObject {
     Sprite sprite;
     Body body;
 
+    public DynamicObject(Sprite sprite, Body body) {
+        this.sprite = sprite;
+        this.body = body;
+    }
+
     /**
      * Constructor for dynamic object.
      * @param world for creating the object.
@@ -23,7 +28,7 @@ public abstract class DynamicObject {
      * @param y position of the object.
      */
     public DynamicObject(World world, String texturePath, float size, float x, float y) {
-        this.sprite = createSprite(texturePath, size);
+        this.sprite = createSprite(new Texture(texturePath), size);
         this.body = createBody(world, x,y);
     }
 
@@ -40,12 +45,11 @@ public abstract class DynamicObject {
 
     /**
      * Creates a sprite.
-     * @param texturePath for the sprite.
+     * @param texture for the sprite.
      * @param size of the sprite's texture.
      * @return created sprite.
      */
-    private Sprite createSprite(String texturePath, float size) {
-        Texture texture = new Texture(texturePath);
+    public Sprite createSprite(Texture texture, float size) {
         Sprite sprite = new Sprite(texture);
         sprite.setSize(size, size);
         return sprite;
@@ -58,7 +62,7 @@ public abstract class DynamicObject {
      * @param y position of the body.
      * @return created body.
      */
-    private Body createBody(World world, float x, float y) {
+    public Body createBody(World world, float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
@@ -74,7 +78,7 @@ public abstract class DynamicObject {
      * @param restitution of the fixture.
      * @return created fixture definition.
      */
-    protected FixtureDef createFixtureDef(
+    public FixtureDef createFixtureDef(
             CircleShape shape, float radius, float density, float friction, float restitution) {
         shape.setRadius(radius);
         FixtureDef res = new FixtureDef();

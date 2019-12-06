@@ -10,6 +10,14 @@ public class Pitch {
     private Sprite sprite;
 
     /**
+     * Constructor for pitch.
+     * @param sprite of the pitch.
+     */
+    public Pitch(Sprite sprite) {
+        this.sprite = sprite;
+    }
+
+    /**
      * Initializes the pitch sprite.
      */
     public Pitch() {

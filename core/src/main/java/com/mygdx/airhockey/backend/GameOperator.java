@@ -19,6 +19,22 @@ public class GameOperator {
     Walls walls;
 
     /**
+     * Constructor for game operator.
+     * @param pitch pitch for the game.
+     * @param redPaddle in the game.
+     * @param bluePaddle in the game.
+     * @param puck in the game.
+     * @param walls in the game.
+     */
+    public GameOperator(Pitch pitch, Paddle redPaddle, Paddle bluePaddle, Puck puck, Walls walls) {
+        this.pitch = pitch;
+        this.redPaddle = redPaddle;
+        this.bluePaddle = bluePaddle;
+        this.puck = puck;
+        this.walls = walls;
+    }
+
+    /**
      * Set's up a new game.
      */
     public GameOperator(World world) {

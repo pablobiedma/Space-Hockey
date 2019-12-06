@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class CoordinateTranslatorTest {
+public final class CoordinateTranslatorTest {
     private transient Sprite sprite;
 
     @BeforeEach
