@@ -1,4 +1,4 @@
-package game;
+package com.mygdx.airhockey.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

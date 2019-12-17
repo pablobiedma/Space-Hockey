@@ -1,4 +1,4 @@
-package database;
+package com.mygdx.airhockey.database;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;

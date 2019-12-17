@@ -9,7 +9,7 @@ import com.mygdx.airhockey.elements.Puck;
 import com.mygdx.airhockey.elements.Walls;
 
 /**
- * Class that handles the backend of the game.
+ * Class that handles the backend of the com.mygdx.airhockey.game.
  */
 public class GameOperator {
     Pitch pitch;
@@ -19,12 +19,12 @@ public class GameOperator {
     Walls walls;
 
     /**
-     * Constructor for game operator.
-     * @param pitch pitch for the game.
-     * @param redPaddle in the game.
-     * @param bluePaddle in the game.
-     * @param puck in the game.
-     * @param walls in the game.
+     * Constructor for com.mygdx.airhockey.game operator.
+     * @param pitch pitch for the com.mygdx.airhockey.game.
+     * @param redPaddle in the com.mygdx.airhockey.game.
+     * @param bluePaddle in the com.mygdx.airhockey.game.
+     * @param puck in the com.mygdx.airhockey.game.
+     * @param walls in the com.mygdx.airhockey.game.
      */
     public GameOperator(Pitch pitch, Paddle redPaddle, Paddle bluePaddle, Puck puck, Walls walls) {
         this.pitch = pitch;
@@ -35,7 +35,7 @@ public class GameOperator {
     }
 
     /**
-     * Set's up a new game.
+     * Set's up a new com.mygdx.airhockey.game.
      */
     public GameOperator(World world) {
         redPaddle = new Paddle(world, Config.RED_PADDLE_TEXTURE_PATH,
@@ -53,7 +53,7 @@ public class GameOperator {
     }
 
     /**
-     * Updates physics of the game.
+     * Updates physics of the com.mygdx.airhockey.game.
      */
     public void updatePhysics() {
         bluePaddle.updateVelocity();

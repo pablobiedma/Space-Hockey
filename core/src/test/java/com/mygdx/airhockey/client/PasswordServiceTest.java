@@ -1,4 +1,4 @@
-package client;
+package com.mygdx.airhockey.client;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;

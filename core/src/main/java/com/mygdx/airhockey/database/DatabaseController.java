@@ -1,30 +1,26 @@
-package database;
+package com.mygdx.airhockey.database;
 
-import game.Player;
+import com.mygdx.airhockey.game.Player;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
 
 public class DatabaseController {
     private Connection connection;
 
     /**
-     * Constructor for database controller.
-     * @param connection with the database.
+     * Constructor for com.mygdx.airhockey.database controller.
+     * @param connection with the com.mygdx.airhockey.database.
      */
     public DatabaseController(Connection connection) {
         this.connection = connection;
     }
 
     /**
-     * Checks if a user exists in the database.
+     * Checks if a user exists in the com.mygdx.airhockey.database.
      * @param username of the user.
      * @return true if exists, else false.
      */
@@ -90,7 +86,7 @@ public class DatabaseController {
     }
 
     /**
-     * Adds a user to the database.
+     * Adds a user to the com.mygdx.airhockey.database.
      * @param username of the user.
      * @param hashedPassword of the user.
      */
@@ -123,7 +119,7 @@ public class DatabaseController {
     }
 
     /**
-     * Gets score of a user from the database.
+     * Gets score of a user from the com.mygdx.airhockey.database.
      * @param username of the user.
      * @return the score of the user.
      */
@@ -179,7 +175,7 @@ public class DatabaseController {
     }
 
     /**
-     * Gets score of all users from the database.
+     * Gets score of all users from the com.mygdx.airhockey.database.
      * @return the list of player objects, containing usernames and scores.
      */
     public List<Player> getAllScores() {
@@ -215,7 +211,7 @@ public class DatabaseController {
 
     /**
      * Getter for connection.
-     * @return connection with the database.
+     * @return connection with the com.mygdx.airhockey.database.
      */
     public Connection getConnection() {
         return connection;

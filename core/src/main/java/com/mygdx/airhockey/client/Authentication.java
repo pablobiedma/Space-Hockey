@@ -1,6 +1,6 @@
-package client;
+package com.mygdx.airhockey.client;
 
-import database.DatabaseController;
+import com.mygdx.airhockey.database.DatabaseController;
 
 public class Authentication {
 

@@ -10,6 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.airhockey.client.Authentication;
+import com.mygdx.airhockey.database.DatabaseConnector;
+import com.mygdx.airhockey.database.DatabaseController;
 
 
 public class LoginScreen implements Screen {
@@ -25,7 +28,7 @@ public class LoginScreen implements Screen {
 
     /**
      * Constructor for login screen.
-     * @param g game of the login screen;
+     * @param g com.mygdx.airhockey.game of the login screen;
      */
     public LoginScreen(Game g) {
         game = g;
@@ -73,7 +76,9 @@ public class LoginScreen implements Screen {
     public void btnLoginClicked() {
         String username = txfUsername.getText();
         String password = txfPassword.getText();
-        if (username.equals("admin") && password.equals("pass")) {
+        DatabaseController database = new DatabaseController(DatabaseConnector.setUpConnection());
+        Authentication auth = new Authentication(database);
+        if (auth.signIn(username, password)) {
             game.setScreen(new GameScreen(game));
         } else {
             System.out.println("Try again");

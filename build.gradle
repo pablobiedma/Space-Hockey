@@ -44,7 +44,7 @@ repositories {
 allprojects {
     version = '1.0'
     ext {
-        appName = "my-gdx-game"
+        appName = "my-gdx-com.mygdx.airhockey.game"
         gdxVersion = '1.9.10'
         roboVMVersion = '2.3.8'
         box2DLightsVersion = '1.4'
@@ -63,11 +63,9 @@ allprojects {
 
 test {
     useJUnitPlatform()
-
     jacoco {
         enabled = true
-//        includes = ['*']
-        excludes = ["com.mygdx.airhockey.screens"]
+        includes = ['*']
     }
 }
 
@@ -146,8 +144,9 @@ project(":core") {
 
 
     dependencies {
-//        testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.4'
-//        testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.7.4'
+        testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+        compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.18'
+        implementation 'junit:junit:4.12'
         testCompile "org.mockito:mockito-core:1.+"
         testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
         api "com.badlogicgames.gdx:gdx:$gdxVersion"

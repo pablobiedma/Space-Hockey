@@ -6,7 +6,7 @@ import com.mygdx.airhockey.screens.MyGame;
 
 public class DesktopLauncher {
     /**
-     * Main method for launching the game.
+     * Main method for launching the com.mygdx.airhockey.game.
      * @param args for the launch.
      */
     public static void main(String[] args) {

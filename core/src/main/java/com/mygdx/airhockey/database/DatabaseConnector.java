@@ -1,4 +1,4 @@
-package database;
+package com.mygdx.airhockey.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ public class DatabaseConnector {
     private static String DB_PASSWORD = "rVZRdo6MaZkz";
 
     /**
-     * Sets up a connection with the database.
+     * Sets up a connection with the com.mygdx.airhockey.database.
      * @return created Connetion object.
      */
     public static Connection setUpConnection() {
@@ -27,8 +27,8 @@ public class DatabaseConnector {
     }
 
     /**
-     * Changes the database credentials.
-     * @param url of the database.
+     * Changes the com.mygdx.airhockey.database credentials.
+     * @param url of the com.mygdx.airhockey.database.
      * @param username used for login.
      * @param password used for login.
      */
@@ -39,7 +39,7 @@ public class DatabaseConnector {
     }
 
     /**
-     * Resets the database credentials.
+     * Resets the com.mygdx.airhockey.database credentials.
      */
     public static void resetCredentials() {
         URL = "jdbc:mysql://projects-db.ewi.tudelft.nl/projects_SEMgroup45?serverTimezone="
