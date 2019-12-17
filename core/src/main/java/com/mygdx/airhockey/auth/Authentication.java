@@ -1,4 +1,4 @@
-package com.mygdx.airhockey.client;
+package com.mygdx.airhockey.auth;
 
 import com.mygdx.airhockey.database.DatabaseController;
 

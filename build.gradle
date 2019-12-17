@@ -42,7 +42,7 @@ repositories {
 allprojects {
     version = '1.0'
     ext {
-        appName = "my-gdx-com.mygdx.airhockey.game"
+        appName = "my-gdx-game"
         gdxVersion = '1.9.10'
         roboVMVersion = '2.3.8'
         box2DLightsVersion = '1.4'

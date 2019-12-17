@@ -1,4 +1,4 @@
-package com.mygdx.airhockey.game;
+package com.mygdx.airhockey.statistics;
 
 import com.mygdx.airhockey.database.DatabaseController;
 
@@ -57,7 +57,7 @@ public class Player {
     }
 
     /**
-     * Updates the score in the com.mygdx.airhockey.database.
+     * Updates the score in the database.
      * @param database to update.
      */
     public void updateDatabaseScore(DatabaseController database) {

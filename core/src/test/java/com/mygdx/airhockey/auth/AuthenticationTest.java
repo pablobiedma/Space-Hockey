@@ -1,4 +1,4 @@
-package com.mygdx.airhockey.client;
+package com.mygdx.airhockey.auth;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -1,7 +1,6 @@
 package com.mygdx.airhockey.backend;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.airhockey.elements.Paddle;
 import com.mygdx.airhockey.elements.Pitch;
@@ -19,12 +18,12 @@ public class GameOperator {
     Walls walls;
 
     /**
-     * Constructor for com.mygdx.airhockey.game operator.
-     * @param pitch pitch for the com.mygdx.airhockey.game.
-     * @param redPaddle in the com.mygdx.airhockey.game.
-     * @param bluePaddle in the com.mygdx.airhockey.game.
-     * @param puck in the com.mygdx.airhockey.game.
-     * @param walls in the com.mygdx.airhockey.game.
+     * Constructor for game operator.
+     * @param pitch pitch for the game.
+     * @param redPaddle in the game.
+     * @param bluePaddle in the game.
+     * @param puck in the game.
+     * @param walls in the game.
      */
     public GameOperator(Pitch pitch, Paddle redPaddle, Paddle bluePaddle, Puck puck, Walls walls) {
         this.pitch = pitch;
@@ -35,7 +34,7 @@ public class GameOperator {
     }
 
     /**
-     * Set's up a new com.mygdx.airhockey.game.
+     * Set's up a new game.
      */
     public GameOperator(World world) {
         redPaddle = new Paddle(world, Config.RED_PADDLE_TEXTURE_PATH,
@@ -53,7 +52,7 @@ public class GameOperator {
     }
 
     /**
-     * Updates physics of the com.mygdx.airhockey.game.
+     * Updates physics of the game.
      */
     public void updatePhysics() {
         bluePaddle.updateVelocity();

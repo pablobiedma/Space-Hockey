@@ -1,6 +1,6 @@
 package com.mygdx.airhockey.database;
 
-import com.mygdx.airhockey.game.Player;
+import com.mygdx.airhockey.statistics.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,15 +12,15 @@ public class DatabaseController {
     private Connection connection;
 
     /**
-     * Constructor for com.mygdx.airhockey.database controller.
-     * @param connection with the com.mygdx.airhockey.database.
+     * Constructor for database controller.
+     * @param connection with the database.
      */
     public DatabaseController(Connection connection) {
         this.connection = connection;
     }
 
     /**
-     * Checks if a user exists in the com.mygdx.airhockey.database.
+     * Checks if a user exists in the database.
      * @param username of the user.
      * @return true if exists, else false.
      */
@@ -86,7 +86,7 @@ public class DatabaseController {
     }
 
     /**
-     * Adds a user to the com.mygdx.airhockey.database.
+     * Adds a user to the database.
      * @param username of the user.
      * @param hashedPassword of the user.
      */
@@ -119,7 +119,7 @@ public class DatabaseController {
     }
 
     /**
-     * Gets score of a user from the com.mygdx.airhockey.database.
+     * Gets score of a user from the database.
      * @param username of the user.
      * @return the score of the user.
      */
@@ -175,7 +175,7 @@ public class DatabaseController {
     }
 
     /**
-     * Gets score of all users from the com.mygdx.airhockey.database.
+     * Gets score of all users from the database.
      * @return the list of player objects, containing usernames and scores.
      */
     public List<Player> getAllScores() {
@@ -211,7 +211,7 @@ public class DatabaseController {
 
     /**
      * Getter for connection.
-     * @return connection with the com.mygdx.airhockey.database.
+     * @return connection with the database.
      */
     public Connection getConnection() {
         return connection;

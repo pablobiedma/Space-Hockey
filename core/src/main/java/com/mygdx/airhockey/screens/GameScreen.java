@@ -16,7 +16,7 @@ import com.mygdx.airhockey.backend.Config;
 import com.mygdx.airhockey.backend.GameOperator;
 
 /**
- * Game screen class - implements the com.mygdx.airhockey.game screen functionality.
+ * Game screen class - implements the game screen functionality.
  */
 public class GameScreen extends ApplicationAdapter implements Screen {
     transient Game game;
@@ -27,8 +27,8 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     transient Camera camera;
 
     /**
-     * Constructor for com.mygdx.airhockey.game screen class.
-     * Creates the com.mygdx.airhockey.game screen object.
+     * Constructor for game screen class.
+     * Creates the game screen object.
      */
     public GameScreen(Game game) {
         this.game = game;

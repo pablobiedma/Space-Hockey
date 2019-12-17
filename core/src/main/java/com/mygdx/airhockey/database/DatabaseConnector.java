@@ -14,8 +14,8 @@ public class DatabaseConnector {
     private static String DB_PASSWORD = "rVZRdo6MaZkz";
 
     /**
-     * Sets up a connection with the com.mygdx.airhockey.database.
-     * @return created Connetion object.
+     * Sets up a connection with the database.
+     * @return created Connection object.
      */
     public static Connection setUpConnection() {
         try {
@@ -27,8 +27,8 @@ public class DatabaseConnector {
     }
 
     /**
-     * Changes the com.mygdx.airhockey.database credentials.
-     * @param url of the com.mygdx.airhockey.database.
+     * Changes the database credentials.
+     * @param url of the database.
      * @param username used for login.
      * @param password used for login.
      */
@@ -39,7 +39,7 @@ public class DatabaseConnector {
     }
 
     /**
-     * Resets the com.mygdx.airhockey.database credentials.
+     * Resets the database credentials.
      */
     public static void resetCredentials() {
         URL = "jdbc:mysql://projects-db.ewi.tudelft.nl/projects_SEMgroup45?serverTimezone="

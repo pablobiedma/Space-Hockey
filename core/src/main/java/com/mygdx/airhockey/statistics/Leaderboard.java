@@ -1,4 +1,4 @@
-package com.mygdx.airhockey.game;
+package com.mygdx.airhockey.statistics;
 
 import com.mygdx.airhockey.database.DatabaseController;
 import java.util.Comparator;

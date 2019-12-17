@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.airhockey.client.Authentication;
+import com.mygdx.airhockey.auth.Authentication;
 import com.mygdx.airhockey.database.DatabaseConnector;
 import com.mygdx.airhockey.database.DatabaseController;
 
@@ -28,7 +28,7 @@ public class LoginScreen implements Screen {
 
     /**
      * Constructor for login screen.
-     * @param g com.mygdx.airhockey.game of the login screen;
+     * @param g game of the login screen;
      */
     public LoginScreen(Game g) {
         game = g;

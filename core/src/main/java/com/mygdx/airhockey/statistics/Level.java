@@ -1,10 +1,10 @@
-package com.mygdx.airhockey.game;
+package com.mygdx.airhockey.statistics;
 
 import com.mygdx.airhockey.database.DatabaseConnector;
 import com.mygdx.airhockey.database.DatabaseController;
 
 public class Level {
-    //constants regarding scoring and com.mygdx.airhockey.game rules
+    //constants regarding scoring and game rules
     private static final int MAX_GOALS = 7;
     private static final double POINTS_PER_GOAL_SCORED = 2;
     private static final double POINTS_PER_GOAL_CONCEDED = -1;
@@ -29,7 +29,7 @@ public class Level {
     }
 
     /**
-     * Starts the com.mygdx.airhockey.game.
+     * Starts the game.
      */
     public void start() {
         started = true;
@@ -68,7 +68,7 @@ public class Level {
     }
 
     /**
-     * Tells us if the com.mygdx.airhockey.game is started.
+     * Tells us if the game is started.
      * @return true if it is, else false.
      */
     public boolean isStarted() {
@@ -76,7 +76,7 @@ public class Level {
     }
 
     /**
-     * Tells us if the com.mygdx.airhockey.game is finished.
+     * Tells us if the game is finished.
      * @return true if finished, else false.
      */
     public boolean isFinished() {
@@ -100,7 +100,7 @@ public class Level {
     }
 
     /**
-     * Setter for com.mygdx.airhockey.game in progress.
+     * Setter for game in progress.
      * @param started value to set.
      */
     public void setStarted(boolean started) {
@@ -150,7 +150,7 @@ public class Level {
     }
 
     /**
-     * Checks if the com.mygdx.airhockey.game is finished.
+     * Checks if the game is finished.
      * If yes, changes the values of inProgress and finished fields.
      */
     private void checkIfFinished() {
@@ -164,8 +164,8 @@ public class Level {
     }
 
     /**
-     * Finalizes the com.mygdx.airhockey.game.
-     * Updates com.mygdx.airhockey.database, updates player points.
+     * Finalizes the game.
+     * Updates database, updates player points.
      */
     private void finalizeGame() {
         player.updatePoints(score);
