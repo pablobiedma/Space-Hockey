@@ -1,8 +1,6 @@
 import com.github.spotbugs.SpotBugsTask
 
 buildscript {
-
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -140,8 +138,6 @@ project(":core") {
     apply plugin: "pmd"
     apply plugin: "checkstyle"
     apply plugin: "jacoco"
-//    apply plugin: "com.github.spotbugs"
-
 
     dependencies {
         testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
@@ -155,5 +151,16 @@ project(":core") {
 
     test {
         useJUnitPlatform()
+        jacoco {
+            includes = ['*']
+        }
+        finalizedBy jacocoTestReport
+        jacocoTestReport {
+            afterEvaluate {
+                classDirectories.setFrom(files(classDirectories.files.collect {
+                    fileTree(dir: it, exclude: '**/screens/**')
+                }))
+            }
+        }
     }
 }
