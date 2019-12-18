@@ -12,7 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
-abstract class AuthScreen implements Screen {
+public class AuthScreen implements Screen {
+    public static final int INPUT_BOX_X = 200;
+    public static final int WIDTH = 300;
     public static final int HEIGHT = 40;
     private transient Game game;
     private transient Stage stage;
@@ -33,7 +35,7 @@ abstract class AuthScreen implements Screen {
     }
 
     /**
-     * Creates button.
+     * Creates login button.
      */
     public void createBtn(final String text, ClickListener clickListener) {
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -44,6 +46,22 @@ abstract class AuthScreen implements Screen {
         btn.setPosition(colWidth * 4, Gdx.graphics.getHeight() - rowHeight * 6);
         btn.setSize(colWidth * 4, rowHeight);
         btn.addListener(clickListener);
+
+//            @Override
+//            public boolean touchDown(InputEvent e, float x, float y, int point, int button){
+//                if(text.equals("Login")) {
+//                    btnLoginClicked();
+//                    return true;
+//                }
+//                if(text.equals("SignUp")){
+//                    btnSignupClicked();
+//                    return true;
+//                } else{
+//                    //throw new Exception();
+//                    return false;
+//                }
+//            }
+
         goBack.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int point, int button) {
@@ -67,31 +85,28 @@ abstract class AuthScreen implements Screen {
 
 
 
-    /**
-     * Performs a check after clicking login button.
-     */
-    public void btnLoginClicked() {
-        String username = txfUsername.getText();
-        String password = txfPassword.getText();
-        DatabaseController database = new DatabaseController(DatabaseConnector.setUpConnection());
-        Authentication auth = new Authentication(database);
-        if (auth.signIn(username, password)) {
-            game.setScreen(new GameScreen(game));
-        } else {
-            System.out.println("Try again");
-        }
-    }
-
-
-    /**
-     * Creates user clicking signup button.
-     */
-    public void btnSignupClicked() {
-        String username = txfUsername.getText();
-        //String password = txfPassword.getText();
-        //create user here when connection with db is fixed.
-        System.out.println("User " + username + " created");
-    }
+//    /**
+//     * Performs a check after clicking login button.
+//     */
+//    public void btnLoginClicked() {
+//        String username = txfUsername.getText();
+//        String password = txfPassword.getText();
+//        if (username.equals("admin") && password.equals("pass")) {
+//            game.setScreen(new GameScreen(game));
+//        } else {
+//            System.out.println("Try again");
+//        }
+//    }
+//
+//    /**
+//     * Creates user clicking signup button.
+//     */
+//    public void btnSignupClicked() {
+//        String username = txfUsername.getText();
+//        String password = txfPassword.getText();
+//        //create user here when connection with db is fixed.
+//        System.out.println("User "+username+" created");
+//    }
 
     /**
      * Called when this screen becomes the current screen for a {@link Game}.
