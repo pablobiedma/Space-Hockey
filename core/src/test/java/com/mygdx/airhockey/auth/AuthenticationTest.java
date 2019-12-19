@@ -1,10 +1,10 @@
-package client;
+package com.mygdx.airhockey.auth;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 
-import database.DatabaseController;
+import com.mygdx.airhockey.database.DatabaseController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

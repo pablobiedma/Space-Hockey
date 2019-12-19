@@ -1,9 +1,9 @@
-package game;
+package com.mygdx.airhockey.statistics;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import database.DatabaseController;
+import com.mygdx.airhockey.database.DatabaseController;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

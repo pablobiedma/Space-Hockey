@@ -1,6 +1,6 @@
-package game;
+package com.mygdx.airhockey.statistics;
 
-import database.DatabaseController;
+import com.mygdx.airhockey.database.DatabaseController;
 
 public class Player {
     private int points;

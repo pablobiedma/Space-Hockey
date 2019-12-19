@@ -1,4 +1,4 @@
-package client;
+package com.mygdx.airhockey.auth;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

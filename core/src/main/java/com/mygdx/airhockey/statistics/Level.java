@@ -1,7 +1,7 @@
-package game;
+package com.mygdx.airhockey.statistics;
 
-import database.DatabaseConnector;
-import database.DatabaseController;
+import com.mygdx.airhockey.database.DatabaseConnector;
+import com.mygdx.airhockey.database.DatabaseController;
 
 public class Level {
     //constants regarding scoring and game rules
@@ -150,7 +150,8 @@ public class Level {
     }
 
     /**
-     * Checks if the game is finished. If yes, changes the values of inProgress and finished fields.
+     * Checks if the game is finished.
+     * If yes, changes the values of inProgress and finished fields.
      */
     private void checkIfFinished() {
         if (playerGoals >= MAX_GOALS) {
@@ -163,7 +164,8 @@ public class Level {
     }
 
     /**
-     * Finalizes the game. Updates database, updates player points.
+     * Finalizes the game.
+     * Updates database, updates player points.
      */
     private void finalizeGame() {
         player.updatePoints(score);

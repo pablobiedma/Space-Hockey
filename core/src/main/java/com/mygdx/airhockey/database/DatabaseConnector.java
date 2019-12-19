@@ -1,4 +1,4 @@
-package database;
+package com.mygdx.airhockey.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +15,7 @@ public class DatabaseConnector {
 
     /**
      * Sets up a connection with the database.
-     * @return created Connetion object.
+     * @return created Connection object.
      */
     public static Connection setUpConnection() {
         try {

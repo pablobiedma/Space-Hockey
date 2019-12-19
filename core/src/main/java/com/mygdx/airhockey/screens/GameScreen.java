@@ -27,7 +27,8 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     transient Camera camera;
 
     /**
-     * Constructor for game screen class. Creates the game screen object.
+     * Constructor for game screen class.
+     * Creates the game screen object.
      */
     public GameScreen(Game game) {
         this.game = game;

@@ -1,7 +1,6 @@
 package com.mygdx.airhockey.backend;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.airhockey.elements.Paddle;
 import com.mygdx.airhockey.elements.Pitch;
@@ -9,7 +8,7 @@ import com.mygdx.airhockey.elements.Puck;
 import com.mygdx.airhockey.elements.Walls;
 
 /**
- * Class that handles the backend of the game.
+ * Class that handles the backend of the com.mygdx.airhockey.game.
  */
 public class GameOperator {
     Pitch pitch;
