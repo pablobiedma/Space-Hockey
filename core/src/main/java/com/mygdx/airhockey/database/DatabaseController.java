@@ -2,32 +2,34 @@ package com.mygdx.airhockey.database;
 
 import com.mygdx.airhockey.statistics.Player;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
 public class DatabaseController {
-    private Connection connection;
+    private ConnectionFactory connectionFactory;
 
     /**
      * Constructor for database controller.
-     * @param connection with the database.
+     *
+     * @param connectionFactory for getting connections with the database.
      */
-    public DatabaseController(Connection connection) {
-        this.connection = connection;
+    public DatabaseController(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 
     /**
      * Checks if a user exists in the database.
+     *
      * @param username of the user.
      * @return true if exists, else false.
      */
     public boolean userExists(final String username) {
         try {
             String query = "select Username from User where Username = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement =
+                    connectionFactory.getConnection().prepareStatement(query);
             try {
                 preparedStatement.setString(1, username);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -53,14 +55,16 @@ public class DatabaseController {
 
     /**
      * Returns hashed password of the user.
+     *
      * @param username of the user.
      * @return hashed password of the user.
      */
-    public String getHashedPassword(final String username)  {
+    public String getHashedPassword(final String username) {
         assert userExists(username);
         try {
             String query = "select Password from User where Username = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement =
+                    connectionFactory.getConnection().prepareStatement(query);
             try {
                 preparedStatement.setString(1, username);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -87,15 +91,18 @@ public class DatabaseController {
 
     /**
      * Adds a user to the database.
-     * @param username of the user.
+     *
+     * @param username       of the user.
      * @param hashedPassword of the user.
      */
     public void createUser(final String username, final String hashedPassword) {
         try {
             String queryUser = "insert into User (Username, Password) VALUES (?,?)";
             String queryScore = "insert into Score (username, score, chosen_name) VALUES (?,?,?)";
-            PreparedStatement preparedStatementUser = connection.prepareStatement(queryUser);
-            PreparedStatement preparedStatementScore = connection.prepareStatement(queryScore);
+            PreparedStatement preparedStatementUser =
+                    connectionFactory.getConnection().prepareStatement(queryUser);
+            PreparedStatement preparedStatementScore =
+                    connectionFactory.getConnection().prepareStatement(queryScore);
             try {
                 preparedStatementUser.setString(1, username);
                 preparedStatementUser.setString(2, hashedPassword);
@@ -120,6 +127,7 @@ public class DatabaseController {
 
     /**
      * Gets score of a user from the database.
+     *
      * @param username of the user.
      * @return the score of the user.
      */
@@ -127,7 +135,8 @@ public class DatabaseController {
         assert userExists(username);
         try {
             String query = "select score from Score where Username = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement =
+                    connectionFactory.getConnection().prepareStatement(query);
             try {
                 preparedStatement.setString(1, username);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -153,15 +162,17 @@ public class DatabaseController {
 
     /**
      * Updates the score of a user.
+     *
      * @param username of the user.
      */
     public void updateScore(String username, int score) {
         assert userExists(username);
         try {
             String query = "update Score SET score = ? where Username = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement =
+                    connectionFactory.getConnection().prepareStatement(query);
             try {
-                preparedStatement.setInt(1,score);
+                preparedStatement.setInt(1, score);
                 preparedStatement.setString(2, username);
                 preparedStatement.execute();
             } catch (Exception e) {
@@ -176,20 +187,22 @@ public class DatabaseController {
 
     /**
      * Gets score of all users from the database.
+     *
      * @return the list of player objects, containing usernames and scores.
      */
     public List<Player> getAllScores() {
         List<Player> players = new LinkedList<Player>();
         try {
             String query = "select * from Score";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement =
+                    connectionFactory.getConnection().prepareStatement(query);
             try {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
                     while (resultSet.next()) {
                         String username = resultSet.getString("username");
                         int score = resultSet.getInt("score");
-                        Player player = new Player(username,score);
+                        Player player = new Player(username, score);
                         players.add(player);
                     }
                 } catch (Exception e) {
@@ -211,17 +224,19 @@ public class DatabaseController {
 
     /**
      * Getter for connection.
+     *
      * @return connection with the database.
      */
-    public Connection getConnection() {
-        return connection;
+    public ConnectionFactory getConnectionFactory() {
+        return connectionFactory;
     }
 
     /**
      * Setter for connection.
-     * @param connection value to set.
+     *
+     * @param connectionFactory value to set.
      */
-    public void setConnection(Connection connection) {
-        this.connection = connection;
+    public void setConnectionFactory(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 }

@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.airhockey.auth.Authentication;
-import com.mygdx.airhockey.database.DatabaseConnector;
+import com.mygdx.airhockey.database.ConnectionFactory;
 import com.mygdx.airhockey.database.DatabaseController;
 
 
@@ -76,7 +76,7 @@ public class LoginScreen implements Screen {
     public void btnLoginClicked() {
         String username = txfUsername.getText();
         String password = txfPassword.getText();
-        DatabaseController database = new DatabaseController(DatabaseConnector.setUpConnection());
+        DatabaseController database = new DatabaseController(new ConnectionFactory());
         Authentication auth = new Authentication(database);
         if (auth.signIn(username, password)) {
             game.setScreen(new GameScreen(game));
