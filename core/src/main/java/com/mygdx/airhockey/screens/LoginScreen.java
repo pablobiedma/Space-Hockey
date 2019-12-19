@@ -27,10 +27,10 @@ public class LoginScreen extends AuthScreen {
         });
 
     }
-<<<<<<< HEAD
+
     /**
-     //     * Performs a check after clicking login button.
-     //     */
+     * Performs a check after clicking login button.
+     */
     public void btnLoginClicked() {
         String username = txfUsername.getText();
         String password = txfPassword.getText();
@@ -42,6 +42,4 @@ public class LoginScreen extends AuthScreen {
             System.out.println("Try again");
         }
     }
-=======
->>>>>>> refactor_auth
 }

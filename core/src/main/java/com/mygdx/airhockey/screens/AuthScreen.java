@@ -14,10 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 abstract class AuthScreen implements Screen {
     public static final int HEIGHT = 40;
-    private transient Game game;
-    private transient Stage stage;
-    private transient TextField txfUsername;
-    private transient TextField txfPassword;
+    protected transient Game game;
+    protected transient Stage stage;
+    protected transient TextField txfUsername;
+    protected transient TextField txfPassword;
     transient int rowHeight = Gdx.graphics.getWidth() / 12;
     transient int colWidth = Gdx.graphics.getWidth() / 12;
 
@@ -63,34 +63,6 @@ abstract class AuthScreen implements Screen {
         stage.addActor(txfPassword);
         stage.addActor(btn);
         stage.addActor(goBack);
-    }
-
-
-
-    /**
-     * Performs a check after clicking login button.
-     */
-    public void btnLoginClicked() {
-        String username = txfUsername.getText();
-        String password = txfPassword.getText();
-        DatabaseController database = new DatabaseController(DatabaseConnector.setUpConnection());
-        Authentication auth = new Authentication(database);
-        if (auth.signIn(username, password)) {
-            game.setScreen(new GameScreen(game));
-        } else {
-            System.out.println("Try again");
-        }
-    }
-
-
-    /**
-     * Creates user clicking signup button.
-     */
-    public void btnSignupClicked() {
-        String username = txfUsername.getText();
-        //String password = txfPassword.getText();
-        //create user here when connection with db is fixed.
-        System.out.println("User " + username + " created");
     }
 
     /**
