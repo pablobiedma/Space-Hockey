@@ -1,6 +1,6 @@
 package com.mygdx.airhockey.statistics;
 
-import com.mygdx.airhockey.database.DatabaseConnector;
+import com.mygdx.airhockey.database.ConnectionFactory;
 import com.mygdx.airhockey.database.DatabaseController;
 
 public class Level {
@@ -169,7 +169,7 @@ public class Level {
      */
     private void finalizeGame() {
         player.updatePoints(score);
-        player.updateDatabaseScore(new DatabaseController(DatabaseConnector.setUpConnection()));
+        player.updateDatabaseScore(new DatabaseController(new ConnectionFactory()));
         finished = true;
     }
 }

@@ -14,12 +14,12 @@ import org.mockito.Mockito;
 
 class DatabaseControllerTest {
     private transient DatabaseController database;
-    private transient Connection connection;
+    //private transient Connection connection;
 
     @BeforeEach
     void setupTestEnvironment() {
-        connection = Mockito.mock(Connection.class);
-        database = new DatabaseController(DatabaseConnector.setUpConnection());
+        //connection = Mockito.mock(Connection.class);
+        database = new DatabaseController(new ConnectionFactory());
     }
 
     @Test
@@ -49,12 +49,12 @@ class DatabaseControllerTest {
 
     @Test
     void getConnection() {
-        assertNotNull(database.getConnection());
+        assertNotNull(database.getConnectionFactory());
     }
 
     @Test
     void setConnection() {
-        database.setConnection(null);
-        assertNull(database.getConnection());
+        database.setConnectionFactory(null);
+        assertNull(database.getConnectionFactory());
     }
 }
