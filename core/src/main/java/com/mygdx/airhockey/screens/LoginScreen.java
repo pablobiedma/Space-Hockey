@@ -27,6 +27,7 @@ public class LoginScreen extends AuthScreen {
         });
 
     }
+<<<<<<< HEAD
     /**
      //     * Performs a check after clicking login button.
      //     */
@@ -41,4 +42,6 @@ public class LoginScreen extends AuthScreen {
             System.out.println("Try again");
         }
     }
+=======
+>>>>>>> refactor_auth
 }
