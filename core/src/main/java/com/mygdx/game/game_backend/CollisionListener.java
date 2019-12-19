@@ -1,4 +1,4 @@
-package com.mygdx.game.physics;
+package com.mygdx.game.game_backend;
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.physics.box2d.Contact;

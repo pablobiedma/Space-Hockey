@@ -3,10 +3,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.game_elements.Paddle;
-import com.mygdx.game.game_elements.Pitch;
-import com.mygdx.game.game_elements.Puck;
-import com.mygdx.game.game_elements.Walls;
+import com.mygdx.game.game_elements.*;
 
 /**
  * Class that handles the backend of the game.
@@ -17,6 +14,8 @@ public class GameOperator {
     Paddle bluePaddle;
     Puck puck;
     Walls walls;
+    Goal goal1;
+    Goal goal2;
 
     /**
      * Set's up a new game.
@@ -36,6 +35,9 @@ public class GameOperator {
 
         walls = new Walls (world, Config.WALL_WIDTH, Config.WALL_HEIGHT, Config.WALL_THICKNESS);
         pitch = new Pitch();
+
+        goal1 = new Goal();
+        goal2 = new Goal();
     }
 
     /**

@@ -33,4 +33,11 @@ public class Paddle extends DynamicObject {
     public void updateVelocity() {
         movementController.updateVelocity();
     }
+
+    public void stopAndSetToPosition(float x, float y) {
+        body.setLinearVelocity(0,0);
+        body.setTransform(x, y
+                , body.getAngle());
+
+    }
 }
