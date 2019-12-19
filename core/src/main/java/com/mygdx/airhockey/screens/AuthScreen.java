@@ -13,8 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
 abstract class AuthScreen implements Screen {
-//    public static final int INPUT_BOX_X = 200;
-//    public static final int WIDTH = 300;
     public static final int HEIGHT = 40;
     private transient Game game;
     private transient Stage stage;
@@ -89,7 +87,7 @@ abstract class AuthScreen implements Screen {
         String username = txfUsername.getText();
         //String password = txfPassword.getText();
         //create user here when connection with db is fixed.
-        System.out.println("User "+username+" created");
+        System.out.println("User " + username + " created");
     }
 
     /**

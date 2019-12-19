@@ -1,17 +1,22 @@
-# LibGDX default skin
+# Glassy UI
 
-The one, the only, [*the default one*](https://github.com/libgdx/libgdx/tree/master/tests/gdx-tests-android/assets/data).
+```
+Glassy UI Ver. 1
 
-Majority of LibGDX devs started with this skin, as it's easy to find with ~~Goog~~ your search engine of choice. And, well, it *works*.
+Created by Raymond "Raeleus" Buckley
+Visit ray3k.wordpress.com for games, tutorials, and much more!
 
-Supports most of the **Scene2D** widgets (including the newest tooltips), with notable exceptions being the image buttons. Features no additional icons, so if you want fancy controls for turning music on and off, you might want to [modify it](https://github.com/libgdx/libgdx/tree/master/tests/gdx-tests-android/assets-raw/skin).
+Glassy UI can be used under the CC BY license.
+http://creativecommons.org/licenses/by/4.0/
+```
 
-![Default](preview.png)
+Features styles of most of **Scene2D** widgets. Elegant, glossy look.
 
-Preview taken from [LibGDX skins](https://github.com/libgdx/libgdx-skins):
+![Glassy](preview.png)
 
-![Default](preview-large.png)
+### About
+
+Created with [Skin Composer](https://github.com/raeleus/skin-composer) by [**Raeleus**](https://ray3k.wordpress.com/artwork/glassy-ui-skin-for-libgdx/).
 
 ### License
-
-Seems to be the same as the whole **LibGDX** framework. But then again - in commercial products, you might want to try out something fancier.
+[CC BY 4.0](http://creativecommons.org/licenses/by/4.0/). Give credit to [***Raymond "Raeleus" Buckley***](https://ray3k.wordpress.com/software/skin-composer-for-libgdx/).
