@@ -8,35 +8,34 @@ import com.mygdx.airhockey.database.ConnectionFactory;
 import com.mygdx.airhockey.database.DatabaseController;
 
 
-public class LoginScreen extends AuthScreen {
+public class SignupScreen extends AuthScreen {
 
     /**
-     * Constructor for login screen.
+     * Constructor for signup screen.
      *
      * @param g game of the login screen;
      */
-    public LoginScreen(Game g) {
+    public SignupScreen(Game g) {
         super(g);
-        createBtn("Log in", new ClickListener() {
+        createBtn("Sign up", new ClickListener() {
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int point, int button) {
 
-                btnLoginClicked();
+                btnSignupClicked();
                 return true;
             }
         });
-
     }
 
     /**
-     * Performs a check after clicking login button.
+     * Performs a check after clicking signup button.
      */
-    public void btnLoginClicked() {
+    public void btnSignupClicked() {
         String username = txfUsername.getText();
         String password = txfPassword.getText();
         DatabaseController database = new DatabaseController(new ConnectionFactory());
         Authentication auth = new Authentication(database);
-        if (auth.signIn(username, password)) {
+        if (auth.signUp(username, password)) {
             game.setScreen(new GameScreen(game));
         } else {
             System.out.println("Try again");
