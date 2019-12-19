@@ -1,14 +1,7 @@
 package com.mygdx.airhockey.screens;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.airhockey.auth.Authentication;
 import com.mygdx.airhockey.database.ConnectionFactory;
@@ -24,13 +17,13 @@ public class LoginScreen extends AuthScreen {
      */
     public LoginScreen(Game g) {
         super(g);
-        createBtn("Login", new ClickListener(){
+        createBtn("Log in", new ClickListener() {
             @Override
-           public boolean touchDown(InputEvent e, float x, float y, int point, int button){
+            public boolean touchDown(InputEvent e, float x, float y, int point, int button) {
 
-                    btnLoginClicked();
-                    return true;
-                }
+                btnLoginClicked();
+                return true;
+            }
         });
 
     }
