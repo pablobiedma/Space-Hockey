@@ -1,8 +1,8 @@
 package com.mygdx.airhockey.screens;
 
-        import com.badlogic.gdx.Game;
-        import com.badlogic.gdx.scenes.scene2d.InputEvent;
-        import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
 public class SignupScreen extends AuthScreen {
