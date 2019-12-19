@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
-public class AuthScreen implements Screen {
+abstract class AuthScreen implements Screen {
     public static final int INPUT_BOX_X = 200;
     public static final int WIDTH = 300;
     public static final int HEIGHT = 40;
