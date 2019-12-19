@@ -87,7 +87,7 @@ abstract class AuthScreen implements Screen {
      */
     public void btnSignupClicked() {
         String username = txfUsername.getText();
-        String password = txfPassword.getText();
+        //String password = txfPassword.getText();
         //create user here when connection with db is fixed.
         System.out.println("User "+username+" created");
     }
