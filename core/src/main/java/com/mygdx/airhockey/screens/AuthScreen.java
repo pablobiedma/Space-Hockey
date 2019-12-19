@@ -73,12 +73,15 @@ abstract class AuthScreen implements Screen {
     public void btnLoginClicked() {
         String username = txfUsername.getText();
         String password = txfPassword.getText();
-        if (username.equals("admin") && password.equals("pass")) {
+        DatabaseController database = new DatabaseController(DatabaseConnector.setUpConnection());
+        Authentication auth = new Authentication(database);
+        if (auth.signIn(username, password)) {
             game.setScreen(new GameScreen(game));
         } else {
             System.out.println("Try again");
         }
     }
+
 
     /**
      * Creates user clicking signup button.
