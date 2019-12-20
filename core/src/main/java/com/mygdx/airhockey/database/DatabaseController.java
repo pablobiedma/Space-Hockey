@@ -1,7 +1,10 @@
 package com.mygdx.airhockey.database;
 
+import com.mygdx.airhockey.database.tables.Score;
+import com.mygdx.airhockey.database.tables.User;
 import com.mygdx.airhockey.statistics.Player;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedList;
@@ -9,6 +12,12 @@ import java.util.List;
 
 public class DatabaseController {
     private ConnectionFactory connectionFactory;
+
+
+    transient Score score = null;
+    transient User userDefine = null;
+    transient int points = 0;
+    transient String password = null;
 
     /**
      * Constructor for database controller.
@@ -28,8 +37,8 @@ public class DatabaseController {
     public boolean userExists(final String username) {
         try {
             String query = "select Username from User where Username = ?";
-            PreparedStatement preparedStatement =
-                    connectionFactory.getConnection().prepareStatement(query);
+            Connection connection = connectionFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
                 preparedStatement.setString(1, username);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -45,6 +54,7 @@ public class DatabaseController {
                 e.printStackTrace();
             } finally {
                 preparedStatement.close();
+                connection.close();
             }
 
         } catch (Exception e) {
@@ -52,6 +62,43 @@ public class DatabaseController {
         }
         return false;
     }
+
+    /**
+     * Retrieves user from database.
+     * @param username name of the user.
+     * @return user to retrieve.
+     * @throws Exception for sql statement
+     */
+    public User getUser(String username) {
+        assert (userExists(username));
+        try {
+            String sql = "SELECT username , password FROM User WHERE username = ?";
+            Connection connection = connectionFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            try {
+                preparedStatement.setString(1, username);
+                ResultSet resultSet =  preparedStatement.executeQuery();
+                try {
+                    resultSet.next();
+                    userDefine = new User(resultSet.getString("username"),
+                            resultSet.getString("password"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    resultSet.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                preparedStatement.close();
+                connection.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userDefine;
+    }
+
 
     /**
      * Returns hashed password of the user.
@@ -63,14 +110,15 @@ public class DatabaseController {
         assert userExists(username);
         try {
             String query = "select Password from User where Username = ?";
-            PreparedStatement preparedStatement =
-                    connectionFactory.getConnection().prepareStatement(query);
+            Connection connection = connectionFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
                 preparedStatement.setString(1, username);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
                     resultSet.next();
-                    return resultSet.getString("Password");
+                    password = resultSet.getString("Password");
+                    return password;
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -81,12 +129,12 @@ public class DatabaseController {
                 e.printStackTrace();
             } finally {
                 preparedStatement.close();
+                connection.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
-        return null;
+        return password;
     }
 
     /**
@@ -99,10 +147,9 @@ public class DatabaseController {
         try {
             String queryUser = "insert into User (Username, Password) VALUES (?,?)";
             String queryScore = "insert into Score (username, score, chosen_name) VALUES (?,?,?)";
-            PreparedStatement preparedStatementUser =
-                    connectionFactory.getConnection().prepareStatement(queryUser);
-            PreparedStatement preparedStatementScore =
-                    connectionFactory.getConnection().prepareStatement(queryScore);
+            Connection connection = connectionFactory.getConnection();
+            PreparedStatement preparedStatementUser = connection.prepareStatement(queryUser);
+            PreparedStatement preparedStatementScore = connection.prepareStatement(queryScore);
             try {
                 preparedStatementUser.setString(1, username);
                 preparedStatementUser.setString(2, hashedPassword);
@@ -118,6 +165,7 @@ public class DatabaseController {
             } finally {
                 preparedStatementUser.close();
                 preparedStatementScore.close();
+                connection.close();
             }
 
         } catch (Exception e) {
@@ -125,24 +173,25 @@ public class DatabaseController {
         }
     }
 
+
     /**
      * Gets score of a user from the database.
-     *
      * @param username of the user.
      * @return the score of the user.
      */
-    public int getScore(String username) {
+    public Score getScore(String username) {
         assert userExists(username);
         try {
-            String query = "select score from Score where Username = ?";
-            PreparedStatement preparedStatement =
-                    connectionFactory.getConnection().prepareStatement(query);
+            String query = "select * from Score where username = ?";
+            Connection connection = connectionFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
                 preparedStatement.setString(1, username);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
                     resultSet.next();
-                    return resultSet.getInt("Score");
+                    score = new Score(resultSet.getString("username"),
+                            resultSet.getInt("score"), resultSet.getString("chosen_name"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -153,12 +202,14 @@ public class DatabaseController {
                 e.printStackTrace();
             } finally {
                 preparedStatement.close();
+                connection.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return score;
     }
+
 
     /**
      * Updates the score of a user.
@@ -169,8 +220,8 @@ public class DatabaseController {
         assert userExists(username);
         try {
             String query = "update Score SET score = ? where Username = ?";
-            PreparedStatement preparedStatement =
-                    connectionFactory.getConnection().prepareStatement(query);
+            Connection connection = connectionFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
                 preparedStatement.setInt(1, score);
                 preparedStatement.setString(2, username);
@@ -179,6 +230,7 @@ public class DatabaseController {
                 e.printStackTrace();
             } finally {
                 preparedStatement.close();
+                connection.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -186,23 +238,60 @@ public class DatabaseController {
     }
 
     /**
+     * Retrieves score of a certain user.
+     * @param username of user
+     * @return score of game
+     * @throws Exception from sql
+     */
+    public int getPoints(String username) {
+        assert (userExists(username));
+        try {
+            String sql = "SELECT score FROM Score WHERE username = ?";
+            Connection connection = connectionFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            try {
+                preparedStatement.setString(1,username);
+                ResultSet resultSet =  preparedStatement.executeQuery();
+                try {
+                    resultSet.next();
+                    points = resultSet.getInt(1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    resultSet.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                preparedStatement.close();
+                connection.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return points;
+    }
+
+
+    /**
      * Gets score of all users from the database.
      *
      * @return the list of player objects, containing usernames and scores.
      */
-    public List<Player> getAllScores() {
+    public List<Player> getTopNScores(int n) {
         List<Player> players = new LinkedList<Player>();
         try {
-            String query = "select * from Score";
-            PreparedStatement preparedStatement =
-                    connectionFactory.getConnection().prepareStatement(query);
+            String query =
+                    "SELECT username, score, chosen_name FROM Score ORDER BY score DESC LIMIT = ?";
+            Connection connection = connectionFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
                     while (resultSet.next()) {
-                        String username = resultSet.getString("username");
+                        String username = resultSet.getString("chosen_name");
                         int score = resultSet.getInt("score");
-                        Player player = new Player(username, score);
+                        Player player = new Player(username,score);
                         players.add(player);
                     }
                 } catch (Exception e) {
@@ -215,6 +304,7 @@ public class DatabaseController {
                 e.printStackTrace();
             } finally {
                 preparedStatement.close();
+                connection.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
