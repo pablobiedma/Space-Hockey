@@ -282,10 +282,11 @@ public class DatabaseController {
         List<Player> players = new LinkedList<Player>();
         try {
             String query =
-                    "SELECT username, score, chosen_name FROM Score ORDER BY score DESC LIMIT = ?";
+                    "SELECT score, chosen_name FROM Score ORDER BY score DESC LIMIT ?";
             Connection connection = connectionFactory.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
+                preparedStatement.setInt(1, n);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
                     while (resultSet.next()) {

@@ -7,7 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
+import com.mygdx.airhockey.statistics.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -133,6 +136,21 @@ class DatabaseControllerTest {
         Mockito.when(resultSet.getString("chosen_name")).thenReturn(test);
         Mockito.when(resultSet.next()).thenReturn(true);
         Assertions.assertEquals(score, databaseMethods.getScore(test));
+    }
+
+    @Test
+    void getTopNScores() throws SQLException {
+        List<Player> players = new LinkedList<Player>();
+        players.add(new Player("nick", 21));
+        players.add(new Player("something", 19));
+        players.add(new Player("test", 19));
+        //Mockito.when(resultSet.getInt("score")).thenReturn(19);
+        //Mockito.when(resultSet.getString("chosen_name")).thenReturn(test);
+        //Mockito.when(resultSet.next()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false);
+        //Mockito.when(resultSet.getString("chosen_name")).thenReturn(test);
+        //databaseMethods.getTopNScores(3);
+        //Mockito.verify(resultSet, Mockito.times(3)).getString("chosen_name");
+        Assertions.assertEquals(players, databaseMethods.getTopNScores(3));
     }
 
 }

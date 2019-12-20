@@ -7,6 +7,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.mygdx.airhockey.database.DatabaseController;
+import com.mygdx.airhockey.database.tables.Score;
+import com.mygdx.airhockey.database.tables.User;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -56,5 +59,25 @@ class PlayerTest {
         database = Mockito.mock(DatabaseController.class);
         player.updateDatabaseScore(database);
         verify(database, times(1)).updateScore(anyString(), anyInt());
+    }
+
+    @Test
+    void testHashCode() {
+        Player x = new Player("aap", 2);  // equals and hashCode check name field value
+        Player y = new Player("aap", 2);
+        Assertions.assertTrue(x.equals(y) && y.equals(x));
+        Assertions.assertTrue(x.hashCode() == y.hashCode());
+    }
+
+    @Test
+    void testEquals() {
+        Player player = new Player("noot", 1);
+        Player playerSame = new Player("noot", 1);
+        Player playerWrong = new Player("false", 4);
+        Assertions.assertFalse(player.equals(playerWrong));
+        Assertions.assertTrue(player.equals(playerSame));
+        Assertions.assertTrue(player.equals(player));
+        Score score = new Score("abc", 4, "def");
+        Assertions.assertFalse(player.equals(score));
     }
 }
