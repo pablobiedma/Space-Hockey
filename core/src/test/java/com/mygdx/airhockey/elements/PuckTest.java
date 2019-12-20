@@ -36,24 +36,6 @@ class PuckTest {
     }
 
     @Test
-    void createFixtureDef() {
-        CircleShape circleShape = Mockito.mock(CircleShape.class);
-        FixtureDef fixtureDef = puck.createFixtureDef(circleShape,0,0,0,0);
-        assertNotNull(fixtureDef);
-    }
-
-    @Test
-    void createSprite() {
-        Texture texture = Mockito.mock(Texture.class);
-        Sprite s = puck.createSprite(texture, 0);
-        assertNotNull(s);
-    }
-
-    @Test
-    void createBody() {
-    }
-
-    @Test
     void getSprite() {
         assertEquals(sprite, puck.getSprite());
     }

@@ -9,23 +9,20 @@ import com.mygdx.airhockey.backend.Config;
 
 public class MovementController {
     private KeyCodeSet keycodes;
-    private Body body;
 
     /**
      * Constructor for movement controller.
-     * @param body to control the movement of.
      * @param keycodes to steer the movement.
      */
-    public MovementController(Body body, KeyCodeSet keycodes) {
-        this.body = body;
+    public MovementController(KeyCodeSet keycodes) {
         this.keycodes = keycodes;
     }
 
     /**
      * Updates velocity of the object.
      */
-    public void updateVelocity() {
-        if (touchesMiddleLine()) {
+    public void updateVelocity(Body body) {
+        if (touchesMiddleLine(body)) {
             if (body.getPosition().x > 0) {
                 body.setLinearVelocity(Config.PADDLE_SPEED,0);
             } else {
@@ -57,7 +54,7 @@ public class MovementController {
      * Checks if the paddle touches the middle line.
      * @return true if it does, else false.
      */
-    private boolean touchesMiddleLine() {
+    private boolean touchesMiddleLine(Body body) {
         Circle c = new Circle();
         c.setPosition(body.getPosition().x, body.getPosition().y);
         c.setRadius(Config.PADDLE_RADIUS);
@@ -87,19 +84,4 @@ public class MovementController {
         this.keycodes = keycodes;
     }
 
-    /**
-     * Getter for body.
-     * @return body steered by the movement controler.
-     */
-    public Body getBody() {
-        return body;
-    }
-
-    /**
-     * Setter for body.
-     * @param body to set.
-     */
-    public void setBody(Body body) {
-        this.body = body;
-    }
 }

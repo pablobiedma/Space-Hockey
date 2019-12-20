@@ -1,38 +1,28 @@
 package com.mygdx.airhockey.elements;
 
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.airhockey.backend.Config;
-import com.mygdx.airhockey.movement.KeyCodeSet;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.airhockey.movement.MovementController;
 
-public class Paddle extends DynamicObject {
+public class Paddle extends GameElement {
     private MovementController movementController;
 
     /**
-     * Constructor for the Paddle class.
-     * @param world to construct in.
-     * @param texturePath of the paddle's texture.
-     * @param size of the paddle's texture.
-     * @param x position of the paddle.
-     * @param y position of the paddle.
-     * @param keyCodeSet for moving the paddle.
+     * Constructor for the paddle.
+     * @param sprite of the paddle.
+     * @param body of the paddle.
+     * @param movementController of the paddle.
      */
-    public Paddle(
-            World world, String texturePath, float size, float x, float y, KeyCodeSet keyCodeSet) {
-        super(world, texturePath, size, x, y);
-        this.movementController = new MovementController(body, keyCodeSet);
-        FixtureDef fixtureDef = createFixtureDef(new CircleShape(), Config.PADDLE_RADIUS,
-                Config.PADDLE_DENSITY, Config.PADDLE_FRICTION, Config.PADDLE_RESTITUTION);
-        body.createFixture(fixtureDef);
+    public Paddle(Sprite sprite, Body body, MovementController movementController) {
+        super(sprite, body);
+        this.movementController = movementController;
     }
 
     /**
      * Updates the paddle's velocity.
      */
     public void updateVelocity() {
-        movementController.updateVelocity();
+        movementController.updateVelocity(this.body);
     }
 
     /**
@@ -51,3 +41,5 @@ public class Paddle extends DynamicObject {
         this.movementController = movementController;
     }
 }
+
+

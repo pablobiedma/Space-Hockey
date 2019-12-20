@@ -1,40 +1,29 @@
 package com.mygdx.airhockey.elements;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.times;
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.Body;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 class PitchTest {
+
     private transient Pitch pitch;
     private transient Sprite sprite;
+    private transient Body body;
 
     @BeforeEach
     void setUp() {
         sprite = Mockito.mock(Sprite.class);
-        pitch = new Pitch(sprite);
+        body = Mockito.mock(Body.class);
+        pitch = new Pitch(sprite, body);
     }
 
     @Test
     void draw() {
         Batch batch = Mockito.mock(Batch.class);
         pitch.draw(batch);
-        Mockito.verify(sprite, times(1)).draw(batch);
-    }
-
-    @Test
-    void getSprite() {
-        assertEquals(sprite, pitch.getSprite());
-    }
-
-    @Test
-    void setSprite() {
-        pitch.setSprite(null);
-        assertNull(pitch.getSprite());
+        Mockito.verify(sprite, Mockito.times(1)).draw(batch);
     }
 }

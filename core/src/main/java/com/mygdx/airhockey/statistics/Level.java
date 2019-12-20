@@ -169,7 +169,6 @@ public class Level {
      */
     private void finalizeGame() {
         player.updatePoints(score);
-        player.updateDatabaseScore(new DatabaseController(new ConnectionFactory()));
         finished = true;
     }
 }
