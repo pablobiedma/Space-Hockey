@@ -19,18 +19,18 @@ class MovementControllerTest {
     void setUp() {
         body = Mockito.mock(Body.class);
         KeyCodeSet keyCodeSet = Config.BLUE_PADDLE_KEYS;
-        movementController = new MovementController(body, keyCodeSet);
+        movementController = new MovementController(keyCodeSet);
     }
 
     @Test
     void touchesMiddleLineTest() {
         //two cases of overlapping
         Mockito.when(body.getPosition()).thenReturn(new Vector2(0.5f,0));
-        movementController.updateVelocity();
+        movementController.updateVelocity(body);
         Mockito.verify(body, times(1)).setLinearVelocity(Config.PADDLE_SPEED, 0);
 
         Mockito.when(body.getPosition()).thenReturn(new Vector2(-0.5f,0));
-        movementController.updateVelocity();
+        movementController.updateVelocity(body);
         Mockito.verify(body, times(1))
                 .setLinearVelocity(-Config.PADDLE_SPEED, 0);
 
@@ -46,13 +46,5 @@ class MovementControllerTest {
         assertEquals(Config.BLUE_PADDLE_KEYS, movementController.getKeycodes());
         movementController.setKeycodes(Config.RED_PADDLE_KEYS);
         assertEquals(Config.RED_PADDLE_KEYS, movementController.getKeycodes());
-    }
-
-
-    @Test
-    void getAndSetBody() {
-        assertEquals(body, movementController.getBody());
-        movementController.setBody(null);
-        assertNull(movementController.getBody());
     }
 }

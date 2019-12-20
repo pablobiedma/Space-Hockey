@@ -1,35 +1,16 @@
 package com.mygdx.airhockey.elements;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.mygdx.airhockey.backend.Config;
-import com.mygdx.airhockey.backend.CoordinateTranslator;
+import com.badlogic.gdx.physics.box2d.Body;
 
-public class Pitch {
-    private Sprite sprite;
-
+public class Pitch extends GameElement {
     /**
-     * Constructor for pitch.
-     * @param sprite of the pitch.
+     * Constructor for walls class.
+     * @param body to create the walls in.
      */
-    public Pitch(Sprite sprite) {
-        this.sprite = sprite;
-    }
-
-    /**
-     * Initializes the pitch sprite.
-     */
-    public Pitch() {
-        Texture pitchTexture = new Texture(Config.PITCH_TEXTURE_PATH);
-        sprite = new Sprite(pitchTexture);
-        float pitchWidth = 2 * Config.WALL_WIDTH / Config.VIEWPORT_SIZE * Config.RESOLUTION;
-        float pitchHeight = 2 * Config.WALL_HEIGHT / Config.VIEWPORT_SIZE * Config.RESOLUTION;
-
-        sprite.setSize(pitchWidth, pitchHeight);
-        sprite.setPosition(
-                CoordinateTranslator.translateX(sprite, 0),
-                CoordinateTranslator.translateY(sprite, 0));
+    public Pitch(Sprite sprite, Body body) {
+        super(sprite, body);
     }
 
     /**
@@ -38,13 +19,5 @@ public class Pitch {
      */
     public void draw(Batch batch) {
         sprite.draw(batch);
-    }
-
-    public Sprite getSprite() {
-        return sprite;
-    }
-
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
     }
 }

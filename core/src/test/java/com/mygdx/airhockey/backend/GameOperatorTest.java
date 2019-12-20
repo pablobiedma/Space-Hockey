@@ -1,13 +1,17 @@
 package com.mygdx.airhockey.backend;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.mygdx.airhockey.elements.Paddle;
 import com.mygdx.airhockey.elements.Pitch;
 import com.mygdx.airhockey.elements.Puck;
-import com.mygdx.airhockey.elements.Walls;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,16 +22,14 @@ class GameOperatorTest {
     private transient Paddle redPaddle;
     private transient Paddle bluePaddle;
     private transient Puck puck;
-    private transient Walls walls;
 
     @BeforeEach
     void setUp() {
-        pitch = Mockito.mock(Pitch.class);
         redPaddle = Mockito.mock(Paddle.class);
         bluePaddle = Mockito.mock(Paddle.class);
         puck = Mockito.mock(Puck.class);
-        walls = Mockito.mock(Walls.class);
-        gameOperator = new GameOperator(pitch, redPaddle, bluePaddle, puck, walls);
+        pitch = Mockito.mock(Pitch.class);
+        gameOperator = new GameOperator(pitch, redPaddle, bluePaddle, puck);
     }
 
     @Test
@@ -35,6 +37,24 @@ class GameOperatorTest {
         gameOperator.updatePhysics();
         Mockito.verify(bluePaddle, Mockito.times(1)).updateVelocity();
         Mockito.verify(redPaddle, Mockito.times(1)).updateVelocity();
+    }
+
+    @Test
+    void createFixtureDef() {
+        CircleShape circleShape = Mockito.mock(CircleShape.class);
+        FixtureDef fixtureDef = gameOperator.createFixtureDef(circleShape,0,0,0,0);
+        assertNotNull(fixtureDef);
+    }
+
+    @Test
+    void createSprite() {
+        Texture texture = Mockito.mock(Texture.class);
+        Sprite s = gameOperator.createSprite(texture, 0, 0);
+        assertNotNull(s);
+    }
+
+    @Test
+    void createBody() {
     }
 
     @Test
@@ -89,7 +109,7 @@ class GameOperatorTest {
 
     @Test
     void getWalls() {
-        assertEquals(walls,gameOperator.getWalls());
+        assertEquals(pitch,gameOperator.getWalls());
     }
 
     @Test
