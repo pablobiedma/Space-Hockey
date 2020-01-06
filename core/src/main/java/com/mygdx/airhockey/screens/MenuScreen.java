@@ -39,23 +39,7 @@ public class MenuScreen implements Screen {
             }
         });
         stage.addActor(startGameButton);
-
-        //Close button.
-//        Button button3 = new TextButton("Close",mySkin);
-//        button3.setSize(colWidth * 2,rowHeight - 20);
-//        button3.setPosition(colWidth * 5,Gdx.graphics.getHeight() - rowHeight * 8);
-//        button3.addListener(new InputListener() {
-//            //add listener here
-//            @Override
-//            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//            }
-//
-//            @Override
-//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                return true;
-//            }
-//        });
-//        stage.addActor(button3);
+        
         Button button4 = new TextButton("Sign Up",mySkin);
         button4.setSize(colWidth * 4,rowHeight);
         button4.setPosition(colWidth * 4,Gdx.graphics.getHeight() - rowHeight * 6);
