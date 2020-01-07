@@ -30,7 +30,7 @@ public class MenuScreen implements Screen {
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         Button startGameButton = new TextButton("Login",mySkin);
         startGameButton.setSize(colWidth * 4,rowHeight);
-        startGameButton.setPosition(colWidth * 4,Gdx.graphics.getHeight() - rowHeight * 4);
+        startGameButton.setPosition(colWidth * 4,Gdx.graphics.getHeight() - rowHeight * 6);
         startGameButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -39,10 +39,10 @@ public class MenuScreen implements Screen {
             }
         });
         stage.addActor(startGameButton);
-        
+
         Button button4 = new TextButton("Sign Up",mySkin);
         button4.setSize(colWidth * 4,rowHeight);
-        button4.setPosition(colWidth * 4,Gdx.graphics.getHeight() - rowHeight * 6);
+        button4.setPosition(colWidth * 4,Gdx.graphics.getHeight() - rowHeight * 8);
         button4.addListener(new InputListener() {
 
             @Override
