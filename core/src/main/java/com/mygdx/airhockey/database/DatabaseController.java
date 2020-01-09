@@ -314,7 +314,6 @@ public class DatabaseController {
 
     /**
      * Getter for connection.
-     *
      * @return connection with the database.
      */
     public ConnectionFactory getConnectionFactory() {
@@ -323,7 +322,6 @@ public class DatabaseController {
 
     /**
      * Setter for connection.
-     *
      * @param connectionFactory value to set.
      */
     public void setConnectionFactory(ConnectionFactory connectionFactory) {

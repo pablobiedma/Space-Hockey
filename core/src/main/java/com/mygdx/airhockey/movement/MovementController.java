@@ -9,6 +9,7 @@ import com.mygdx.airhockey.backend.Config;
 
 public class MovementController {
     private KeyCodeSet keycodes;
+    private static Config config = Config.getInstance();
 
     /**
      * Constructor for movement controller.
@@ -24,9 +25,9 @@ public class MovementController {
     public void updateVelocity(Body body) {
         if (touchesMiddleLine(body)) {
             if (body.getPosition().x > 0) {
-                body.setLinearVelocity(Config.PADDLE_SPEED,0);
+                body.setLinearVelocity(config.paddleSpeed,0);
             } else {
-                body.setLinearVelocity(-Config.PADDLE_SPEED,0);
+                body.setLinearVelocity(-config.paddleSpeed,0);
             }
 
         } else {
@@ -34,16 +35,16 @@ public class MovementController {
             float horizontal = 0;
 
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeLeft())) {
-                horizontal -= Config.PADDLE_SPEED;
+                horizontal -= config.paddleSpeed;
             }
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeRight())) {
-                horizontal += Config.PADDLE_SPEED;
+                horizontal += config.paddleSpeed;
             }
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeUp())) {
-                vertical += Config.PADDLE_SPEED;
+                vertical += config.paddleSpeed;
             }
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeDown())) {
-                vertical -= Config.PADDLE_SPEED;
+                vertical -= config.paddleSpeed;
             }
             body.setLinearVelocity(horizontal, vertical);
         }
@@ -57,10 +58,10 @@ public class MovementController {
     private boolean touchesMiddleLine(Body body) {
         Circle c = new Circle();
         c.setPosition(body.getPosition().x, body.getPosition().y);
-        c.setRadius(Config.PADDLE_RADIUS);
+        c.setRadius(config.paddleRadius);
         Rectangle border = new Rectangle(
-                -Config.WALL_THICKNESS / 2,-Config.VIEWPORT_SIZE / 2,
-                Config.WALL_THICKNESS, Config.VIEWPORT_SIZE);
+                0,-config.viewportSize / 2,
+               0, config.viewportSize);
         if (Intersector.overlaps(c, border)) {
             return true;
         } else {

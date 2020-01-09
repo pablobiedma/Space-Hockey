@@ -13,8 +13,8 @@ public final class CoordinateTranslatorTest {
     @BeforeEach
     void setUp() {
         sprite = Mockito.mock(Sprite.class);
-        Mockito.when(sprite.getHeight()).thenReturn(Config.RESOLUTION / 2);
-        Mockito.when(sprite.getWidth()).thenReturn(Config.RESOLUTION);
+        Mockito.when(sprite.getHeight()).thenReturn(Config.getInstance().resolution / 2);
+        Mockito.when(sprite.getWidth()).thenReturn(Config.getInstance().resolution);
     }
 
     @Test
@@ -29,6 +29,7 @@ public final class CoordinateTranslatorTest {
 
     @Test
     void translateSize() {
-        assertEquals(Config.RESOLUTION, CoordinateTranslator.translateSize(Config.VIEWPORT_SIZE));
+        assertEquals(Config.getInstance().resolution,
+                CoordinateTranslator.translateSize(Config.getInstance().viewportSize));
     }
 }

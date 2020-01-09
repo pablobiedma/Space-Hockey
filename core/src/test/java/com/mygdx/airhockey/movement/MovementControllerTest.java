@@ -18,7 +18,7 @@ class MovementControllerTest {
     @BeforeEach
     void setUp() {
         body = Mockito.mock(Body.class);
-        KeyCodeSet keyCodeSet = Config.BLUE_PADDLE_KEYS;
+        KeyCodeSet keyCodeSet = Config.getInstance().bluePaddleKeys;
         movementController = new MovementController(keyCodeSet);
     }
 
@@ -27,12 +27,13 @@ class MovementControllerTest {
         //two cases of overlapping
         Mockito.when(body.getPosition()).thenReturn(new Vector2(0.5f,0));
         movementController.updateVelocity(body);
-        Mockito.verify(body, times(1)).setLinearVelocity(Config.PADDLE_SPEED, 0);
+        Mockito.verify(body, times(1))
+                .setLinearVelocity(Config.getInstance().paddleSpeed, 0);
 
         Mockito.when(body.getPosition()).thenReturn(new Vector2(-0.5f,0));
         movementController.updateVelocity(body);
         Mockito.verify(body, times(1))
-                .setLinearVelocity(-Config.PADDLE_SPEED, 0);
+                .setLinearVelocity(-Config.getInstance().paddleSpeed, 0);
 
         //        //and one case of not overlapping
         //        //PROBLEM WITH THE GDX.INPUT -> THROWS NULL POINTER EXCEPTION
@@ -43,8 +44,9 @@ class MovementControllerTest {
 
     @Test
     void getAndSetKeycodes() {
-        assertEquals(Config.BLUE_PADDLE_KEYS, movementController.getKeycodes());
-        movementController.setKeycodes(Config.RED_PADDLE_KEYS);
-        assertEquals(Config.RED_PADDLE_KEYS, movementController.getKeycodes());
+        Config config = Config.getInstance();
+        assertEquals(config.bluePaddleKeys, movementController.getKeycodes());
+        movementController.setKeycodes(config.redPaddleKeys);
+        assertEquals(config.redPaddleKeys, movementController.getKeycodes());
     }
 }

@@ -25,6 +25,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     transient World world;
     transient Box2DDebugRenderer debugRenderer;
     transient Camera camera;
+    private static final Config config = Config.getInstance();
 
     /**
      * Constructor for game screen class.
@@ -36,7 +37,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         world = new World(new Vector2(0, 0), true);
         gameOperator = new GameOperator(world);
         debugRenderer = new Box2DDebugRenderer();
-        camera = new OrthographicCamera(Config.VIEWPORT_SIZE, Config.VIEWPORT_SIZE);
+        camera = new OrthographicCamera(config.viewportSize, config.viewportSize);
     }
 
     /**

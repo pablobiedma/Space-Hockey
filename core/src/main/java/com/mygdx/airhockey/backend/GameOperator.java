@@ -19,6 +19,7 @@ import com.mygdx.airhockey.movement.MovementController;
  * Class that handles the backend of the com.mygdx.airhockey.game.
  */
 public class GameOperator {
+    private static Config config = Config.getInstance();
     Pitch pitch;
     Paddle redPaddle;
     Paddle bluePaddle;
@@ -43,40 +44,40 @@ public class GameOperator {
      * Set's up a new game.
      */
     public GameOperator(World world) {
-        this.redPaddle = makePaddle(world, new Texture(Config.RED_PADDLE_TEXTURE_PATH),
-                Config.RED_PADDLE_X, Config.RED_PADDLE_KEYS);
-        this.bluePaddle = makePaddle(world, new Texture(Config.BLUE_PADDLE_TEXTURE_PATH),
-                Config.BLUE_PADDLE_X, Config.BLUE_PADDLE_KEYS);
+        this.redPaddle = makePaddle(world, new Texture(config.redPaddleTexturePath),
+                config.redPaddleX, config.redPaddleKeys);
+        this.bluePaddle = makePaddle(world, new Texture(config.bluePaddleTexturePath),
+                config.bluePaddleX, config.bluePaddleKeys);
         this.puck = makePuck(world);
         this.pitch = makePitch(world);
     }
 
     private Paddle makePaddle(World world, Texture texture, float posX, KeyCodeSet keyCodeSet) {
         Sprite paddleSprite = createSprite(texture,
-                CoordinateTranslator.translateSize(2 * Config.PADDLE_RADIUS),
-                CoordinateTranslator.translateSize(2 * Config.PADDLE_RADIUS));
+                CoordinateTranslator.translateSize(2 * config.paddleRadius),
+                CoordinateTranslator.translateSize(2 * config.paddleRadius));
         Body paddleBody = createBody(world, posX, 0);
-        FixtureDef paddleFixtureDef = createFixtureDef(new CircleShape(), Config.PADDLE_RADIUS,
-                Config.PADDLE_DENSITY, Config.PADDLE_FRICTION, Config.PADDLE_RESTITUTION);
+        FixtureDef paddleFixtureDef = createFixtureDef(new CircleShape(), config.paddleRadius,
+                config.paddleDensity, config.paddleFriction, config.paddleRestitution);
         paddleBody.createFixture(paddleFixtureDef);
         return new Paddle(paddleSprite, paddleBody, new MovementController(keyCodeSet));
     }
 
     private Puck makePuck(World world) {
-        Sprite puckSprite = createSprite(new Texture(Config.PUCK_TEXTURE_PATH),
-                CoordinateTranslator.translateSize(2 * Config.PUCK_RADIUS),
-                CoordinateTranslator.translateSize(2 * Config.PUCK_RADIUS));
+        Sprite puckSprite = createSprite(new Texture(config.puckTexturePath),
+                CoordinateTranslator.translateSize(2 * config.puckRadius),
+                CoordinateTranslator.translateSize(2 * config.puckRadius));
         Body puckBody = createBody(world, 0, 0);
-        FixtureDef puckFixtureDef = createFixtureDef(new CircleShape(), Config.PUCK_RADIUS,
-                Config.PUCK_DENSITY, Config.PUCK_FRICTION, Config.PUCK_RESTITUTION);
+        FixtureDef puckFixtureDef = createFixtureDef(new CircleShape(), config.puckRadius,
+                config.puckDensity, config.puckFriction, config.puckRestitution);
         puckBody.createFixture(puckFixtureDef);
         return new Puck(puckSprite, puckBody);
     }
 
     private Pitch makePitch(World world) {
-        Sprite pitchSprite = createSprite(new Texture(Config.PITCH_TEXTURE_PATH),
-                CoordinateTranslator.translateSize(2 * Config.WALL_WIDTH),
-                CoordinateTranslator.translateSize(2 * Config.WALL_HEIGHT));
+        Sprite pitchSprite = createSprite(new Texture(config.pitchTexturePath),
+                CoordinateTranslator.translateSize(2 * config.wallWidth),
+                CoordinateTranslator.translateSize(2 * config.wallHeight));
 
         pitchSprite.setPosition(CoordinateTranslator.translateX(pitchSprite, 0),
                 CoordinateTranslator.translateY(pitchSprite, 0));
@@ -86,8 +87,8 @@ public class GameOperator {
         Body pitchBody = world.createBody(bodyDef);
 
         float[] shape = {
-            -Config.WALL_WIDTH, Config.WALL_HEIGHT, Config.WALL_WIDTH, Config.WALL_HEIGHT,
-            Config.WALL_WIDTH, -Config.WALL_HEIGHT, -Config.WALL_WIDTH, -Config.WALL_HEIGHT
+            -config.wallWidth, config.wallHeight, config.wallWidth, config.wallHeight,
+            config.wallWidth, -config.wallHeight, -config.wallWidth, -config.wallHeight
         };
 
         ChainShape chainShape = new ChainShape();
