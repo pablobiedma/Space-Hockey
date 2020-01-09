@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -33,6 +34,8 @@ public class MenuScreen implements Screen {
 
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         Button startGameButton = new TextButton("Log in",mySkin);
+        Label title = new Label("Space Hockey", mySkin);
+        title.setPosition(colWidth * 4, Gdx.graphics.getHeight() - rowHeight * 4);
         startGameButton.setSize(colWidth * 4,rowHeight);
         startGameButton.setPosition(colWidth * 4,Gdx.graphics.getHeight() - rowHeight * 6);
         startGameButton.addListener(new InputListener() {
@@ -43,6 +46,7 @@ public class MenuScreen implements Screen {
             }
         });
         stage.addActor(startGameButton);
+        stage.addActor(title);
 
         Button button4 = new TextButton("Sign Up",mySkin);
         button4.setSize(colWidth * 4,rowHeight);
