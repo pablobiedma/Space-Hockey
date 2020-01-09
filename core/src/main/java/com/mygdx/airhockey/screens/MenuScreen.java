@@ -32,7 +32,7 @@ public class MenuScreen implements Screen {
         backgroundTexture = new TextureRegion(new Texture("blue.jpg"), 0, 0, 2048, 563);
 
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        Button startGameButton = new TextButton("Login",mySkin);
+        Button startGameButton = new TextButton("Log in",mySkin);
         startGameButton.setSize(colWidth * 4,rowHeight);
         startGameButton.setPosition(colWidth * 4,Gdx.graphics.getHeight() - rowHeight * 6);
         startGameButton.addListener(new InputListener() {
