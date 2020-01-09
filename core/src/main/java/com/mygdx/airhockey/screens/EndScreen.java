@@ -3,6 +3,7 @@ package com.mygdx.airhockey.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,7 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 //TODO create and display leaderboard 
 //TODO display score
 //TODO display text
-public class EndScreen {
+public class EndScreen implements Screen {
     private transient Stage stage;
     private transient Game game;
 
@@ -44,4 +45,44 @@ public class EndScreen {
         });
         stage.addActor(startGameButton);
     }
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    @Override
+    public void render(float delta) {
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.getBatch().begin();
+        //stage.getBatch().draw(backgroundTexture, 0, 0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.getBatch().end();
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+}
+
 }
