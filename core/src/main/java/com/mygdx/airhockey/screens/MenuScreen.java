@@ -34,8 +34,8 @@ public class MenuScreen implements Screen {
 
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         Button startGameButton = new TextButton("Log in",mySkin);
-        Label title = new Label("         Space Hockey", mySkin);
-        title.setPosition(colWidth * 5, Gdx.graphics.getHeight() - rowHeight * 3);
+        Label title = new Label("      Air Hockey made with love by Group 45", mySkin);
+        title.setPosition(colWidth * 4, Gdx.graphics.getHeight() - rowHeight * 11);
         startGameButton.setSize(colWidth * 4,rowHeight);
         startGameButton.setPosition(colWidth * 4,Gdx.graphics.getHeight() - rowHeight * 6);
         startGameButton.addListener(new InputListener() {
