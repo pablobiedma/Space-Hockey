@@ -24,17 +24,20 @@ public class Puck extends DynamicObject {
     }
 
     /**
-     * Creates a collider aroudn this puck object
+     * Creates a collider around this puck object.
      * @return the circle which can be tested for collisions.
      */
     public Circle createCollider() {
         Circle collisionTestCirlce = new Circle();
-        collisionTestCirlce.set(body.getPosition().x
-                , body.getPosition().y
-                , Config.PUCK_RADIUS);
+        collisionTestCirlce.set(body.getPosition().x,
+                body.getPosition().y,
+                Config.PUCK_RADIUS);
         return collisionTestCirlce;
     }
 
+    /**
+     * Stops puck and sets to middle line.
+     */
     public void stopAndSetToMiddle() {
         body.setTransform(0, 0, body.getAngle());
         body.setLinearVelocity(0,0);

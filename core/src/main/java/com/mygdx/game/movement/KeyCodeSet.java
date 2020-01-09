@@ -13,7 +13,7 @@ public class KeyCodeSet {
      * @param keyCodeUp code of the button for moving up.
      * @param keyCodeDown code of the button for moving down.
      */
-    public KeyCodeSet (int keyCodeLeft, int keyCodeRight, int keyCodeUp, int keyCodeDown) {
+    public KeyCodeSet(int keyCodeLeft, int keyCodeRight, int keyCodeUp, int keyCodeDown) {
         this.keyCodeLeft = keyCodeLeft;
         this.keyCodeRight = keyCodeRight;
         this.keyCodeUp = keyCodeUp;

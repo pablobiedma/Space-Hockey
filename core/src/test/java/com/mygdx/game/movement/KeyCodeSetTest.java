@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class KeyCodeSetTest {
     private transient KeyCodeSet keyCodeSet;
+
     @BeforeEach
     void setUp() {
         keyCodeSet = new KeyCodeSet(1,2,3,4);

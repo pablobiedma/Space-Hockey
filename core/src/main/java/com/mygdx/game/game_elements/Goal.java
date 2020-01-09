@@ -1,49 +1,38 @@
 package com.mygdx.game.game_elements;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.game.game_backend.Config;
 
 public class Goal {
     private int score;
-
+    private Rectangle collisionBox;
     /**
-     * Sets score to 0
+     * Sets score to 0.
      */
-    public Goal() {
+    public Goal(float x, float y) {
         score = 0;
+        collisionBox = new Rectangle(x,
+                y,
+                Config.WALL_THICKNESS,
+                Config.VIEWPORT_SIZE);
+        collisionBox.setWidth(.8f);
+        collisionBox.setHeight(Config.WALL_HEIGHT - 0.5f);
+    }
+
+
+    public Rectangle getCollisionBox() {
+        return this.collisionBox;
     }
 
     /**
-     * Initializes a wall.
-     * @param x position of the centre of the wall.
-     * @param y position of the centre of the wall.
-     * @param width of the wall.
-     * @param height of the wall.
+     * Increments score.
      */
-    public PolygonShape initializeGoal(World world, float x, float y, float width, float height) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(x, y);
-        Body wallBody  = world.createBody(bodyDef);
-
-        PolygonShape wall = new PolygonShape();
-        wall.setAsBox(width, height);
-        wallBody.createFixture(wall, 0);
-        return wall;
+    public void incrementScore() {
+        this.score++;
     }
 
     /**
-     * Sets score to score
-     * @param score score to set score to
-     */
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    /**
-     * Gets score
+     * Gets score.
      * @return score
      */
     public int getScore() {

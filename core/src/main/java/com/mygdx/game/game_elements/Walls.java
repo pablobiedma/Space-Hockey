@@ -24,10 +24,16 @@ public class Walls {
                 width, thickness));
         walls.add(initializeWall(world, 0, height,
                 width, thickness));
-        walls.add(initializeWall(world, width, 0,
-                thickness, height));
-        walls.add(initializeWall(world, -width, 0,
-                thickness, height));
+
+        walls.add(initializeWall(world, width, 8,
+                thickness, (height/3) -0.5f));
+        walls.add(initializeWall(world, width, -8,
+                thickness, (height/3) -0.5f));
+
+        walls.add(initializeWall(world, -width, 8,
+                thickness, (height/3) -0.5f));
+        walls.add(initializeWall(world, -width, -8,
+                thickness, (height/3) -0.5f));
     }
 
     /**

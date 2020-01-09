@@ -34,10 +34,15 @@ public class Paddle extends DynamicObject {
         movementController.updateVelocity();
     }
 
+    /**
+     * Stops paddle and sets to pos(x,y).
+     * @param x x to set to.
+     * @param y y to set to.
+     */
     public void stopAndSetToPosition(float x, float y) {
         body.setLinearVelocity(0,0);
-        body.setTransform(x, y
-                , body.getAngle());
+        body.setTransform(x, y,
+                body.getAngle());
 
     }
 }
