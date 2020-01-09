@@ -14,11 +14,12 @@ import org.mockito.Mockito;
 class MovementControllerTest {
     private transient MovementController movementController;
     private transient Body body;
+    private transient Config config = Config.getInstance();
 
     @BeforeEach
     void setUp() {
         body = Mockito.mock(Body.class);
-        KeyCodeSet keyCodeSet = Config.getInstance().bluePaddleKeys;
+        KeyCodeSet keyCodeSet = config.bluePaddleKeys;
         movementController = new MovementController(keyCodeSet);
     }
 
@@ -28,18 +29,12 @@ class MovementControllerTest {
         Mockito.when(body.getPosition()).thenReturn(new Vector2(0.5f,0));
         movementController.updateVelocity(body);
         Mockito.verify(body, times(1))
-                .setLinearVelocity(Config.getInstance().paddleSpeed, 0);
+                .setLinearVelocity(config.paddleSpeed, 0);
 
         Mockito.when(body.getPosition()).thenReturn(new Vector2(-0.5f,0));
         movementController.updateVelocity(body);
         Mockito.verify(body, times(1))
-                .setLinearVelocity(-Config.getInstance().paddleSpeed, 0);
-
-        //        //and one case of not overlapping
-        //        //PROBLEM WITH THE GDX.INPUT -> THROWS NULL POINTER EXCEPTION
-        //        Mockito.when(body.getPosition()).thenReturn(new Vector2(-5f,0));
-        //        movementController.updateVelocity();
-        //        Mockito.verify(body, times(1)).setLinearVelocity(0, 0);
+                .setLinearVelocity(-config.paddleSpeed, 0);
     }
 
     @Test
