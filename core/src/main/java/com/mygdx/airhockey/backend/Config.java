@@ -108,13 +108,4 @@ public class Config {
         }
         return instance;
     }
-
-    /**
-     * Update config file location.
-     * @param newPath of the file.
-     */
-    public static void updateConfigFileLocation(String newPath) {
-        configPath = newPath;
-        instance = new Config(configPath);
-    }
 }
