@@ -12,7 +12,7 @@ import com.mygdx.airhockey.database.DatabaseController;
 
 
 public class LoginScreen extends AuthScreen {
-    private TextureRegion backgroundTexture;
+    transient TextureRegion backgroundTexture;
 
     /**
      * Constructor for login screen.
