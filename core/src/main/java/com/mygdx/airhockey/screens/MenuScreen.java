@@ -18,7 +18,7 @@ public class MenuScreen implements Screen {
 
     private transient Stage stage;
     private transient Game game;
-    private TextureRegion backgroundTexture;
+    private transient TextureRegion backgroundTexture;
 
     /**
      * Instantiates a menu screen.
