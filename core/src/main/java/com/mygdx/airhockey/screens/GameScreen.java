@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -33,7 +32,6 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     transient Stage stage;
     private static final Config config = Config.getInstance();
     transient Label score;
-
 
     /**
      * Constructor for game screen class.
@@ -74,12 +72,10 @@ public class GameScreen extends ApplicationAdapter implements Screen {
      */
     @Override
     public void render(float delta) {
-        stage.clear();
         camera.update();
         world.step(1 / 60f, 6, 2);
 
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         gameOperator.drawSprites(batch);
         gameOperator.updatePhysics();
