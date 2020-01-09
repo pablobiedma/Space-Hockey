@@ -24,7 +24,6 @@ public class MenuScreen implements Screen {
      * @param game to initialize the screen with.
      */
     public MenuScreen(Game game) {
-        //System.out.println(Gdx.graphics.getHeight() + " width: " + Gdx.graphics.getWidth());
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
