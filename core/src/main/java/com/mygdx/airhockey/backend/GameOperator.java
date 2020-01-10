@@ -59,14 +59,14 @@ public class GameOperator {
         this.bluePaddle = makePaddle(world, new Texture(config.bluePaddleTexturePath),
                 config.bluePaddleX, config.bluePaddleKeys);
         this.puck = makePuck(world);
-        this.pitch = makePitch(world);
+        this.pitch = makePitch(world, new Texture(config.pitchTexturePath));
         this.goalLeft = new Goal(- config.wallWidth - config.goalDepth, -config.goalWidth);
         this.goalRight = new Goal(config.wallWidth + config.goalDepth - 1, -config.goalWidth);
         this.scoreLeft = 0;
         this.scoreRight = 0;
     }
 
-    private Paddle makePaddle(World world, Texture texture, float posX, KeyCodeSet keyCodeSet) {
+    Paddle makePaddle(World world, Texture texture, float posX, KeyCodeSet keyCodeSet) {
         Sprite paddleSprite = createSprite(texture,
                 CoordinateTranslator.translateSize(2 * config.paddleRadius),
                 CoordinateTranslator.translateSize(2 * config.paddleRadius));
@@ -88,13 +88,23 @@ public class GameOperator {
         return new Puck(puckSprite, puckBody);
     }
 
-    private Pitch makePitch(World world) {
-        Sprite pitchSprite = createSprite(new Texture(config.pitchTexturePath),
+    private Pitch makePitch(World world, Texture texture) {
+        Sprite pitchSprite = createSprite(texture,
                 CoordinateTranslator.translateSize(2 * config.wallWidth),
                 CoordinateTranslator.translateSize(2 * config.wallHeight));
 
         pitchSprite.setPosition(CoordinateTranslator.translateX(pitchSprite, 0),
                 CoordinateTranslator.translateY(pitchSprite, 0));
+        Body pitchBody = getPitchBody(world);
+        return new Pitch(pitchSprite, pitchBody);
+    }
+
+    /**
+     * creates a pitch body.
+     * @param world to create in.
+     * @return created body.
+     */
+    Body getPitchBody(World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(0, 0);
@@ -119,7 +129,7 @@ public class GameOperator {
         ChainShape chainShape = new ChainShape();
         chainShape.createLoop(shape);
         pitchBody.createFixture(chainShape, 0);
-        return new Pitch(pitchSprite, pitchBody);
+        return pitchBody;
     }
 
     /**

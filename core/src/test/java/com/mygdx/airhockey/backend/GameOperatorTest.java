@@ -15,7 +15,6 @@ import com.mygdx.airhockey.elements.Pitch;
 import com.mygdx.airhockey.elements.Puck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 class GameOperatorTest {
