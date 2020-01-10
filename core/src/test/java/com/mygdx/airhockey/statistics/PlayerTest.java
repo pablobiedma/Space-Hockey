@@ -80,4 +80,11 @@ class PlayerTest {
         Score score = new Score("abc", 4, "def");
         Assertions.assertFalse(player.equals(score));
     }
+
+    @Test
+    void testToString() {
+        Player player = new Player("mies", 1);
+        String string = "Player{Username='mies', Points='1'}";
+        Assertions.assertEquals(string, player.toString());
+    }
 }

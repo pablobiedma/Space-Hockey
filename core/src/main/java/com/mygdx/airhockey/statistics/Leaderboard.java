@@ -10,6 +10,7 @@ public class Leaderboard {
     /**
      *Instantiates a leaderboard.
      * @param database to read the scores from.
+     * @param n number of top scores you want to retrieve
      */
     public Leaderboard(DatabaseController database, int n) {
         players = database.getTopNScores(n);

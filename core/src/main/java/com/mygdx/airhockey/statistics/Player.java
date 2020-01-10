@@ -68,6 +68,14 @@ public class Player {
     }
 
     @Override
+    public String toString() {
+        return "Player{" +
+                "Username='" + username +
+                "', Points='" + points + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Player)) return false;
