@@ -45,6 +45,8 @@ public class Config {
      */
     public transient float wallHeight;
     public transient float wallWidth;
+    public transient float goalWidth;
+    public transient float goalDepth;
 
     /**
      * Key code sets for paddles (arrows for the right one, wasd for the left one).
@@ -79,6 +81,8 @@ public class Config {
 
         wallHeight = 11;
         wallWidth = 20;
+        goalWidth = 4.5f;
+        goalDepth = 2 * puckRadius;
 
         bluePaddleKeys = new KeyCodeSet(
             Input.Keys.DPAD_LEFT, Input.Keys.DPAD_RIGHT, Input.Keys.DPAD_UP, Input.Keys.DPAD_DOWN);

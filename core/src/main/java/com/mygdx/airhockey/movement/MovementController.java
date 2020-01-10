@@ -62,11 +62,7 @@ public class MovementController {
         Rectangle border = new Rectangle(
                 0,-config.viewportSize / 2,
                0, config.viewportSize);
-        if (Intersector.overlaps(c, border)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Intersector.overlaps(c, border);
     }
 
     /**

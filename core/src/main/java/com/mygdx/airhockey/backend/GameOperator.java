@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.airhockey.elements.Goal;
 import com.mygdx.airhockey.elements.Paddle;
 import com.mygdx.airhockey.elements.Pitch;
 import com.mygdx.airhockey.elements.Puck;
@@ -24,6 +25,10 @@ public class GameOperator {
     Paddle redPaddle;
     Paddle bluePaddle;
     Puck puck;
+    Goal goalLeft;
+    Goal goalRight;
+    int scoreLeft;
+    int scoreRight;
 
     /**
      * Constructor for game operator.
@@ -50,6 +55,10 @@ public class GameOperator {
                 config.bluePaddleX, config.bluePaddleKeys);
         this.puck = makePuck(world);
         this.pitch = makePitch(world);
+        this.goalLeft = new Goal(- config.wallWidth - config.goalDepth, -config.goalWidth);
+        this.goalRight = new Goal(config.wallWidth + config.goalDepth - 1, -config.goalWidth);
+        this.scoreLeft = 0;
+        this.scoreRight = 0;
     }
 
     private Paddle makePaddle(World world, Texture texture, float posX, KeyCodeSet keyCodeSet) {
@@ -86,9 +95,20 @@ public class GameOperator {
         bodyDef.position.set(0, 0);
         Body pitchBody = world.createBody(bodyDef);
 
+        //pitchshape
         float[] shape = {
-            -config.wallWidth, config.wallHeight, config.wallWidth, config.wallHeight,
-            config.wallWidth, -config.wallHeight, -config.wallWidth, -config.wallHeight
+            -config.wallWidth, config.wallHeight,
+            config.wallWidth, config.wallHeight,
+            config.wallWidth, config.goalWidth,
+            config.wallWidth + config.goalDepth, config.goalWidth,
+            config.wallWidth + config.goalDepth, -config.goalWidth,
+            config.wallWidth, -config.goalWidth,
+            config.wallWidth, -config.wallHeight,
+            -config.wallWidth, -config.wallHeight,
+            -config.wallWidth, -config.goalWidth,
+            -config.wallWidth - config.goalDepth, -config.goalWidth,
+            -config.wallWidth - config.goalDepth, config.goalWidth,
+            -config.wallWidth, config.goalWidth,
         };
 
         ChainShape chainShape = new ChainShape();
@@ -101,6 +121,14 @@ public class GameOperator {
      * Updates physics of the game.
      */
     public void updatePhysics() {
+        if (goalLeft.checkForGoal(puck)) {
+            scoreLeft++;
+            resetPositions();
+        } else if (goalRight.checkForGoal(puck)) {
+            scoreRight++;
+            resetPositions();
+        }
+
         bluePaddle.updateVelocity();
         redPaddle.updateVelocity();
     }
@@ -172,6 +200,15 @@ public class GameOperator {
         return res;
     }
 
+    /**
+     * Resets position of all elements to default.
+     */
+    private void resetPositions() {
+        puck.resetPosition(0,0);
+        bluePaddle.resetPosition(config.bluePaddleX, 0);
+        redPaddle.resetPosition(config.redPaddleX, 0);
+    }
+
     public Pitch getPitch() {
         return pitch;
     }
@@ -204,11 +241,23 @@ public class GameOperator {
         this.puck = puck;
     }
 
-    public Pitch getWalls() {
-        return pitch;
-    }
-
     public void setWalls(Pitch pitch) {
         this.pitch = pitch;
+    }
+
+    public int getScoreLeft() {
+        return scoreLeft;
+    }
+
+    public void setScoreLeft(int scoreLeft) {
+        this.scoreLeft = scoreLeft;
+    }
+
+    public int getScoreRight() {
+        return scoreRight;
+    }
+
+    public void setScoreRight(int scoreRight) {
+        this.scoreRight = scoreRight;
     }
 }

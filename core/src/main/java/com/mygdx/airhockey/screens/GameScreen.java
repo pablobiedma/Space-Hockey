@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,6 +13,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.airhockey.backend.Config;
 import com.mygdx.airhockey.backend.GameOperator;
 
@@ -25,7 +30,10 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     transient World world;
     transient Box2DDebugRenderer debugRenderer;
     transient Camera camera;
+    transient Stage stage;
     private static final Config config = Config.getInstance();
+    transient Label score;
+
 
     /**
      * Constructor for game screen class.
@@ -34,10 +42,23 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     public GameScreen(Game game) {
         this.game = game;
         Box2D.init();
+        stage = new Stage();
         world = new World(new Vector2(0, 0), true);
         gameOperator = new GameOperator(world);
         debugRenderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(config.viewportSize, config.viewportSize);
+        initializeUI();
+    }
+
+    private void initializeUI() {
+        Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        score = new Label("5-5",mySkin);
+        score.setSize(100,20);
+        score.setPosition(450, 200);
+        score.setFontScale(2);
+        score.setColor(Color.RED);
+        score.setAlignment(Align.center);
+        stage.addActor(score);
     }
 
     /**
@@ -53,6 +74,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
      */
     @Override
     public void render(float delta) {
+        stage.clear();
         camera.update();
         world.step(1 / 60f, 6, 2);
 
@@ -62,6 +84,9 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         gameOperator.drawSprites(batch);
         gameOperator.updatePhysics();
         debugRenderer.render(world, camera.combined);
+        score.setText(gameOperator.getScoreLeft() + "-" + gameOperator.getScoreRight());
+        stage.addActor(score);
+        stage.draw();
     }
 
     @Override
