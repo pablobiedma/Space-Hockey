@@ -15,6 +15,7 @@ import com.mygdx.airhockey.elements.Pitch;
 import com.mygdx.airhockey.elements.Puck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 class GameOperatorTest {
@@ -44,6 +45,15 @@ class GameOperatorTest {
         Mockito.verify(redPaddle, Mockito.times(1)).updateVelocity();
         Mockito.verify(goalLeft, Mockito.times(1)).checkForGoal(puck);
         Mockito.verify(goalRight, Mockito.times(1)).checkForGoal(puck);
+
+        Mockito.when(goalLeft.checkForGoal(puck)).thenReturn(true);
+        gameOperator.updatePhysics();
+        assertEquals(1, gameOperator.getScoreLeft());
+
+        Mockito.when(goalLeft.checkForGoal(puck)).thenReturn(false);
+        Mockito.when(goalRight.checkForGoal(puck)).thenReturn(true);
+        gameOperator.updatePhysics();
+        assertEquals(1, gameOperator.getScoreRight());
     }
 
     @Test
@@ -113,4 +123,46 @@ class GameOperatorTest {
         gameOperator.setPuck(null);
         assertNull(gameOperator.getPuck());
     }
+
+
+    @Test
+    void getandsetScoreLeft() {
+        gameOperator.setScoreLeft(1);
+        assertEquals(1, gameOperator.getScoreLeft());
+    }
+
+    @Test
+    void getandsetScoreRight() {
+        gameOperator.setScoreRight(1);
+        assertEquals(1, gameOperator.getScoreRight());
+    }
+
+    @Test
+    void getGoalLeft() {
+        assertEquals(goalLeft, gameOperator.getGoalLeft());
+    }
+
+    @Test
+    void setGoalLeft() {
+        gameOperator.setGoalLeft(null);
+        assertNull(gameOperator.getGoalLeft());
+    }
+
+    @Test
+    void getGoalRight() {
+        assertEquals(gameOperator.getGoalRight(), goalRight);
+    }
+
+    @Test
+    void setGoalRight() {
+        gameOperator.setGoalRight(null);
+        assertNull(gameOperator.getGoalRight());
+    }
+
+    @Test
+    void resetTest() {
+        gameOperator.resetPositions();
+        Mockito.verify(puck, Mockito.times(1)).resetPosition(0, 0);
+    }
+
 }

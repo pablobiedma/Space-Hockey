@@ -208,7 +208,7 @@ public class GameOperator {
     /**
      * Resets position of all elements to default.
      */
-    private void resetPositions() {
+    public void resetPositions() {
         puck.resetPosition(0,0);
         bluePaddle.resetPosition(config.bluePaddleX, 0);
         redPaddle.resetPosition(config.redPaddleX, 0);

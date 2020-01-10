@@ -26,8 +26,8 @@ public class Goal {
      */
     public boolean checkForGoal(Puck puck) {
         Circle collisionTestCircle = new Circle();
-        collisionTestCircle.set(puck.body.getPosition().x,
-                puck.body.getPosition().y,
+        collisionTestCircle.set(puck.getBody().getPosition().x,
+                puck.getBody().getPosition().y,
                 Config.getInstance().puckRadius);
         return Intersector.overlaps(collisionTestCircle, collider);
     }
