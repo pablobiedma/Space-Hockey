@@ -9,27 +9,25 @@ import com.mygdx.airhockey.backend.Config;
 
 public class MovementController {
     private KeyCodeSet keycodes;
-    private Body body;
+    private static Config config = Config.getInstance();
 
     /**
      * Constructor for movement controller.
-     * @param body to control the movement of.
      * @param keycodes to steer the movement.
      */
-    public MovementController(Body body, KeyCodeSet keycodes) {
-        this.body = body;
+    public MovementController(KeyCodeSet keycodes) {
         this.keycodes = keycodes;
     }
 
     /**
      * Updates velocity of the object.
      */
-    public void updateVelocity() {
-        if (touchesMiddleLine()) {
+    public void updateVelocity(Body body) {
+        if (touchesMiddleLine(body)) {
             if (body.getPosition().x > 0) {
-                body.setLinearVelocity(Config.PADDLE_SPEED,0);
+                body.setLinearVelocity(config.paddleSpeed,0);
             } else {
-                body.setLinearVelocity(-Config.PADDLE_SPEED,0);
+                body.setLinearVelocity(-config.paddleSpeed,0);
             }
 
         } else {
@@ -37,16 +35,16 @@ public class MovementController {
             float horizontal = 0;
 
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeLeft())) {
-                horizontal -= Config.PADDLE_SPEED;
+                horizontal -= config.paddleSpeed;
             }
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeRight())) {
-                horizontal += Config.PADDLE_SPEED;
+                horizontal += config.paddleSpeed;
             }
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeUp())) {
-                vertical += Config.PADDLE_SPEED;
+                vertical += config.paddleSpeed;
             }
             if (Gdx.input.isKeyPressed(keycodes.getKeyCodeDown())) {
-                vertical -= Config.PADDLE_SPEED;
+                vertical -= config.paddleSpeed;
             }
             body.setLinearVelocity(horizontal, vertical);
         }
@@ -57,13 +55,13 @@ public class MovementController {
      * Checks if the paddle touches the middle line.
      * @return true if it does, else false.
      */
-    private boolean touchesMiddleLine() {
+    private boolean touchesMiddleLine(Body body) {
         Circle c = new Circle();
         c.setPosition(body.getPosition().x, body.getPosition().y);
-        c.setRadius(Config.PADDLE_RADIUS);
+        c.setRadius(config.paddleRadius);
         Rectangle border = new Rectangle(
-                -Config.WALL_THICKNESS / 2,-Config.VIEWPORT_SIZE / 2,
-                Config.WALL_THICKNESS, Config.VIEWPORT_SIZE);
+                0,-config.viewportSize / 2,
+               0, config.viewportSize);
         if (Intersector.overlaps(c, border)) {
             return true;
         } else {
@@ -87,19 +85,4 @@ public class MovementController {
         this.keycodes = keycodes;
     }
 
-    /**
-     * Getter for body.
-     * @return body steered by the movement controler.
-     */
-    public Body getBody() {
-        return body;
-    }
-
-    /**
-     * Setter for body.
-     * @param body to set.
-     */
-    public void setBody(Body body) {
-        this.body = body;
-    }
 }

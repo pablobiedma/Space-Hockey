@@ -39,15 +39,16 @@ public class LoginScreen extends AuthScreen {
      * Performs a check after clicking login button.
      */
     public void btnLoginClicked() {
-        String username = txfUsername.getText();
-        String password = txfPassword.getText();
-        DatabaseController database = new DatabaseController(new ConnectionFactory());
-        Authentication auth = new Authentication(database);
-        if (auth.signIn(username, password)) {
-            game.setScreen(new GameScreen(game));
-        } else {
-            System.out.println("Try again");
-        }
+        //        String username = txfUsername.getText();
+        //        String password = txfPassword.getText();
+        game.setScreen(new GameScreen(game));
+        //        DatabaseController database = new DatabaseController(new ConnectionFactory());
+        //        Authentication auth = new Authentication(database);
+        //        if (auth.signIn(username, password)) {
+        //            game.setScreen(new GameScreen(game));
+        //        } else {
+        //            System.out.println("Try again");
+        //        }
     }
     @Override
     public void render(float delta) {

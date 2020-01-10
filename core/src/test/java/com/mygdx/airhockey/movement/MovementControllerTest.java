@@ -14,45 +14,34 @@ import org.mockito.Mockito;
 class MovementControllerTest {
     private transient MovementController movementController;
     private transient Body body;
+    private transient Config config = Config.getInstance();
 
     @BeforeEach
     void setUp() {
         body = Mockito.mock(Body.class);
-        KeyCodeSet keyCodeSet = Config.BLUE_PADDLE_KEYS;
-        movementController = new MovementController(body, keyCodeSet);
+        KeyCodeSet keyCodeSet = config.bluePaddleKeys;
+        movementController = new MovementController(keyCodeSet);
     }
 
     @Test
     void touchesMiddleLineTest() {
         //two cases of overlapping
         Mockito.when(body.getPosition()).thenReturn(new Vector2(0.5f,0));
-        movementController.updateVelocity();
-        Mockito.verify(body, times(1)).setLinearVelocity(Config.PADDLE_SPEED, 0);
+        movementController.updateVelocity(body);
+        Mockito.verify(body, times(1))
+                .setLinearVelocity(config.paddleSpeed, 0);
 
         Mockito.when(body.getPosition()).thenReturn(new Vector2(-0.5f,0));
-        movementController.updateVelocity();
+        movementController.updateVelocity(body);
         Mockito.verify(body, times(1))
-                .setLinearVelocity(-Config.PADDLE_SPEED, 0);
-
-        //        //and one case of not overlapping
-        //        //PROBLEM WITH THE GDX.INPUT -> THROWS NULL POINTER EXCEPTION
-        //        Mockito.when(body.getPosition()).thenReturn(new Vector2(-5f,0));
-        //        movementController.updateVelocity();
-        //        Mockito.verify(body, times(1)).setLinearVelocity(0, 0);
+                .setLinearVelocity(-config.paddleSpeed, 0);
     }
 
     @Test
     void getAndSetKeycodes() {
-        assertEquals(Config.BLUE_PADDLE_KEYS, movementController.getKeycodes());
-        movementController.setKeycodes(Config.RED_PADDLE_KEYS);
-        assertEquals(Config.RED_PADDLE_KEYS, movementController.getKeycodes());
-    }
-
-
-    @Test
-    void getAndSetBody() {
-        assertEquals(body, movementController.getBody());
-        movementController.setBody(null);
-        assertNull(movementController.getBody());
+        Config config = Config.getInstance();
+        assertEquals(config.bluePaddleKeys, movementController.getKeycodes());
+        movementController.setKeycodes(config.redPaddleKeys);
+        assertEquals(config.redPaddleKeys, movementController.getKeycodes());
     }
 }

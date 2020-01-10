@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  * Needed for positioning the sprites.
  */
 public class CoordinateTranslator {
+    private static Config config = Config.getInstance();
+
     /**
      * Translates coordinate x.
      * @param s sprite for which the translation is performed.
@@ -14,8 +16,8 @@ public class CoordinateTranslator {
      * @return resulting coordinate.
      */
     public static float translateX(Sprite s, float x) {
-        return Config.RESOLUTION / 2 + x / Config.VIEWPORT_SIZE
-                * Config.RESOLUTION - s.getWidth() / 2;
+        return config.resolution / 2 + x / config.viewportSize
+                * config.resolution - s.getWidth() / 2;
     }
 
     /**
@@ -25,8 +27,8 @@ public class CoordinateTranslator {
      * @return resulting coordinate.
      */
     public static float translateY(Sprite s, float y) {
-        return Config.RESOLUTION / 2 + y / Config.VIEWPORT_SIZE
-                * Config.RESOLUTION - s.getHeight() / 2;
+        return config.resolution / 2 + y / config.viewportSize
+                * config.resolution - s.getHeight() / 2;
     }
 
     /**
@@ -35,6 +37,6 @@ public class CoordinateTranslator {
      * @return the new size in the pixel coordinates.
      */
     public static float translateSize(float size) {
-        return size / Config.VIEWPORT_SIZE * Config.RESOLUTION;
+        return size / config.viewportSize * config.resolution;
     }
 }
