@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.airhockey.backend.Config;
 
 public class Goal {
-    private Rectangle goal;
+    private Rectangle collider;
 
     /**
      * Creates a goal object.
@@ -14,7 +14,7 @@ public class Goal {
      * @param y position for the goal.
      */
     public Goal(float x, float y) {
-        goal = new Rectangle(
+        collider = new Rectangle(
                 x,y,
                 1, Config.getInstance().wallHeight);
     }
@@ -29,6 +29,14 @@ public class Goal {
         collisionTestCircle.set(puck.body.getPosition().x,
                 puck.body.getPosition().y,
                 Config.getInstance().puckRadius);
-        return Intersector.overlaps(collisionTestCircle, goal);
+        return Intersector.overlaps(collisionTestCircle, collider);
+    }
+
+    public Rectangle getCollider() {
+        return collider;
+    }
+
+    public void setCollider(Rectangle collider) {
+        this.collider = collider;
     }
 }

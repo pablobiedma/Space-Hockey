@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.mygdx.airhockey.elements.Goal;
 import com.mygdx.airhockey.elements.Paddle;
 import com.mygdx.airhockey.elements.Pitch;
 import com.mygdx.airhockey.elements.Puck;
@@ -22,6 +23,8 @@ class GameOperatorTest {
     private transient Paddle redPaddle;
     private transient Paddle bluePaddle;
     private transient Puck puck;
+    private transient Goal goalLeft;
+    private transient Goal goalRight;
 
     @BeforeEach
     void setUp() {
@@ -29,7 +32,9 @@ class GameOperatorTest {
         bluePaddle = Mockito.mock(Paddle.class);
         puck = Mockito.mock(Puck.class);
         pitch = Mockito.mock(Pitch.class);
-        gameOperator = new GameOperator(pitch, redPaddle, bluePaddle, puck);
+        goalLeft = Mockito.mock(Goal.class);
+        goalRight = Mockito.mock(Goal.class);
+        gameOperator = new GameOperator(pitch, redPaddle, bluePaddle, puck, goalLeft, goalRight);
     }
 
     @Test
@@ -37,6 +42,8 @@ class GameOperatorTest {
         gameOperator.updatePhysics();
         Mockito.verify(bluePaddle, Mockito.times(1)).updateVelocity();
         Mockito.verify(redPaddle, Mockito.times(1)).updateVelocity();
+        Mockito.verify(goalLeft, Mockito.times(1)).checkForGoal(puck);
+        Mockito.verify(goalRight, Mockito.times(1)).checkForGoal(puck);
     }
 
     @Test
@@ -105,16 +112,5 @@ class GameOperatorTest {
     void setPuck() {
         gameOperator.setPuck(null);
         assertNull(gameOperator.getPuck());
-    }
-
-    @Test
-    void getWalls() {
-        assertEquals(pitch,gameOperator.getWalls());
-    }
-
-    @Test
-    void setWalls() {
-        gameOperator.setWalls(null);
-        assertNull(gameOperator.getWalls());
     }
 }

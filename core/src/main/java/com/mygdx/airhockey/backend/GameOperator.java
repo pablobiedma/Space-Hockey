@@ -37,12 +37,17 @@ public class GameOperator {
      * @param redPaddle  in the game.
      * @param bluePaddle in the game.
      * @param puck       in the game.
+     * @param goalLeft left goal.
+     * @param goalRight right goal.
      */
-    public GameOperator(Pitch pitch, Paddle redPaddle, Paddle bluePaddle, Puck puck) {
+    public GameOperator(Pitch pitch, Paddle redPaddle, Paddle bluePaddle, Puck puck,
+                        Goal goalLeft, Goal goalRight) {
         this.pitch = pitch;
         this.redPaddle = redPaddle;
         this.bluePaddle = bluePaddle;
         this.puck = puck;
+        this.goalLeft = goalLeft;
+        this.goalRight = goalRight;
     }
 
     /**
@@ -241,10 +246,6 @@ public class GameOperator {
         this.puck = puck;
     }
 
-    public void setWalls(Pitch pitch) {
-        this.pitch = pitch;
-    }
-
     public int getScoreLeft() {
         return scoreLeft;
     }
@@ -259,5 +260,21 @@ public class GameOperator {
 
     public void setScoreRight(int scoreRight) {
         this.scoreRight = scoreRight;
+    }
+
+    public Goal getGoalLeft() {
+        return goalLeft;
+    }
+
+    public void setGoalLeft(Goal goalLeft) {
+        this.goalLeft = goalLeft;
+    }
+
+    public Goal getGoalRight() {
+        return goalRight;
+    }
+
+    public void setGoalRight(Goal goalRight) {
+        this.goalRight = goalRight;
     }
 }
