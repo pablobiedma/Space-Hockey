@@ -47,12 +47,12 @@ class GameOperatorTest {
 
         Mockito.when(goalLeft.checkForGoal(puck)).thenReturn(true);
         gameOperator.updatePhysics();
-        assertEquals(1, gameOperator.getScoreLeft());
+        assertEquals(1, gameOperator.getScoreRight());
 
         Mockito.when(goalLeft.checkForGoal(puck)).thenReturn(false);
         Mockito.when(goalRight.checkForGoal(puck)).thenReturn(true);
         gameOperator.updatePhysics();
-        assertEquals(1, gameOperator.getScoreRight());
+        assertEquals(1, gameOperator.getScoreLeft());
     }
 
     @Test
