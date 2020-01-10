@@ -137,10 +137,10 @@ public class GameOperator {
      */
     public void updatePhysics() {
         if (goalLeft.checkForGoal(puck)) {
-            scoreLeft++;
+            scoreRight++;
             resetPositions();
         } else if (goalRight.checkForGoal(puck)) {
-            scoreRight++;
+            scoreLeft++;
             resetPositions();
         }
 
