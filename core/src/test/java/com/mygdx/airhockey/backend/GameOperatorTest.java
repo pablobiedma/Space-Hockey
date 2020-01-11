@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.mygdx.airhockey.elements.Goal;
 import com.mygdx.airhockey.elements.Paddle;
 import com.mygdx.airhockey.elements.Pitch;
 import com.mygdx.airhockey.elements.Puck;
@@ -22,6 +23,8 @@ class GameOperatorTest {
     private transient Paddle redPaddle;
     private transient Paddle bluePaddle;
     private transient Puck puck;
+    private transient Goal goalLeft;
+    private transient Goal goalRight;
 
     @BeforeEach
     void setUp() {
@@ -29,7 +32,9 @@ class GameOperatorTest {
         bluePaddle = Mockito.mock(Paddle.class);
         puck = Mockito.mock(Puck.class);
         pitch = Mockito.mock(Pitch.class);
-        gameOperator = new GameOperator(pitch, redPaddle, bluePaddle, puck);
+        goalLeft = Mockito.mock(Goal.class);
+        goalRight = Mockito.mock(Goal.class);
+        gameOperator = new GameOperator(pitch, redPaddle, bluePaddle, puck, goalLeft, goalRight);
     }
 
     @Test
@@ -37,6 +42,17 @@ class GameOperatorTest {
         gameOperator.updatePhysics();
         Mockito.verify(bluePaddle, Mockito.times(1)).updateVelocity();
         Mockito.verify(redPaddle, Mockito.times(1)).updateVelocity();
+        Mockito.verify(goalLeft, Mockito.times(1)).checkForGoal(puck);
+        Mockito.verify(goalRight, Mockito.times(1)).checkForGoal(puck);
+
+        Mockito.when(goalLeft.checkForGoal(puck)).thenReturn(true);
+        gameOperator.updatePhysics();
+        assertEquals(1, gameOperator.getScoreRight());
+
+        Mockito.when(goalLeft.checkForGoal(puck)).thenReturn(false);
+        Mockito.when(goalRight.checkForGoal(puck)).thenReturn(true);
+        gameOperator.updatePhysics();
+        assertEquals(1, gameOperator.getScoreLeft());
     }
 
     @Test
@@ -107,14 +123,45 @@ class GameOperatorTest {
         assertNull(gameOperator.getPuck());
     }
 
+
     @Test
-    void getWalls() {
-        assertEquals(pitch,gameOperator.getWalls());
+    void getandsetScoreLeft() {
+        gameOperator.setScoreLeft(1);
+        assertEquals(1, gameOperator.getScoreLeft());
     }
 
     @Test
-    void setWalls() {
-        gameOperator.setWalls(null);
-        assertNull(gameOperator.getWalls());
+    void getandsetScoreRight() {
+        gameOperator.setScoreRight(1);
+        assertEquals(1, gameOperator.getScoreRight());
     }
+
+    @Test
+    void getGoalLeft() {
+        assertEquals(goalLeft, gameOperator.getGoalLeft());
+    }
+
+    @Test
+    void setGoalLeft() {
+        gameOperator.setGoalLeft(null);
+        assertNull(gameOperator.getGoalLeft());
+    }
+
+    @Test
+    void getGoalRight() {
+        assertEquals(gameOperator.getGoalRight(), goalRight);
+    }
+
+    @Test
+    void setGoalRight() {
+        gameOperator.setGoalRight(null);
+        assertNull(gameOperator.getGoalRight());
+    }
+
+    @Test
+    void resetTest() {
+        gameOperator.resetPositions();
+        Mockito.verify(puck, Mockito.times(1)).resetPosition(0, 0);
+    }
+
 }
