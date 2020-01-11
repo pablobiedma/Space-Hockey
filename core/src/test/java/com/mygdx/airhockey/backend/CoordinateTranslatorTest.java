@@ -25,7 +25,7 @@ public final class CoordinateTranslatorTest {
 
     @Test
     void translateY() {
-        assertEquals(250, CoordinateTranslator.translateY(sprite, 0));
+        assertEquals(config.resolution / 4, CoordinateTranslator.translateY(sprite, 0));
     }
 
     @Test

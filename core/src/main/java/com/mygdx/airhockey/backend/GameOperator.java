@@ -13,13 +13,15 @@ import com.mygdx.airhockey.elements.Goal;
 import com.mygdx.airhockey.elements.Paddle;
 import com.mygdx.airhockey.elements.Pitch;
 import com.mygdx.airhockey.elements.Puck;
-import com.mygdx.airhockey.movement.KeyCodeSet;
+import com.mygdx.airhockey.movement.AiMovementController;
+import com.mygdx.airhockey.movement.KeyboardController;
 import com.mygdx.airhockey.movement.MovementController;
 
 /**
  * Class that handles the backend of the com.mygdx.airhockey.game.
  */
 public class GameOperator {
+    private static boolean MULTIPLAYER = false;
     private static Config config = Config.getInstance();
     Pitch pitch;
     Paddle redPaddle;
@@ -54,19 +56,24 @@ public class GameOperator {
      * Set's up a new game.
      */
     public GameOperator(World world) {
-        this.redPaddle = makePaddle(world, new Texture(config.redPaddleTexturePath),
-                config.redPaddleX, config.redPaddleKeys);
-        this.bluePaddle = makePaddle(world, new Texture(config.bluePaddleTexturePath),
-                config.bluePaddleX, config.bluePaddleKeys);
         this.puck = makePuck(world);
         this.pitch = makePitch(world, new Texture(config.pitchTexturePath));
+        this.redPaddle = makePaddle(world, new Texture(config.redPaddleTexturePath),
+                config.redPaddleX, new KeyboardController(config.redPaddleKeys));
+        MovementController opponentController = new AiMovementController(puck);
+        if (MULTIPLAYER) {
+            opponentController = new KeyboardController(config.bluePaddleKeys);
+        }
+        this.bluePaddle = makePaddle(world, new Texture(config.bluePaddleTexturePath),
+                config.bluePaddleX, opponentController);
         this.goalLeft = new Goal(- config.wallWidth - config.goalDepth, -config.goalWidth);
         this.goalRight = new Goal(config.wallWidth + config.goalDepth - 1, -config.goalWidth);
         this.scoreLeft = 0;
         this.scoreRight = 0;
     }
 
-    Paddle makePaddle(World world, Texture texture, float posX, KeyCodeSet keyCodeSet) {
+    Paddle makePaddle(World world, Texture texture,
+                      float posX, MovementController movementController) {
         Sprite paddleSprite = createSprite(texture,
                 CoordinateTranslator.translateSize(2 * config.paddleRadius),
                 CoordinateTranslator.translateSize(2 * config.paddleRadius));
@@ -74,7 +81,7 @@ public class GameOperator {
         FixtureDef paddleFixtureDef = createFixtureDef(new CircleShape(), config.paddleRadius,
                 config.paddleDensity, config.paddleFriction, config.paddleRestitution);
         paddleBody.createFixture(paddleFixtureDef);
-        return new Paddle(paddleSprite, paddleBody, new MovementController(keyCodeSet));
+        return new Paddle(paddleSprite, paddleBody, movementController);
     }
 
     private Puck makePuck(World world) {

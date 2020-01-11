@@ -51,9 +51,9 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 
     private void initializeUI() {
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        score = new Label("5-5",mySkin);
-        score.setSize(100,20);
-        score.setPosition(450, 200);
+        score = new Label("5-5", mySkin);
+        score.setSize(100, 20);
+        score.setPosition(config.resolution / 2 - 50, 3 * config.resolution / 4);
         score.setFontScale(2);
         score.setColor(Color.RED);
         score.setAlignment(Align.center);

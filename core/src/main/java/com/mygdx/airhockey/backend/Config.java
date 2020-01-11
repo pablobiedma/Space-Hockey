@@ -64,7 +64,7 @@ public class Config {
         pitchTexturePath = "sprite/pitch.png";
 
         viewportSize = 50;
-        resolution = 1000;
+        resolution = 1100;
 
         redPaddleX = -viewportSize / 4;
         bluePaddleX = viewportSize / 4;

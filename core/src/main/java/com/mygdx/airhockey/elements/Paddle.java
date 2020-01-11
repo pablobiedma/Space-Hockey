@@ -2,6 +2,7 @@ package com.mygdx.airhockey.elements;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.mygdx.airhockey.movement.KeyboardController;
 import com.mygdx.airhockey.movement.MovementController;
 
 public class Paddle extends GameElement {
@@ -37,7 +38,7 @@ public class Paddle extends GameElement {
      * Setter for movement control.
      * @param movementController to set.
      */
-    public void setMovementController(MovementController movementController) {
+    public void setMovementController(KeyboardController movementController) {
         this.movementController = movementController;
     }
 }
