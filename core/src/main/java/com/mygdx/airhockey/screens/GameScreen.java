@@ -157,7 +157,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         } else {
             if (!clear) {
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(1200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -178,8 +178,8 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         shapeRenderer.setColor(Color.WHITE);
         Vector2 redPaddlePosition = CoordinateTranslator.translatePosition(gameOperator.getRedPaddle().getBody().getPosition());
         Vector2 bluePaddlePosition = CoordinateTranslator.translatePosition(gameOperator.getBluePaddle().getBody().getPosition());
-        shapeRenderer.circle(redPaddlePosition.x, redPaddlePosition.y, CoordinateTranslator.translateSize(config.paddleRadius), 64);
-        shapeRenderer.circle(bluePaddlePosition.x, bluePaddlePosition.y, CoordinateTranslator.translateSize(config.paddleRadius), 64);
+        shapeRenderer.circle(redPaddlePosition.x, redPaddlePosition.y, CoordinateTranslator.translateSize(config.paddleRadius));
+        shapeRenderer.circle(bluePaddlePosition.x, bluePaddlePosition.y, CoordinateTranslator.translateSize(config.paddleRadius));
         shapeRenderer.end();
     }
 

@@ -13,16 +13,14 @@ import org.mockito.Mockito;
 class GoalTest {
     private transient Goal goal;
     private transient Puck puck;
-    private transient Sprite sprite;
     private transient Body body;
 
     @BeforeEach
     void setUp() {
         goal = new Goal(0,0);
         body = Mockito.mock(Body.class);
-        sprite = Mockito.mock(Sprite.class);
         Mockito.when(body.getPosition()).thenReturn(new Vector2(0,0));
-        puck = new Puck(sprite, body);
+        puck = new Puck(body);
     }
 
     @Test
@@ -30,9 +28,8 @@ class GoalTest {
         Assertions.assertTrue(goal.checkForGoal(puck));
 
         body = Mockito.mock(Body.class);
-        sprite = Mockito.mock(Sprite.class);
         Mockito.when(body.getPosition()).thenReturn(new Vector2(10,10));
-        puck = new Puck(sprite, body);
+        puck = new Puck(body);
         Assertions.assertFalse(goal.checkForGoal(puck));
     }
 

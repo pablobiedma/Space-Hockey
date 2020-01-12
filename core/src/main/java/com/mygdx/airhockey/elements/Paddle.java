@@ -10,12 +10,11 @@ public class Paddle extends GameElement {
 
     /**
      * Constructor for the paddle.
-     * @param sprite of the paddle.
      * @param body of the paddle.
      * @param movementController of the paddle.
      */
-    public Paddle(Sprite sprite, Body body, MovementController movementController) {
-        super(sprite, body);
+    public Paddle(Body body, MovementController movementController) {
+        super(body);
         this.movementController = movementController;
     }
 

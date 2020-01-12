@@ -12,16 +12,14 @@ import org.mockito.Mockito;
 
 class PaddleTest {
     private transient Paddle paddle;
-    private transient Sprite sprite;
     private transient Body body;
     private transient KeyboardController keyboardMovementController;
 
     @BeforeEach
     void setUp() {
-        sprite = Mockito.mock(Sprite.class);
         body = Mockito.mock(Body.class);
         keyboardMovementController = Mockito.mock(KeyboardController.class);
-        paddle = new Paddle(sprite, body, keyboardMovementController);
+        paddle = new Paddle(body, keyboardMovementController);
     }
 
     @Test

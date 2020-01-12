@@ -1,8 +1,5 @@
 package com.mygdx.airhockey.backend;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
@@ -59,15 +56,15 @@ public class GameOperator {
      */
     public GameOperator(World world) {
         this.puck = makePuck(world);
-        this.pitch = makePitch(world, new Texture(config.pitchTexturePath));
-        this.redPaddle = makePaddle(world, new Texture(config.redPaddleTexturePath),
+        this.pitch = makePitch(world);
+        this.redPaddle = makePaddle(world,
                 config.redPaddleX,
               new KeyboardController(config.redPaddleKeys));
         MovementController opponentController = new AiMovementController(puck);
         if (MULTIPLAYER) {
             opponentController = new KeyboardController(config.bluePaddleKeys);
         }
-        this.bluePaddle = makePaddle(world, new Texture(config.bluePaddleTexturePath),
+        this.bluePaddle = makePaddle(world,
                 config.bluePaddleX, opponentController);
         this.goalLeft = new Goal(- config.wallWidth - config.goalDepth, -config.goalWidth);
         this.goalRight = new Goal(config.wallWidth + config.goalDepth - 1, -config.goalWidth);
@@ -75,38 +72,21 @@ public class GameOperator {
         this.scoreRight = 0;
     }
 
-    Paddle makePaddle(World world, Texture texture,
+    final Paddle makePaddle(World world,
                       float posX, MovementController movementController) {
-        Sprite paddleSprite = createSprite(texture,
-                CoordinateTranslator.translateSize(2 * config.paddleRadius),
-                CoordinateTranslator.translateSize(2 * config.paddleRadius));
         Body paddleBody = createBody(world, posX, 0);
         FixtureDef paddleFixtureDef = createFixtureDef(new CircleShape(), config.paddleRadius,
                 config.paddleDensity, config.paddleFriction, config.paddleRestitution);
         paddleBody.createFixture(paddleFixtureDef);
-        return new Paddle(paddleSprite, paddleBody, movementController);
+        return new Paddle(paddleBody, movementController);
     }
 
-    private Puck makePuck(World world) {
-        Sprite puckSprite = createSprite(new Texture(config.puckTexturePath),
-                CoordinateTranslator.translateSize(2 * config.puckRadius),
-                CoordinateTranslator.translateSize(2 * config.puckRadius));
+    final Puck makePuck(World world) {
         Body puckBody = createBody(world, 0, 0);
         FixtureDef puckFixtureDef = createFixtureDef(new CircleShape(), config.puckRadius,
                 config.puckDensity, config.puckFriction, config.puckRestitution);
         puckBody.createFixture(puckFixtureDef);
-        return new Puck(puckSprite, puckBody);
-    }
-
-    private Pitch makePitch(World world, Texture texture) {
-        Sprite pitchSprite = createSprite(texture,
-                CoordinateTranslator.translateSize(2 * config.wallWidth),
-                CoordinateTranslator.translateSize(2 * config.wallHeight));
-
-        pitchSprite.setPosition(CoordinateTranslator.translateX(pitchSprite, 0),
-                CoordinateTranslator.translateY(pitchSprite, 0));
-        Body pitchBody = getPitchBody(world);
-        return new Pitch(pitchSprite, pitchBody);
+        return new Puck(puckBody);
     }
 
     /**
@@ -114,13 +94,12 @@ public class GameOperator {
      * @param world to create in.
      * @return created body.
      */
-    Body getPitchBody(World world) {
+    final Pitch makePitch(World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(0, 0);
         Body pitchBody = world.createBody(bodyDef);
 
-        //pitchshape
         float[] shape = {
             -config.wallWidth, config.wallHeight,
             config.wallWidth, config.wallHeight,
@@ -139,7 +118,7 @@ public class GameOperator {
         ChainShape chainShape = new ChainShape();
         chainShape.createLoop(shape);
         pitchBody.createFixture(chainShape, 0);
-        return pitchBody;
+        return new Pitch(pitchBody);
     }
 
     /**
@@ -159,36 +138,6 @@ public class GameOperator {
 
         bluePaddle.updateVelocity();
         redPaddle.updateVelocity();
-    }
-
-    /**
-     * Draws sprites on a batch.
-     *
-     * @param batch to draw on.
-     */
-    public void drawSprites(Batch batch) {
-        batch.begin();
-
-        pitch.draw(batch);
-        puck.draw(batch);
-        redPaddle.draw(batch);
-        bluePaddle.draw(batch);
-
-        batch.end();
-    }
-
-    /**
-     * Creates a sprite.
-     *
-     * @param texture for the sprite.
-     * @param width   of the desired sprite.
-     * @param height  of the desired sprite.
-     * @return Sprite object.
-     */
-    public Sprite createSprite(Texture texture, float width, float height) {
-        Sprite sprite = new Sprite(texture);
-        sprite.setSize(width, height);
-        return sprite;
     }
 
     /**
