@@ -15,6 +15,7 @@ import com.mygdx.airhockey.elements.Pitch;
 import com.mygdx.airhockey.elements.Puck;
 import com.mygdx.airhockey.movement.AiMovementController;
 import com.mygdx.airhockey.movement.KeyboardController;
+//import com.mygdx.airhockey.movement.MouseController;
 import com.mygdx.airhockey.movement.MovementController;
 
 /**
@@ -31,6 +32,7 @@ public class GameOperator {
     Goal goalRight;
     int scoreLeft;
     int scoreRight;
+    public transient boolean isGoalScored;
 
     /**
      * Constructor for game operator.
@@ -59,7 +61,8 @@ public class GameOperator {
         this.puck = makePuck(world);
         this.pitch = makePitch(world, new Texture(config.pitchTexturePath));
         this.redPaddle = makePaddle(world, new Texture(config.redPaddleTexturePath),
-                config.redPaddleX, new KeyboardController(config.redPaddleKeys));
+                config.redPaddleX,
+              new KeyboardController(config.redPaddleKeys));
         MovementController opponentController = new AiMovementController(puck);
         if (MULTIPLAYER) {
             opponentController = new KeyboardController(config.bluePaddleKeys);
@@ -146,9 +149,12 @@ public class GameOperator {
         if (goalLeft.checkForGoal(puck)) {
             scoreRight++;
             resetPositions();
+            isGoalScored = true;
+
         } else if (goalRight.checkForGoal(puck)) {
             scoreLeft++;
             resetPositions();
+            isGoalScored = true;
         }
 
         bluePaddle.updateVelocity();

@@ -11,7 +11,9 @@ public class DesktopLauncher {
      * @param args for the launch.
      */
     public static void main(String[] args) {
+
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.samples = 5;
         config.title = "Air Hockey";
         config.useGL30 = true;
         config.height = (int) Config.getInstance().resolution;
