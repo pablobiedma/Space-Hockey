@@ -52,8 +52,8 @@ public class SignupScreen extends AuthScreen {
     public void render(float delta) {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.getBatch().begin();
-        stage.getBatch().draw(
-                backgroundTexture, 0, 0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.getBatch().draw(backgroundTexture, 0, 0,Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight());
         stage.getBatch().end();
         stage.draw();
     }
