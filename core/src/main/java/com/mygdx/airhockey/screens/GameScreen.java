@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -184,9 +185,15 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     }
 
     private void drawPuck() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.WHITE);
         Vector2 puckPosition = CoordinateTranslator.translatePosition(gameOperator.getPuck().getBody().getPosition());
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.LIGHT_GRAY);
+        shapeRenderer.circle(puckPosition.x, puckPosition.y, CoordinateTranslator.translateSize(config.puckRadius), 64);
+        shapeRenderer.end();
+
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.circle(puckPosition.x, puckPosition.y, CoordinateTranslator.translateSize(config.puckRadius), 64);
         shapeRenderer.end();
     }
