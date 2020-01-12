@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.airhockey.elements.Goal;
 import com.mygdx.airhockey.elements.Paddle;
 import com.mygdx.airhockey.elements.Pitch;
 import com.mygdx.airhockey.elements.Puck;
@@ -24,6 +25,10 @@ public class GameOperator {
     Paddle redPaddle;
     Paddle bluePaddle;
     Puck puck;
+    Goal goalLeft;
+    Goal goalRight;
+    int scoreLeft;
+    int scoreRight;
 
     /**
      * Constructor for game operator.
@@ -32,12 +37,17 @@ public class GameOperator {
      * @param redPaddle  in the game.
      * @param bluePaddle in the game.
      * @param puck       in the game.
+     * @param goalLeft left goal.
+     * @param goalRight right goal.
      */
-    public GameOperator(Pitch pitch, Paddle redPaddle, Paddle bluePaddle, Puck puck) {
+    public GameOperator(Pitch pitch, Paddle redPaddle, Paddle bluePaddle, Puck puck,
+                        Goal goalLeft, Goal goalRight) {
         this.pitch = pitch;
         this.redPaddle = redPaddle;
         this.bluePaddle = bluePaddle;
         this.puck = puck;
+        this.goalLeft = goalLeft;
+        this.goalRight = goalRight;
     }
 
     /**
@@ -49,10 +59,14 @@ public class GameOperator {
         this.bluePaddle = makePaddle(world, new Texture(config.bluePaddleTexturePath),
                 config.bluePaddleX, config.bluePaddleKeys);
         this.puck = makePuck(world);
-        this.pitch = makePitch(world);
+        this.pitch = makePitch(world, new Texture(config.pitchTexturePath));
+        this.goalLeft = new Goal(- config.wallWidth - config.goalDepth, -config.goalWidth);
+        this.goalRight = new Goal(config.wallWidth + config.goalDepth - 1, -config.goalWidth);
+        this.scoreLeft = 0;
+        this.scoreRight = 0;
     }
 
-    private Paddle makePaddle(World world, Texture texture, float posX, KeyCodeSet keyCodeSet) {
+    Paddle makePaddle(World world, Texture texture, float posX, KeyCodeSet keyCodeSet) {
         Sprite paddleSprite = createSprite(texture,
                 CoordinateTranslator.translateSize(2 * config.paddleRadius),
                 CoordinateTranslator.translateSize(2 * config.paddleRadius));
@@ -74,33 +88,62 @@ public class GameOperator {
         return new Puck(puckSprite, puckBody);
     }
 
-    private Pitch makePitch(World world) {
-        Sprite pitchSprite = createSprite(new Texture(config.pitchTexturePath),
+    private Pitch makePitch(World world, Texture texture) {
+        Sprite pitchSprite = createSprite(texture,
                 CoordinateTranslator.translateSize(2 * config.wallWidth),
                 CoordinateTranslator.translateSize(2 * config.wallHeight));
 
         pitchSprite.setPosition(CoordinateTranslator.translateX(pitchSprite, 0),
                 CoordinateTranslator.translateY(pitchSprite, 0));
+        Body pitchBody = getPitchBody(world);
+        return new Pitch(pitchSprite, pitchBody);
+    }
+
+    /**
+     * creates a pitch body.
+     * @param world to create in.
+     * @return created body.
+     */
+    Body getPitchBody(World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(0, 0);
         Body pitchBody = world.createBody(bodyDef);
 
+        //pitchshape
         float[] shape = {
-            -config.wallWidth, config.wallHeight, config.wallWidth, config.wallHeight,
-            config.wallWidth, -config.wallHeight, -config.wallWidth, -config.wallHeight
+            -config.wallWidth, config.wallHeight,
+            config.wallWidth, config.wallHeight,
+            config.wallWidth, config.goalWidth,
+            config.wallWidth + config.goalDepth, config.goalWidth,
+            config.wallWidth + config.goalDepth, -config.goalWidth,
+            config.wallWidth, -config.goalWidth,
+            config.wallWidth, -config.wallHeight,
+            -config.wallWidth, -config.wallHeight,
+            -config.wallWidth, -config.goalWidth,
+            -config.wallWidth - config.goalDepth, -config.goalWidth,
+            -config.wallWidth - config.goalDepth, config.goalWidth,
+            -config.wallWidth, config.goalWidth,
         };
 
         ChainShape chainShape = new ChainShape();
         chainShape.createLoop(shape);
         pitchBody.createFixture(chainShape, 0);
-        return new Pitch(pitchSprite, pitchBody);
+        return pitchBody;
     }
 
     /**
      * Updates physics of the game.
      */
     public void updatePhysics() {
+        if (goalLeft.checkForGoal(puck)) {
+            scoreRight++;
+            resetPositions();
+        } else if (goalRight.checkForGoal(puck)) {
+            scoreLeft++;
+            resetPositions();
+        }
+
         bluePaddle.updateVelocity();
         redPaddle.updateVelocity();
     }
@@ -172,6 +215,15 @@ public class GameOperator {
         return res;
     }
 
+    /**
+     * Resets position of all elements to default.
+     */
+    public void resetPositions() {
+        puck.resetPosition(0,0);
+        bluePaddle.resetPosition(config.bluePaddleX, 0);
+        redPaddle.resetPosition(config.redPaddleX, 0);
+    }
+
     public Pitch getPitch() {
         return pitch;
     }
@@ -204,11 +256,35 @@ public class GameOperator {
         this.puck = puck;
     }
 
-    public Pitch getWalls() {
-        return pitch;
+    public int getScoreLeft() {
+        return scoreLeft;
     }
 
-    public void setWalls(Pitch pitch) {
-        this.pitch = pitch;
+    public void setScoreLeft(int scoreLeft) {
+        this.scoreLeft = scoreLeft;
+    }
+
+    public int getScoreRight() {
+        return scoreRight;
+    }
+
+    public void setScoreRight(int scoreRight) {
+        this.scoreRight = scoreRight;
+    }
+
+    public Goal getGoalLeft() {
+        return goalLeft;
+    }
+
+    public void setGoalLeft(Goal goalLeft) {
+        this.goalLeft = goalLeft;
+    }
+
+    public Goal getGoalRight() {
+        return goalRight;
+    }
+
+    public void setGoalRight(Goal goalRight) {
+        this.goalRight = goalRight;
     }
 }

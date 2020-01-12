@@ -61,4 +61,14 @@ public abstract class GameElement {
     public void setBody(Body body) {
         this.body = body;
     }
+
+    /**
+     * Moves the body to a different position.
+     * @param x desired x coordinate.
+     * @param y desired y coordinate.
+     */
+    public void resetPosition(float x, float y) {
+        body.setTransform(x, y, body.getAngle());
+        body.setLinearVelocity(0, 0);
+    }
 }
