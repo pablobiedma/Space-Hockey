@@ -53,10 +53,9 @@ public class AiMovementController implements MovementController {
             // unless the puck is stuck or you are already
             //at the goal
             //System.out.println("defending");
-
             //if puck does not move in x direction, hit it
             towardsPuck.setLength(config.paddleSpeed);
-            double eps = 0.5;
+            double eps = 2;
             if (puck.getBody().getLinearVelocity().x < eps) {
                 body.setLinearVelocity(towardsPuck);
             } else {

@@ -2,6 +2,8 @@ package com.mygdx.airhockey.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.airhockey.auth.Authentication;
 import com.mygdx.airhockey.database.ConnectionFactory;
 import com.mygdx.airhockey.database.DatabaseController;
+import com.mygdx.airhockey.statistics.Player;
 
 
 public class LoginScreen extends AuthScreen {
@@ -19,10 +22,9 @@ public class LoginScreen extends AuthScreen {
      *
      * @param g game of the login screen;
      */
-    public LoginScreen(Game g) {
-
-        super(g);
-        backgroundTexture = new TextureRegion(new Texture("blue.jpg"), 0, 0, 2048, 563);
+    public LoginScreen(Game g, Sound sound) {
+        super(g,sound);
+        backgroundTexture = new TextureRegion(new Texture("background.gif"), 0, 0, 400, 400);
 
         createBtn("Log in", new ClickListener() {
             @Override
@@ -39,16 +41,19 @@ public class LoginScreen extends AuthScreen {
      * Performs a check after clicking login button.
      */
     public void btnLoginClicked() {
-        //String username = txfUsername.getText();
-        //String password = txfPassword.getText();
-        game.setScreen(new GameScreen(game));
-        //DatabaseController database = new DatabaseController(new ConnectionFactory());
-        //Authentication auth = new Authentication(database);
-        //if (auth.signIn(username, password)) {
-        //    game.setScreen(new GameScreen(game));
-        //} else {
-        //    System.out.println("Try again");
-        //}
+        String username = txfUsername.getText();
+        String password = txfPassword.getText();
+        DatabaseController database = new DatabaseController(new ConnectionFactory());
+        Authentication auth = new Authentication(database);
+        if (auth.signIn(username, password)) {
+            Player player = new Player(username, database.getPoints(username));
+            game.setScreen(new GameScreen(game, player));
+            sound.stop();
+        } else {
+            txfUsername.setColor(Color.RED);
+            txfPassword.setColor(Color.RED);
+            System.out.println("Try again");
+        }
     }
 
     @Override

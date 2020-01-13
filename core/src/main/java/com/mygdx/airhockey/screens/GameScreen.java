@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -21,8 +20,14 @@ import com.badlogic.gdx.utils.Align;
 import com.mygdx.airhockey.backend.Config;
 import com.mygdx.airhockey.backend.CoordinateTranslator;
 import com.mygdx.airhockey.backend.GameOperator;
+import com.mygdx.airhockey.statistics.Level;
+import com.mygdx.airhockey.statistics.Player;
 
 //music Music: www.bensound.com"
+//Open Space by | e s c p | https://escp-music.bandcamp.com
+//        Music promoted by https://www.free-stock-music.com
+//        Creative Commons Attribution 3.0 Unported License
+//        https://creativecommons.org/licenses/by/3.0/deed.en_US
 
 /**
  * Game screen class - implements the game screen functionality.
@@ -43,14 +48,18 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     transient TextureRegion backgroundTexture;
     transient int time = 0;
     transient boolean clear = true;
+    transient Player player;
+    transient Level level;
 
     /**
      * Constructor for game screen class.
      * Creates the game screen object.
      */
-    public GameScreen(Game game) {
+    public GameScreen(Game game, Player player) {
         backgroundTexture = new TextureRegion(new Texture("background.gif"), 0, 0, 400, 400);
         this.game = game;
+        this.player = player;
+        this.level = new Level(player);
         Box2D.init();
         stage = new Stage();
         world = new World(new Vector2(0, 0), true);
@@ -156,9 +165,12 @@ public class GameScreen extends ApplicationAdapter implements Screen {
             gameOperator.isGoalScored = false;
             clear = false;
         } else {
+
             if (!clear) {
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/cheer.mp3"));
+                sound.play(1.0f);
                 try {
-                    Thread.sleep(1200);
+                    Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -2,6 +2,8 @@ package com.mygdx.airhockey.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -19,9 +21,9 @@ public class SignupScreen extends AuthScreen {
      *
      * @param g game of the login screen;
      */
-    public SignupScreen(Game g) {
-        super(g);
-        backgroundTexture = new TextureRegion(new Texture("blue.jpg"), 0, 0, 2048, 563);
+    public SignupScreen(Game g, Sound s) {
+        super(g,s);
+        backgroundTexture = new TextureRegion(new Texture("background.gif"), 0, 0, 400, 400);
 
         createBtn("Sign up", new ClickListener() {
             @Override
@@ -42,8 +44,10 @@ public class SignupScreen extends AuthScreen {
         DatabaseController database = new DatabaseController(new ConnectionFactory());
         Authentication auth = new Authentication(database);
         if (auth.signUp(username, password)) {
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new LoginScreen(game, sound));
         } else {
+            txfUsername.setColor(Color.RED);
+            txfPassword.setColor(Color.RED);
             System.out.println("Try again");
         }
     }
