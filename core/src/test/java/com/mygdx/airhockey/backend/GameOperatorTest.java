@@ -1,9 +1,5 @@
 package com.mygdx.airhockey.backend;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -16,6 +12,9 @@ import com.mygdx.airhockey.elements.Puck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class GameOperatorTest {
     private transient GameOperator gameOperator;
@@ -53,6 +52,14 @@ class GameOperatorTest {
         Mockito.when(goalRight.checkForGoal(puck)).thenReturn(true);
         gameOperator.updatePhysics();
         assertEquals(1, gameOperator.getScoreLeft());
+    }
+
+    @Test
+    void testGameFinished() {
+        assertFalse(gameOperator.checkGameFinished());
+
+        gameOperator.scoreRight = 10;
+        assertTrue(gameOperator.checkGameFinished());
     }
 
     @Test

@@ -86,6 +86,11 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         score.setText(gameOperator.getScoreLeft() + "-" + gameOperator.getScoreRight());
         stage.addActor(score);
         stage.draw();
+
+        if (gameOperator.checkGameFinished()) {
+            //GOTO finish screen
+            game.setScreen(new MenuScreen(game));
+        }
     }
 
     @Override
