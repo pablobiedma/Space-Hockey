@@ -4,9 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.mygdx.airhockey.elements.Goal;
@@ -63,20 +60,7 @@ class GameOperatorTest {
     }
 
     @Test
-    void createSprite() {
-        Texture texture = Mockito.mock(Texture.class);
-        Sprite s = gameOperator.createSprite(texture, 0, 0);
-        assertNotNull(s);
-    }
-
-    @Test
     void createBody() {
-    }
-
-    @Test
-    void drawSprites() {
-        Batch batch = Mockito.mock(Batch.class);
-        gameOperator.drawSprites(batch);
     }
 
     @Test

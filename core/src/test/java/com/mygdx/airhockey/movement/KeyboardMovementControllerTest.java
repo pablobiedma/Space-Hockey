@@ -11,8 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class MovementControllerTest {
-    private transient MovementController movementController;
+class KeyboardMovementControllerTest {
+    private transient KeyboardController movementController;
     private transient Body body;
     private transient Config config = Config.getInstance();
 
@@ -20,7 +20,7 @@ class MovementControllerTest {
     void setUp() {
         body = Mockito.mock(Body.class);
         KeyCodeSet keyCodeSet = config.bluePaddleKeys;
-        movementController = new MovementController(keyCodeSet);
+        movementController = new KeyboardController(keyCodeSet);
     }
 
     @Test

@@ -16,34 +16,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 class PuckTest {
-    transient Sprite sprite;
     transient Body body;
     transient Puck puck;
 
     @BeforeEach
     void setUp() {
-        sprite = Mockito.mock(Sprite.class);
         body = Mockito.mock(Body.class);
         Mockito.when(body.getPosition()).thenReturn(new Vector2(0,0));
-        puck = new Puck(sprite,body);
-    }
-
-    @Test
-    void draw() {
-        Batch batch = Mockito.mock(Batch.class);
-        puck.draw(batch);
-        Mockito.verify(sprite, Mockito.times(1)).draw(batch);
-    }
-
-    @Test
-    void getSprite() {
-        assertEquals(sprite, puck.getSprite());
-    }
-
-    @Test
-    void setSprite() {
-        puck.setSprite(null);
-        assertNull(puck.getSprite());
+        puck = new Puck(body);
     }
 
     @Test

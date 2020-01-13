@@ -9,15 +9,7 @@ public class Pitch extends GameElement {
      * Constructor for walls class.
      * @param body to create the walls in.
      */
-    public Pitch(Sprite sprite, Body body) {
-        super(sprite, body);
-    }
-
-    /**
-     * Draws the pitch given a batch.
-     * @param batch for drawing.
-     */
-    public void draw(Batch batch) {
-        sprite.draw(batch);
+    public Pitch(Body body) {
+        super(body);
     }
 }

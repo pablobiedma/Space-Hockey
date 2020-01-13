@@ -5,34 +5,32 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.mygdx.airhockey.movement.MovementController;
+import com.mygdx.airhockey.movement.KeyboardController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 class PaddleTest {
     private transient Paddle paddle;
-    private transient Sprite sprite;
     private transient Body body;
-    private transient MovementController movementController;
+    private transient KeyboardController keyboardMovementController;
 
     @BeforeEach
     void setUp() {
-        sprite = Mockito.mock(Sprite.class);
         body = Mockito.mock(Body.class);
-        movementController = Mockito.mock(MovementController.class);
-        paddle = new Paddle(sprite, body, movementController);
+        keyboardMovementController = Mockito.mock(KeyboardController.class);
+        paddle = new Paddle(body, keyboardMovementController);
     }
 
     @Test
     void updateVelocity() {
         paddle.updateVelocity();
-        Mockito.verify(movementController, Mockito.times(1)).updateVelocity(paddle.body);
+        Mockito.verify(keyboardMovementController, Mockito.times(1)).updateVelocity(paddle.body);
     }
 
     @Test
     void getMovementController() {
-        assertEquals(movementController, paddle.getMovementController());
+        assertEquals(keyboardMovementController, paddle.getMovementController());
     }
 
     @Test

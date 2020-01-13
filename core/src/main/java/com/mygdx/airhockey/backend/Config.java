@@ -72,11 +72,11 @@ public class Config {
         paddleDensity = 0.5f;
         paddleFriction = 0.1f;
         paddleRestitution = 0.1f;
-        paddleSpeed = 15;
+        paddleSpeed = 20;
 
         puckRadius = 1f;
         puckDensity = 0.3f;
-        puckFriction = 0.05f;
+        puckFriction = 0.3f;
         puckRestitution = 0.9f;
 
         wallHeight = 11;
