@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class CoordinateTranslator {
     private static Config config = Config.getInstance();
+
     /**
      * Translates a position.
      *

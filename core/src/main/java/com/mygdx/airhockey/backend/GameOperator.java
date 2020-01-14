@@ -12,7 +12,6 @@ import com.mygdx.airhockey.elements.Pitch;
 import com.mygdx.airhockey.elements.Puck;
 import com.mygdx.airhockey.movement.AiMovementController;
 import com.mygdx.airhockey.movement.KeyboardController;
-//import com.mygdx.airhockey.movement.MouseController;
 import com.mygdx.airhockey.movement.MovementController;
 
 /**

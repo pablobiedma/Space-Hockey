@@ -2,9 +2,9 @@ package com.mygdx.airhockey.backend;
 
 import com.badlogic.gdx.Input;
 import com.mygdx.airhockey.movement.KeyCodeSet;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+//import java.io.IOException;
+//import java.io.InputStream;
+//import java.util.Properties;
 
 public class Config {
     private static String configPath = "./config.properties";

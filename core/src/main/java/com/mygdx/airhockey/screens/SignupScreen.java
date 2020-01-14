@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.airhockey.auth.Authentication;
-import com.mygdx.airhockey.database.ConnectionFactory;
 import com.mygdx.airhockey.database.DatabaseController;
+import com.mygdx.airhockey.database.SqlConnectionFactory;
 
 
 public class SignupScreen extends AuthScreen {
@@ -41,7 +41,7 @@ public class SignupScreen extends AuthScreen {
     public void btnSignupClicked() {
         String username = txfUsername.getText();
         String password = txfPassword.getText();
-        DatabaseController database = new DatabaseController(new ConnectionFactory());
+        DatabaseController database = new DatabaseController(new SqlConnectionFactory());
         Authentication auth = new Authentication(database);
         if (auth.signUp(username, password)) {
             game.setScreen(new LoginScreen(game, sound));
