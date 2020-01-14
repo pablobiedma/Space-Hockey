@@ -2,6 +2,7 @@ package com.mygdx.airhockey.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.mygdx.airhockey.backend.Config;
 import com.mygdx.airhockey.screens.MyGame;
 
 public class DesktopLauncher {
@@ -10,11 +11,13 @@ public class DesktopLauncher {
      * @param args for the launch.
      */
     public static void main(String[] args) {
+
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Air Hockey";
+        config.samples = 5;
+        config.title = "AIR HOCKEY";
         config.useGL30 = true;
-        config.height = 1000;
-        config.width = 1000;
+        config.height = (int) Config.getInstance().resolution;
+        config.width = (int) Config.getInstance().resolution;
         new LwjglApplication(new MyGame(), config);
     }
 }

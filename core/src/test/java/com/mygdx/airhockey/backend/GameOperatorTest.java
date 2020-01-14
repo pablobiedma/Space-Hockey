@@ -3,6 +3,11 @@ package com.mygdx.airhockey.backend;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.mygdx.airhockey.elements.Goal;
@@ -12,9 +17,6 @@ import com.mygdx.airhockey.elements.Puck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 
 class GameOperatorTest {
     private transient GameOperator gameOperator;
@@ -70,20 +72,7 @@ class GameOperatorTest {
     }
 
     @Test
-    void createSprite() {
-        Texture texture = Mockito.mock(Texture.class);
-        Sprite s = gameOperator.createSprite(texture, 0, 0);
-        assertNotNull(s);
-    }
-
-    @Test
     void createBody() {
-    }
-
-    @Test
-    void drawSprites() {
-        Batch batch = Mockito.mock(Batch.class);
-        gameOperator.drawSprites(batch);
     }
 
     @Test

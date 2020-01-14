@@ -9,7 +9,7 @@ public class MyGame extends com.badlogic.gdx.Game {
     @Override
     public void create() {
         gameSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        this.setScreen(new MenuScreen(this));
+        this.setScreen(new MenuScreen(this, true));
     }
 
     @Override

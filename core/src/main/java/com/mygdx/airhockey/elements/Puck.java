@@ -10,7 +10,7 @@ public class Puck extends GameElement {
      * @param sprite of the puck.
      * @param body of the puck.
      */
-    public Puck(Sprite sprite, Body body) {
-        super(sprite, body);
+    public Puck(Body body) {
+        super(body);
     }
 }

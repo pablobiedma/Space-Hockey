@@ -26,9 +26,11 @@ public class HeadlessTest {
     private transient Puck puck;
     private transient Goal goalLeft;
     private transient Goal goalRight;
+    private transient World world;
 
     @BeforeEach
     void setUp() {
+        world = new World(new Vector2(0,0), true);
         redPaddle = Mockito.mock(Paddle.class);
         bluePaddle = Mockito.mock(Paddle.class);
         puck = Mockito.mock(Puck.class);
@@ -40,15 +42,26 @@ public class HeadlessTest {
 
     @Test
     public void createBody() {
-        World world = new World(new Vector2(0,0), true);
         Gdx.gl = Mockito.mock(GL20.class);
         assertNotNull(gameOperator.createBody(world, 0,0));
     }
 
     @Test
-    public void makePitchBody() {
-        World world = new World(new Vector2(0,0), true);
+    public void makePitch() {
         Gdx.gl = Mockito.mock(GL20.class);
-        assertNotNull(gameOperator.getPitchBody(world));
+        assertNotNull(gameOperator.makePitch(world));
     }
+
+//    @Test
+//    public void makePuck() {
+//        Gdx.gl = Mockito.mock(GL20.class);
+//        Puck puck = gameOperator.makePuck(world);
+//        assertNotNull(puck);
+//    }
+//
+//    @Test
+//    public void makePaddle() {
+//        Gdx.gl = Mockito.mock(GL20.class);
+//        assertNotNull(gameOperator.makePaddle(world,0,new AiMovementController(puck)));
+//    }
 }
