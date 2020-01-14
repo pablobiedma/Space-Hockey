@@ -23,16 +23,16 @@ public class EndScreen implements Screen {
     private transient Stage stage;
     private transient Game game;
     private TextureRegion backgroundTexture;
-    protected transient Sound sound;
+    //
 
     /**
      * Instantiates a end screen.
      *
      * @param game to initialize the screen with.
      */
-    public EndScreen(Game game, Sound sound) {
+    public EndScreen(Game game) {
         this.game = game;
-        this.sound = sound;
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/bensound-funkyelement.mp3"));
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         int rowHeight = Gdx.graphics.getWidth() / 12;
