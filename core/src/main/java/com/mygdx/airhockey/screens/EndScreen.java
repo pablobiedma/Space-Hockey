@@ -37,7 +37,7 @@ public class EndScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         int rowHeight = Gdx.graphics.getWidth() / 12;
         int colWidth = Gdx.graphics.getWidth() / 12;
-        backgroundTexture = new TextureRegion(new Texture("blue.jpg"), 0, 0, 2048, 563);
+        backgroundTexture = new TextureRegion(new Texture("background.gif"), 0, 0, 2048, 563);
 
         Skin mySkin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
         Button startGameButton = new TextButton("Play again", mySkin);
@@ -47,7 +47,7 @@ public class EndScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //EndScreen.this.game.setScreen(new GameScreen(EndScreen.this.game, true));
-                
+
                 game.setScreen(new LoginScreen(game, sound));
                 return true;
             }
@@ -63,7 +63,7 @@ public class EndScreen implements Screen {
     public void render(float delta) {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.getBatch().begin();
-        //stage.getBatch().draw(backgroundTexture, 0, 0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.getBatch().draw(backgroundTexture, 0, 0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.getBatch().end();
         stage.draw();
     }
