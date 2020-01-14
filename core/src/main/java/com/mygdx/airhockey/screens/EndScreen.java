@@ -46,7 +46,7 @@ public class EndScreen implements Screen {
         startGameButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //EndScreen.this.game.setScreen(new GameScreen(EndScreen.this.game, true));
+                //EndScreen.this.game.setScreen(new GameScreen(EndScreen.this.game, ));
 
                 game.setScreen(new LoginScreen(game, sound));
                 return true;

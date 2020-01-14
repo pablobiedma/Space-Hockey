@@ -76,7 +76,11 @@ public class AiMovementController implements MovementController {
             // does not lead to a hit in the direction of
             // opponents half, then don't move
             if (towardsPuck.x > 0) {
-                body.setLinearVelocity(0, 0);
+                if (puck.getBody().getLinearVelocity().x < 2) {
+                    body.setLinearVelocity(towardsPuck);
+                } else {
+                    body.setLinearVelocity(0, 0);
+                }
             } else {
                 body.setLinearVelocity(towardsPuck);
             }
