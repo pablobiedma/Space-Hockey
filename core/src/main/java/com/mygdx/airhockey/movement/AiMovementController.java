@@ -11,7 +11,7 @@ public class AiMovementController implements MovementController {
     private transient Vector2 towardsOwnGoal;
     private transient Vector2 towardsPuck;
     private transient Vector2 towardsDefault;
-    final int linearVelocityLimit = 2;
+    private transient final int linearVelocityLimit = 2;
 
     /**
      * Constructor for movement controller.
