@@ -139,7 +139,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 
         if (gameOperator.checkGameFinished()) {
             //GOTO finish screen
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(new MenuScreen(game, true));
         }
     }
 
