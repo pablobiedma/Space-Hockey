@@ -22,8 +22,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class EndScreen implements Screen {
     private transient Stage stage;
     private transient Game game;
-    private TextureRegion backgroundTexture;
-    //
+    private transient TextureRegion backgroundTexture;
 
     /**
      * Instantiates a end screen.
