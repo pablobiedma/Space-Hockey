@@ -11,6 +11,7 @@ public class AiMovementController implements MovementController {
     private transient Vector2 towardsOwnGoal;
     private transient Vector2 towardsPuck;
     private transient Vector2 towardsDefault;
+    final int linearVelocityLimit = 2;
 
     /**
      * Constructor for movement controller.
@@ -76,7 +77,7 @@ public class AiMovementController implements MovementController {
             // does not lead to a hit in the direction of
             // opponents half, then don't move
             if (towardsPuck.x > 0) {
-                if (puck.getBody().getLinearVelocity().x < 2) {
+                if (puck.getBody().getLinearVelocity().x < linearVelocityLimit) {
                     body.setLinearVelocity(towardsPuck);
                 } else {
                     body.setLinearVelocity(0, 0);
