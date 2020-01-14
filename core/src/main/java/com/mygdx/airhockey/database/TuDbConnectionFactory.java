@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.TimeZone;
 
-public class SqlConnectionFactory implements ConnectionFactory {
+public class TuDbConnectionFactory implements ConnectionFactory {
     /**
      * Credentials for the database.
      */
