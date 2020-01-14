@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 @RunWith(GdxTestRunner.class)
-public class HeadlessTest {
+class HeadlessTest {
 
     private transient GameOperator gameOperator;
     private transient Pitch pitch;
