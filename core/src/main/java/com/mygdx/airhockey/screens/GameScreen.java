@@ -111,7 +111,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glLineWidth(5);
-        //gameOperator.drawSprites(batch);
+
         stage.clear();
         camera.update();
         world.step(1 / 60f, 6, 2);
@@ -130,6 +130,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 
         loadTimeLabel();
         loadGoalLabel();
+
         score.setText(gameOperator.getScoreLeft() + "-" + gameOperator.getScoreRight());
         stage.addActor(score);
         stage.addActor(timer);
@@ -137,8 +138,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 
         stage.draw();
 
-        if (gameOperator.checkGameFinished()) {
-            //GOTO finish screen
+        if (gameOperator.checkGameFinished() && clear) {
             game.setScreen(new MenuScreen(game, true));
         }
     }
@@ -166,7 +166,12 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 
     private void loadGoalLabel() {
         if (gameOperator.isGoalScored) {
-            goalScored.setText("GOAL!!!");
+            if(gameOperator.checkGameFinished()) {
+                goalScored.setText("GAME OVER!!!");
+            } else {
+                goalScored.setText("GOAL!!!");
+            }
+
             gameOperator.isGoalScored = false;
             clear = false;
         } else {
