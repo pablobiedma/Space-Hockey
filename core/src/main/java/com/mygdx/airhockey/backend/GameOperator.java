@@ -178,6 +178,18 @@ public class GameOperator {
     }
 
     /**
+     * Checks if the game is finished by
+     * comparing scores.
+     * @return if game is finished.
+     */
+    public boolean checkGameFinished() {
+        if (scoreLeft >= 10 || scoreRight >= 10) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Resets position of all elements to default.
      */
     public void resetPositions() {

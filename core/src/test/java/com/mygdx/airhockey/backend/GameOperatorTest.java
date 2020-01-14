@@ -1,8 +1,10 @@
 package com.mygdx.airhockey.backend;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -50,6 +52,14 @@ class GameOperatorTest {
         Mockito.when(goalRight.checkForGoal(puck)).thenReturn(true);
         gameOperator.updatePhysics();
         assertEquals(1, gameOperator.getScoreLeft());
+    }
+
+    @Test
+    void testGameFinished() {
+        assertFalse(gameOperator.checkGameFinished());
+
+        gameOperator.scoreRight = 10;
+        assertTrue(gameOperator.checkGameFinished());
     }
 
     @Test
