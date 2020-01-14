@@ -2,6 +2,8 @@ package com.mygdx.airhockey.statistics;
 
 import com.mygdx.airhockey.database.DatabaseController;
 
+import java.util.Objects;
+
 public class Player {
     private int points;
     private String username;
@@ -63,4 +65,32 @@ public class Player {
     public void updateDatabaseScore(DatabaseController database) {
         database.updateScore(username, points);
     }
+
+
+    @Override
+    public String toString() {
+        return "Player{"
+                + "Username='" + username
+                + "', Points='" + points + '\''
+                + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Player)) {
+            return false;
+        }
+        Player player = (Player) o;
+        return points == player.points
+                && Objects.equals(username, player.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(points, username);
+    }
+
 }

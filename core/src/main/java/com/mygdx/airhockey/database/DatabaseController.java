@@ -109,7 +109,7 @@ public class DatabaseController {
     public String getHashedPassword(final String username) {
         assert userExists(username);
         try {
-            String query = "select Password from User where Username = ?";
+            String query = "select password from User where username = ?";
             Connection connection = connectionFactory.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
@@ -117,7 +117,7 @@ public class DatabaseController {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
                     resultSet.next();
-                    password = resultSet.getString("Password");
+                    password = resultSet.getString("password");
                     return password;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -254,7 +254,7 @@ public class DatabaseController {
                 ResultSet resultSet =  preparedStatement.executeQuery();
                 try {
                     resultSet.next();
-                    points = resultSet.getInt(1);
+                    points = resultSet.getInt("score");
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -314,7 +314,6 @@ public class DatabaseController {
 
     /**
      * Getter for connection.
-     *
      * @return connection with the database.
      */
     public ConnectionFactory getConnectionFactory() {
@@ -323,7 +322,6 @@ public class DatabaseController {
 
     /**
      * Setter for connection.
-     *
      * @param connectionFactory value to set.
      */
     public void setConnectionFactory(ConnectionFactory connectionFactory) {

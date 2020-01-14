@@ -3,6 +3,7 @@ package com.mygdx.airhockey.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,13 +21,15 @@ abstract class AuthScreen implements Screen {
     protected transient TextField txfPassword;
     transient int rowHeight = Gdx.graphics.getWidth() / 12;
     transient int colWidth = Gdx.graphics.getWidth() / 12;
+    protected transient Sound sound;
 
     /**
      * Constructor for login screen.
      *
      * @param g game of the login screen;
      */
-    public AuthScreen(Game g) {
+    public AuthScreen(Game g, Sound sound) {
+        this.sound = sound;
         game = g;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -36,7 +39,7 @@ abstract class AuthScreen implements Screen {
      * Creates button.
      */
     public void createBtn(final String text, ClickListener clickListener) {
-        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
         TextButton btn = new TextButton(text, skin);
         TextButton goBack = new TextButton("Back", skin);
         goBack.setPosition(colWidth * 5, Gdx.graphics.getHeight() - rowHeight * 8);
@@ -47,7 +50,7 @@ abstract class AuthScreen implements Screen {
         goBack.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int point, int button) {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game, false));
                 return true;
             }
         });
