@@ -1,14 +1,13 @@
 package com.mygdx.airhockey.movement;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.airhockey.backend.Config;
 
 public class KeyboardController implements MovementController {
-    private KeyCodeSet keycodes;
+    private KeySet keycodes;
+
+    private Input input;
     private static Config config = Config.getInstance();
 
     /**
@@ -16,8 +15,9 @@ public class KeyboardController implements MovementController {
      *
      * @param keycodes to steer the movement.
      */
-    public KeyboardController(KeyCodeSet keycodes) {
+    public KeyboardController(KeySet keycodes, Input input) {
         this.keycodes = keycodes;
+        this.input = input;
     }
 
     /**
@@ -35,16 +35,16 @@ public class KeyboardController implements MovementController {
             float vertical = 0;
             float horizontal = 0;
 
-            if (Gdx.input.isKeyPressed(keycodes.getKeyCodeLeft())) {
+            if (input.isKeyPressed(keycodes.getKeyCodeLeft())) {
                 horizontal -= config.paddleSpeed;
             }
-            if (Gdx.input.isKeyPressed(keycodes.getKeyCodeRight())) {
+            if (input.isKeyPressed(keycodes.getKeyCodeRight())) {
                 horizontal += config.paddleSpeed;
             }
-            if (Gdx.input.isKeyPressed(keycodes.getKeyCodeUp())) {
+            if (input.isKeyPressed(keycodes.getKeyCodeUp())) {
                 vertical += config.paddleSpeed;
             }
-            if (Gdx.input.isKeyPressed(keycodes.getKeyCodeDown())) {
+            if (input.isKeyPressed(keycodes.getKeyCodeDown())) {
                 vertical -= config.paddleSpeed;
             }
             body.setLinearVelocity(horizontal, vertical);
@@ -57,7 +57,7 @@ public class KeyboardController implements MovementController {
      *
      * @return the controls of movement controler.
      */
-    public KeyCodeSet getKeycodes() {
+    public KeySet getKeycodes() {
         return keycodes;
     }
 
@@ -66,8 +66,16 @@ public class KeyboardController implements MovementController {
      *
      * @param keycodes to set.
      */
-    public void setKeycodes(KeyCodeSet keycodes) {
+    public void setKeycodes(KeySet keycodes) {
         this.keycodes = keycodes;
+    }
+
+    public Input getInput() {
+        return input;
+    }
+
+    public void setInput(Input input) {
+        this.input = input;
     }
 
 }
