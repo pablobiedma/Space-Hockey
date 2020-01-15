@@ -35,8 +35,8 @@ class AiMovementControllerTest {
 
     @Test
     void bodyXSmaller() {
-        Mockito.when(body.getPosition()).thenReturn(new Vector2(config.wallWidth -
-                config.bluePaddleX / 4,0f));
+        Mockito.when(body.getPosition()).thenReturn(new Vector2(config.wallWidth
+                - config.bluePaddleX / 4,0f));
         Mockito.when(puck.getBody().getPosition()).thenReturn(new Vector2(-5,0));
         //        Mockito.when(towardsDefault.len()).thenReturn(0.4f);
         System.out.println(MovementController.touchesMiddleLine(body));
