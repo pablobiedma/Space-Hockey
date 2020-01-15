@@ -1,5 +1,7 @@
 package com.mygdx.airhockey.backend;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
@@ -58,10 +60,10 @@ public class GameOperator {
         this.pitch = makePitch(world);
         this.redPaddle = makePaddle(world,
                 config.redPaddleX,
-              new KeyboardController(config.redPaddleKeys));
+              new KeyboardController(config.redPaddleKeys, Gdx.input));
         MovementController opponentController = new AiMovementController(puck);
         if (MULTIPLAYER) {
-            opponentController = new KeyboardController(config.bluePaddleKeys);
+            opponentController = new KeyboardController(config.bluePaddleKeys, Gdx.input);
         }
         this.bluePaddle = makePaddle(world,
                 config.bluePaddleX, opponentController);
