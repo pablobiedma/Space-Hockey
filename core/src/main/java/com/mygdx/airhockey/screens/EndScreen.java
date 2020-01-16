@@ -22,8 +22,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class EndScreen implements Screen {
     private transient Stage stage;
     private transient Game game;
-    private transient TextureRegion backgroundTexture;
-
+   // private transient TextureRegion backgroundTexture;
+   private static final TextureRegion backgroundTexture = new TextureRegion(
+           new Texture("arcade.png"), 0, 0, 900, 900);
     /**
      * Instantiates a end screen.
      *
@@ -36,7 +37,6 @@ public class EndScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         int rowHeight = Gdx.graphics.getWidth() / 12;
         int colWidth = Gdx.graphics.getWidth() / 12;
-        backgroundTexture = new TextureRegion(new Texture("background.gif"), 0, 0, 2048, 563);
 
         Skin mySkin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
         Button startGameButton = new TextButton("Play again", mySkin);
