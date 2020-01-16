@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -54,6 +55,13 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     transient boolean clear = true;
     transient Player player;
     transient Level level;
+    private static final Sprite leftPaddleSprite =
+            new Sprite(new Texture(config.redPaddleTexturePath));
+    private static final Sprite rightPaddleSprite =
+            new Sprite(new Texture(config.bluePaddleTexturePath));
+    private static final Sprite puckSprite = new Sprite(new Texture(config.puckTexturePath));
+    private static final Sound sound = Gdx.audio.newSound(
+            Gdx.files.internal("music/bensound-funkyelement.mp3"));
 
     /**
      * Constructor for game screen class.
@@ -71,7 +79,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         debugRenderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(config.viewportSize, config.viewportSize);
         shapeRenderer = new ShapeRenderer();
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/bensound-funkyelement.mp3"));
+        batch = new SpriteBatch();
         sound.play();
         initializeUI();
     }
@@ -80,11 +88,18 @@ public class GameScreen extends ApplicationAdapter implements Screen {
      * Initializes the UI.
      */
     private void initializeUI() {
+        int paddleWidth = (int) CoordinateTranslator.translateSize(2 * config.paddleRadius);
+        leftPaddleSprite.setSize(paddleWidth, paddleWidth);
+        rightPaddleSprite.setSize(paddleWidth, paddleWidth);
+
+        int puckWidth = (int) CoordinateTranslator.translateSize(2 * config.puckRadius);
+        puckSprite.setSize(puckWidth, puckWidth);
+
         Skin mySkin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
-        score = new Label("5-5", mySkin);
+        score = new Label("5-5", mySkin, "title");
         score.setSize(100, 20);
         score.setPosition(config.resolution / 2 - 45, 3 * config.resolution / 4);
-        score.setFontScale(2);
+        score.setFontScale(1);
         score.setColor(Color.WHITE);
         score.setAlignment(Align.center);
 
@@ -95,13 +110,12 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         timer.setColor(Color.GOLD);
         timer.setAlignment(Align.center);
 
-        goalScored = new Label("", mySkin);
+        goalScored = new Label("", mySkin, "title");
         goalScored.setSize(100, 20);
         goalScored.setPosition(config.resolution / 2 - 44, config.resolution / 2);
-        goalScored.setFontScale(2);
+        goalScored.setFontScale(1.2f);
         goalScored.setColor(Color.RED);
         goalScored.setAlignment(Align.center);
-
     }
 
     /**
@@ -132,8 +146,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         stage.getBatch().end();
 
         drawPitch();
-        drawPuck();
-        drawPaddles();
+        drawElements();
 
         loadTimeLabel();
         loadGoalLabel();
@@ -147,6 +160,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 
         if (gameOperator.checkGameFinished() && clear) {
             game.setScreen(new MenuScreen(game, true));
+            sound.stop();
         }
     }
 
@@ -199,8 +213,8 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         } else {
 
             if (!clear) {
-                Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/cheer.mp3"));
-                sound.play(1.0f);
+                Sound cheer = Gdx.audio.newSound(Gdx.files.internal("music/cheer.mp3"));
+                cheer.play(1.0f);
                 try {
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
@@ -221,41 +235,24 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         timer.setText(formatted);
     }
 
-    /**
-     * Draws paddles.
-     */
-    private void drawPaddles() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.WHITE);
-        Vector2 redPaddlePosition = CoordinateTranslator.translatePosition(
-                gameOperator.getRedPaddle().getBody().getPosition());
-        Vector2 bluePaddlePosition = CoordinateTranslator.translatePosition(
-                gameOperator.getBluePaddle().getBody().getPosition());
-        shapeRenderer.circle(redPaddlePosition.x, redPaddlePosition.y,
-                CoordinateTranslator.translateSize(config.paddleRadius));
-        shapeRenderer.circle(bluePaddlePosition.x, bluePaddlePosition.y,
-                CoordinateTranslator.translateSize(config.paddleRadius));
-        shapeRenderer.end();
+    private void drawPlanet(Sprite sprite, float radius, Vector2 position) {
+        int width = (int) CoordinateTranslator.translateSize(2 * radius);
+        Vector2 spritePos = CoordinateTranslator.translatePosition(position);
+        sprite.setPosition(spritePos.x - width / 2, spritePos.y - width / 2);
+        sprite.draw(batch);
     }
 
     /**
-     * Draws puck.
+     * Draws paddles.
      */
-    private void drawPuck() {
-        Vector2 puckPosition = CoordinateTranslator.translatePosition(
-                gameOperator.getPuck().getBody().getPosition());
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.LIGHT_GRAY);
-        shapeRenderer.circle(puckPosition.x, puckPosition.y,
-                CoordinateTranslator.translateSize(config.puckRadius), 64);
-        shapeRenderer.end();
-
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.circle(puckPosition.x, puckPosition.y,
-                CoordinateTranslator.translateSize(config.puckRadius), 64);
-        shapeRenderer.end();
+    private void drawElements() {
+        batch.begin();
+        drawPlanet(leftPaddleSprite, config.paddleRadius,
+                gameOperator.getRedPaddle().getBody().getPosition());
+        drawPlanet(rightPaddleSprite, config.paddleRadius,
+                gameOperator.getBluePaddle().getBody().getPosition());
+        drawPlanet(puckSprite, config.puckRadius, gameOperator.getPuck().getBody().getPosition());
+        batch.end();
     }
 
     @Override

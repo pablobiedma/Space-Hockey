@@ -50,6 +50,9 @@ public class LoginScreen extends AuthScreen {
             game.setScreen(new GameScreen(game, player));
             sound.stop();
         } else {
+            Player player = new Player("anonymous", 0);
+            game.setScreen(new GameScreen(game, player));
+            sound.stop();
             txfUsername.setColor(Color.RED);
             txfPassword.setColor(Color.RED);
             System.out.println("Try again");

@@ -13,7 +13,7 @@ public class DesktopLauncher {
     public static void main(String[] args) {
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.samples = 5;
+        config.samples = 1;
         config.title = "AIR HOCKEY";
         config.useGL30 = true;
         config.height = (int) Config.getInstance().resolution;
