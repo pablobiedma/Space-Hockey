@@ -16,9 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 //to be added to the game once game finished functionality is implemented.
-//TODO create and display leaderboard 
-//TODO display score
-//TODO display text
+//TODO create and display leaderboard and "your" score.
+
+
 public class EndScreen implements Screen {
     private transient Stage stage;
     private transient Game game;
@@ -52,6 +52,7 @@ public class EndScreen implements Screen {
             }
         });
         stage.addActor(startGameButton);
+        //add leaderboard here
     }
     @Override
     public void show() {
