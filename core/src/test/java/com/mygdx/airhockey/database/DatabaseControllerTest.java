@@ -1,13 +1,10 @@
 package com.mygdx.airhockey.database;
 
-import com.mygdx.airhockey.database.tables.Score;
 import com.mygdx.airhockey.database.tables.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

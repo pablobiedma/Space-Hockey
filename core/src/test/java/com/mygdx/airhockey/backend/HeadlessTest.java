@@ -52,16 +52,16 @@ class HeadlessTest {
         assertNotNull(gameOperator.makePitch(world));
     }
 
-//    @Test
-//    public void makePuck() {
-//        Gdx.gl = Mockito.mock(GL20.class);
-//        Puck puck = gameOperator.makePuck(world);
-//        assertNotNull(puck);
-//    }
-//
-//    @Test
-//    public void makePaddle() {
-//        Gdx.gl = Mockito.mock(GL20.class);
-//        assertNotNull(gameOperator.makePaddle(world,0,new AiMovementController(puck)));
-//    }
+    //@Test
+    //public void makePuck() {
+    //    Gdx.gl = Mockito.mock(GL20.class);
+    //    Puck puck = gameOperator.makePuck(world);
+    //    assertNotNull(puck);
+    //}
+    //
+    //@Test
+    //public void makePaddle() {
+    //    Gdx.gl = Mockito.mock(GL20.class);
+    //    assertNotNull(gameOperator.makePaddle(world,0,new AiMovementController(puck)));
+    //}
 }

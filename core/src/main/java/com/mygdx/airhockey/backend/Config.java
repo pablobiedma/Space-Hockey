@@ -1,10 +1,10 @@
 package com.mygdx.airhockey.backend;
 
 import com.badlogic.gdx.Input;
-import com.mygdx.airhockey.movement.KeyCodeSet;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import com.mygdx.airhockey.movement.KeySet;
+//import java.io.IOException;
+//import java.io.InputStream;
+//import java.util.Properties;
 
 public class Config {
     private static String configPath = "./config.properties";
@@ -51,8 +51,8 @@ public class Config {
     /**
      * Key code sets for paddles (arrows for the right one, wasd for the left one).
      */
-    public transient KeyCodeSet bluePaddleKeys;
-    public transient KeyCodeSet redPaddleKeys;
+    public transient KeySet bluePaddleKeys;
+    public transient KeySet redPaddleKeys;
 
     /**
      * Constructor for config singleton.
@@ -84,9 +84,9 @@ public class Config {
         goalWidth = 4.5f;
         goalDepth = 2 * puckRadius;
 
-        bluePaddleKeys = new KeyCodeSet(
+        bluePaddleKeys = new KeySet(
             Input.Keys.DPAD_LEFT, Input.Keys.DPAD_RIGHT, Input.Keys.DPAD_UP, Input.Keys.DPAD_DOWN);
-        redPaddleKeys = new KeyCodeSet(
+        redPaddleKeys = new KeySet(
             Input.Keys.A, Input.Keys.D, Input.Keys.W, Input.Keys.S);
         //try (InputStream input = Thread.currentThread()
         //        .getContextClassLoader().getResourceAsStream(configPath)) {

@@ -5,7 +5,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -72,6 +76,9 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         initializeUI();
     }
 
+    /**
+     * Initializes the UI.
+     */
     private void initializeUI() {
         Skin mySkin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
         score = new Label("5-5", mySkin);
@@ -143,6 +150,9 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         }
     }
 
+    /**
+     * Draws the pitch.
+     */
     private void drawPitch() {
         Vector2 bottomLeftPitch = CoordinateTranslator.translatePosition(
                 new Vector2(-config.wallWidth, -config.wallHeight));
@@ -151,22 +161,34 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         shapeRenderer.rect(bottomLeftPitch.x, bottomLeftPitch.y,
                 2 * CoordinateTranslator.translateSize(config.wallWidth),
                 2 * CoordinateTranslator.translateSize(config.wallHeight));
-        Vector2 middleLineStart = CoordinateTranslator.translatePosition(new Vector2(0, config.wallHeight));
-        Vector2 middleLineEnd = CoordinateTranslator.translatePosition(new Vector2(0, -config.wallHeight));
+        Vector2 middleLineStart =
+                CoordinateTranslator.translatePosition(new Vector2(0, config.wallHeight));
+        Vector2 middleLineEnd =
+                CoordinateTranslator.translatePosition(new Vector2(0, -config.wallHeight));
         shapeRenderer.line(middleLineStart.x, middleLineStart.y, middleLineEnd.x, middleLineEnd.y);
-        shapeRenderer.circle(config.resolution / 2, config.resolution / 2, CoordinateTranslator.translateSize(config.wallHeight) / 4);
+        shapeRenderer.circle(config.resolution / 2, config.resolution / 2,
+                CoordinateTranslator.translateSize(config.wallHeight) / 4);
 
         shapeRenderer.setColor(Color.WHITE);
-        Vector2 leftGoal = CoordinateTranslator.translatePosition(new Vector2(-config.wallWidth - config.goalDepth, -config.goalWidth));
-        Vector2 rightGoal = CoordinateTranslator.translatePosition(new Vector2(config.wallWidth, -config.goalWidth));
-        shapeRenderer.rect(leftGoal.x, leftGoal.y, CoordinateTranslator.translateSize(config.goalDepth), CoordinateTranslator.translateSize(2 * config.goalWidth));
-        shapeRenderer.rect(rightGoal.x, leftGoal.y, CoordinateTranslator.translateSize(config.goalDepth), CoordinateTranslator.translateSize(2 * config.goalWidth));
+        Vector2 leftGoal = CoordinateTranslator.translatePosition(
+                new Vector2(-config.wallWidth - config.goalDepth, -config.goalWidth));
+        Vector2 rightGoal = CoordinateTranslator.translatePosition(
+                new Vector2(config.wallWidth, -config.goalWidth));
+        shapeRenderer.rect(leftGoal.x, leftGoal.y,
+                CoordinateTranslator.translateSize(config.goalDepth),
+                CoordinateTranslator.translateSize(2 * config.goalWidth));
+        shapeRenderer.rect(rightGoal.x, rightGoal.y,
+                CoordinateTranslator.translateSize(config.goalDepth),
+                CoordinateTranslator.translateSize(2 * config.goalWidth));
         shapeRenderer.end();
     }
 
+    /**
+     * Loads the goal label.
+     */
     private void loadGoalLabel() {
         if (gameOperator.isGoalScored) {
-            if(gameOperator.checkGameFinished()) {
+            if (gameOperator.checkGameFinished()) {
                 goalScored.setText("GAME OVER!!!");
             } else {
                 goalScored.setText("GOAL!!!");
@@ -190,33 +212,49 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         }
     }
 
+    /**
+     * Loads the time label.
+     */
     private void loadTimeLabel() {
         time++;
         String formatted = String.format("%02d:%02d", time / 3600, (time / 60) % 60);
         timer.setText(formatted);
     }
 
+    /**
+     * Draws paddles.
+     */
     private void drawPaddles() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.WHITE);
-        Vector2 redPaddlePosition = CoordinateTranslator.translatePosition(gameOperator.getRedPaddle().getBody().getPosition());
-        Vector2 bluePaddlePosition = CoordinateTranslator.translatePosition(gameOperator.getBluePaddle().getBody().getPosition());
-        shapeRenderer.circle(redPaddlePosition.x, redPaddlePosition.y, CoordinateTranslator.translateSize(config.paddleRadius));
-        shapeRenderer.circle(bluePaddlePosition.x, bluePaddlePosition.y, CoordinateTranslator.translateSize(config.paddleRadius));
+        Vector2 redPaddlePosition = CoordinateTranslator.translatePosition(
+                gameOperator.getRedPaddle().getBody().getPosition());
+        Vector2 bluePaddlePosition = CoordinateTranslator.translatePosition(
+                gameOperator.getBluePaddle().getBody().getPosition());
+        shapeRenderer.circle(redPaddlePosition.x, redPaddlePosition.y,
+                CoordinateTranslator.translateSize(config.paddleRadius));
+        shapeRenderer.circle(bluePaddlePosition.x, bluePaddlePosition.y,
+                CoordinateTranslator.translateSize(config.paddleRadius));
         shapeRenderer.end();
     }
 
+    /**
+     * Draws puck.
+     */
     private void drawPuck() {
-        Vector2 puckPosition = CoordinateTranslator.translatePosition(gameOperator.getPuck().getBody().getPosition());
+        Vector2 puckPosition = CoordinateTranslator.translatePosition(
+                gameOperator.getPuck().getBody().getPosition());
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.LIGHT_GRAY);
-        shapeRenderer.circle(puckPosition.x, puckPosition.y, CoordinateTranslator.translateSize(config.puckRadius), 64);
+        shapeRenderer.circle(puckPosition.x, puckPosition.y,
+                CoordinateTranslator.translateSize(config.puckRadius), 64);
         shapeRenderer.end();
 
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.circle(puckPosition.x, puckPosition.y, CoordinateTranslator.translateSize(config.puckRadius), 64);
+        shapeRenderer.circle(puckPosition.x, puckPosition.y,
+                CoordinateTranslator.translateSize(config.puckRadius), 64);
         shapeRenderer.end();
     }
 
