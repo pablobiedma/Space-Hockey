@@ -10,9 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 //to be added to the game once game finished functionality is implemented.
@@ -51,8 +49,19 @@ public class EndScreen implements Screen {
                 return true;
             }
         });
+        Label nameLabel = new Label("Name:", mySkin);
+        TextField nameText = new TextField("", mySkin);
+        Label addressLabel = new Label("Score:", mySkin);
+        TextField addressText = new TextField("", mySkin);
+
+        Table table = new Table();
+        table.add(nameLabel);
+        table.add(nameText).width(100);
+        table.row();
+        table.add(addressLabel);
+        table.add(addressText).width(100);
         stage.addActor(startGameButton);
-        //add leaderboard here
+        stage.addActor(table);
     }
     @Override
     public void show() {

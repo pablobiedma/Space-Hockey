@@ -192,6 +192,7 @@ public class DatabaseController {
                     resultSet.next();
                     score = new Score(resultSet.getString("username"),
                             resultSet.getInt("score"), resultSet.getString("chosen_name"));
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {

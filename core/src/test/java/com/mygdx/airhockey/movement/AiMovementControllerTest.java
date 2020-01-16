@@ -28,7 +28,7 @@ class AiMovementControllerTest {
         Mockito.when(puck.getBody().getPosition()).thenReturn(new Vector2(3f,5f));
         aiMovementController.updateVelocity(body);
         System.out.println(MovementController.touchesMiddleLine(body));
-        Mockito.verify(puck, Mockito.times(5)).getBody();
+        Mockito.verify(puck, Mockito.times(6)).getBody();
         Mockito.verify(body,Mockito.times(8)).getPosition();
         System.out.println(body);
     }
