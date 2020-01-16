@@ -7,9 +7,12 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 		file: font-export.fnt
 	}
 	title: {
-		file: font-title-export.fnt
+		file: title.fnt
+	},
+	fire: {
+		file: fire.fnt
 	}
-}
+},
 com.badlogic.gdx.graphics.Color: {
 	gray: {
 		r: 0.55
@@ -81,8 +84,13 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	xp: {
 		font: bold
 		fontColor: green
+	},
+
+	fire: {
+		font: fire
+		fontColor: white
 	}
-}
+},
 com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 	default-horizontal: {
 		background: slider

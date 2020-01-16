@@ -58,10 +58,9 @@ public class Config {
      * Constructor for config singleton.
      */
     private Config(String configPath) {
-        bluePaddleTexturePath = "sprite/blue-paddle.png";
-        redPaddleTexturePath = "sprite/red-paddle.png";
+        bluePaddleTexturePath = "sprite/planet1.png";
+        redPaddleTexturePath = "sprite/planet2.png";
         puckTexturePath = "sprite/puck.png";
-        pitchTexturePath = "sprite/pitch.png";
 
         viewportSize = 50;
         resolution = 1000;

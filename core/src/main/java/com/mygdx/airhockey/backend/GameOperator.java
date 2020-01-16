@@ -184,7 +184,7 @@ public class GameOperator {
      * @return if game is finished.
      */
     public boolean checkGameFinished() {
-        if (scoreLeft >= 10 || scoreRight >= 10) {
+        if (scoreLeft >= 2 || scoreRight >= 2) {
             return true;
         }
         return false;
