@@ -1,21 +1,18 @@
 package com.mygdx.airhockey.statistics;
 
-import com.mygdx.airhockey.database.ConnectionFactory;
-import com.mygdx.airhockey.database.DatabaseController;
-
 public class Level {
     //constants regarding scoring and game rules
     private static final int MAX_GOALS = 7;
-    private static final double POINTS_PER_GOAL_SCORED = 2;
-    private static final double POINTS_PER_GOAL_CONCEDED = -1;
-    private static final double POINTS_PER_WIN = 5;
-    private static final double POINTS_PER_LOSS = -3;
+    private static final double POINTS_PER_GOAL_SCORED = 200;
+    private static final double POINTS_PER_GOAL_CONCEDED = -100;
+    private static final double POINTS_PER_WIN = 500;
+    private static final double POINTS_PER_LOSS = -300;
     //fields
     private double score = 0;
     private boolean started;
     private boolean finished;
-    private int playerGoals = 0;
-    private int aiGoals = 0;
+    private int leftGoal = 0;
+    private int rightGoals = 0;
 
     private Player player;
 
@@ -87,16 +84,16 @@ public class Level {
      * Getter for player goals.
      * @return player's score.
      */
-    public int getPlayerGoals() {
-        return playerGoals;
+    public int getLeftGoals() {
+        return leftGoal;
     }
 
     /**
      * Getter for ai goals.
      * @return ai's score.
      */
-    public int getAiGoals() {
-        return aiGoals;
+    public int getRightGoals() {
+        return rightGoals;
     }
 
     /**
@@ -117,25 +114,25 @@ public class Level {
 
     /**
      * Setter for player goals.
-     * @param playerGoals value to set.
+     * @param leftGoal value to set.
      */
-    public void setPlayerGoals(int playerGoals) {
-        this.playerGoals = playerGoals;
+    public void setLeftGoal(int leftGoal) {
+        this.leftGoal = leftGoal;
     }
 
     /**
      * Setter for aiGoals.
-     * @param aiGoals value to set.
+     * @param rightGoals value to set.
      */
-    public void setAiGoals(int aiGoals) {
-        this.aiGoals = aiGoals;
+    public void setRightGoals(int rightGoals) {
+        this.rightGoals = rightGoals;
     }
 
     /**
      * Increases the players score.
      */
-    public void goalFor() {
-        playerGoals++;
+    public void goalLeft() {
+        leftGoal++;
         score += POINTS_PER_GOAL_SCORED;
         checkIfFinished();
     }
@@ -143,8 +140,8 @@ public class Level {
     /**
      * Increases the ai score.
      */
-    public void goalAgainst() {
-        aiGoals++;
+    public void goalRight() {
+        rightGoals++;
         score += POINTS_PER_GOAL_CONCEDED;
         checkIfFinished();
     }
@@ -154,10 +151,10 @@ public class Level {
      * If yes, changes the values of inProgress and finished fields.
      */
     private void checkIfFinished() {
-        if (playerGoals >= MAX_GOALS) {
+        if (leftGoal >= MAX_GOALS) {
             score += POINTS_PER_WIN;
             finalizeGame();
-        } else if (aiGoals >= MAX_GOALS) {
+        } else if (rightGoals >= MAX_GOALS) {
             score += POINTS_PER_LOSS;
             finalizeGame();
         }
@@ -171,4 +168,9 @@ public class Level {
         player.updatePoints(score);
         finished = true;
     }
+
+    public int getLeftGoal() {
+        return leftGoal;
+    }
 }
+

@@ -1,7 +1,6 @@
 package com.mygdx.airhockey.backend;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
@@ -15,12 +14,13 @@ import com.mygdx.airhockey.elements.Puck;
 import com.mygdx.airhockey.movement.AiMovementController;
 import com.mygdx.airhockey.movement.KeyboardController;
 import com.mygdx.airhockey.movement.MovementController;
+import com.mygdx.airhockey.statistics.Level;
+import com.mygdx.airhockey.statistics.Player;
 
 /**
  * Class that handles the backend of the com.mygdx.airhockey.game.
  */
 public class GameOperator {
-    private static boolean MULTIPLAYER = false;
     private static Config config = Config.getInstance();
     Pitch pitch;
     Paddle redPaddle;
@@ -28,8 +28,7 @@ public class GameOperator {
     Puck puck;
     Goal goalLeft;
     Goal goalRight;
-    int scoreLeft;
-    int scoreRight;
+    Level level;
     public transient boolean isGoalScored;
 
     /**
@@ -55,22 +54,21 @@ public class GameOperator {
     /**
      * Set's up a new game.
      */
-    public GameOperator(World world) {
+    public GameOperator(World world, Player player, boolean multiplayer) {
+        this.level = new Level(player);
         this.puck = makePuck(world);
         this.pitch = makePitch(world);
         this.redPaddle = makePaddle(world,
                 config.redPaddleX,
               new KeyboardController(config.redPaddleKeys, Gdx.input));
         MovementController opponentController = new AiMovementController(puck);
-        if (MULTIPLAYER) {
+        if (multiplayer) {
             opponentController = new KeyboardController(config.bluePaddleKeys, Gdx.input);
         }
         this.bluePaddle = makePaddle(world,
                 config.bluePaddleX, opponentController);
         this.goalLeft = new Goal(- config.wallWidth - config.goalDepth, -config.goalWidth);
         this.goalRight = new Goal(config.wallWidth + config.goalDepth - 1, -config.goalWidth);
-        this.scoreLeft = 0;
-        this.scoreRight = 0;
     }
 
     final Paddle makePaddle(World world,
@@ -127,14 +125,16 @@ public class GameOperator {
      */
     public void updatePhysics() {
         if (goalLeft.checkForGoal(puck)) {
-            scoreRight++;
+            level.goalRight();
             resetPositions();
             isGoalScored = true;
+            System.out.println(level.getScore());
 
         } else if (goalRight.checkForGoal(puck)) {
-            scoreLeft++;
+            level.goalLeft();
             resetPositions();
             isGoalScored = true;
+            System.out.println(level.getScore());
         }
 
         bluePaddle.updateVelocity();
@@ -183,11 +183,8 @@ public class GameOperator {
      * comparing scores.
      * @return if game is finished.
      */
-    public boolean checkGameFinished() {
-        if (scoreLeft >= 2 || scoreRight >= 2) {
-            return true;
-        }
-        return false;
+    public boolean isFinished() {
+        return level.isFinished();
     }
 
     /**
@@ -231,22 +228,6 @@ public class GameOperator {
         this.puck = puck;
     }
 
-    public int getScoreLeft() {
-        return scoreLeft;
-    }
-
-    public void setScoreLeft(int scoreLeft) {
-        this.scoreLeft = scoreLeft;
-    }
-
-    public int getScoreRight() {
-        return scoreRight;
-    }
-
-    public void setScoreRight(int scoreRight) {
-        this.scoreRight = scoreRight;
-    }
-
     public Goal getGoalLeft() {
         return goalLeft;
     }
@@ -261,5 +242,13 @@ public class GameOperator {
 
     public void setGoalRight(Goal goalRight) {
         this.goalRight = goalRight;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 }

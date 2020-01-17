@@ -41,22 +41,21 @@ public class LoginScreen extends AuthScreen {
      * Performs a check after clicking login button.
      */
     public void btnLoginClicked() {
-        String username = txfUsername.getText();
-        String password = txfPassword.getText();
-        DatabaseController database = new DatabaseController(new TuDbConnectionFactory());
-        Authentication auth = new Authentication(database);
-        if (auth.signIn(username, password)) {
-            Player player = new Player(username, database.getPoints(username));
-            game.setScreen(new GameScreen(game, player));
-            sound.stop();
-        } else {
-            Player player = new Player("anonymous", 0);
-            game.setScreen(new GameScreen(game, player));
-            sound.stop();
-            txfUsername.setColor(Color.RED);
-            txfPassword.setColor(Color.RED);
-            System.out.println("Try again");
-        }
+        //String username = txfUsername.getText();
+        //String password = txfPassword.getText();
+        //DatabaseController database = new DatabaseController(new TuDbConnectionFactory());
+        //Authentication auth = new Authentication(database);
+        //if (auth.signIn(username, password)) {
+        //    Player player = new Player(username, database.getPoints(username));
+        //    game.setScreen(new PreGameScreen(game,sound, player));
+        //    sound.stop();
+        //} else {
+        Player player = new Player("anonymous", 0);
+        game.setScreen(new PreGameScreen(game,sound, player));
+        sound.stop();
+        txfUsername.setColor(Color.RED);
+        txfPassword.setColor(Color.RED);
+        //}
     }
 
     @Override

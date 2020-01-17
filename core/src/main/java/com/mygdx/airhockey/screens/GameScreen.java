@@ -21,7 +21,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Align;
 import com.mygdx.airhockey.backend.Config;
 import com.mygdx.airhockey.backend.CoordinateTranslator;
 import com.mygdx.airhockey.backend.GameOperator;
@@ -39,6 +38,7 @@ import com.mygdx.airhockey.statistics.Player;
  */
 public class GameScreen extends ApplicationAdapter implements Screen {
     private static final Config config = Config.getInstance();
+    transient boolean multiplayer;
     transient ShapeRenderer shapeRenderer;
     transient Game game;
     transient GameOperator gameOperator;
@@ -49,7 +49,8 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     transient Stage stage;
     transient Label score;
     transient Label timer;
-    transient Label goalScored;
+    transient Label points;
+    transient Label alert;
     transient TextureRegion backgroundTexture;
     transient int time = 0;
     transient boolean clear = true;
@@ -67,20 +68,21 @@ public class GameScreen extends ApplicationAdapter implements Screen {
      * Constructor for game screen class.
      * Creates the game screen object.
      */
-    public GameScreen(Game game, Player player) {
+    public GameScreen(Game game, Player player, boolean multiplayer) {
         backgroundTexture = new TextureRegion(new Texture("background.gif"), 0, 0, 400, 400);
         this.game = game;
+        this.multiplayer = multiplayer;
         this.player = player;
         this.level = new Level(player);
         Box2D.init();
         stage = new Stage();
         world = new World(new Vector2(0, 0), true);
-        gameOperator = new GameOperator(world);
+        gameOperator = new GameOperator(world, player, multiplayer);
         debugRenderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(config.viewportSize, config.viewportSize);
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
-        sound.play();
+        sound.loop();
         initializeUI();
     }
 
@@ -95,28 +97,20 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         int puckWidth = (int) CoordinateTranslator.translateSize(2 * config.puckRadius);
         puckSprite.setSize(puckWidth, puckWidth);
 
-        Skin mySkin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
-        score = new Label("5-5", mySkin, "title");
-        score.setSize(100, 20);
-        score.setPosition(config.resolution / 2 - 45, 3 * config.resolution / 4);
-        score.setFontScale(1);
-        score.setColor(Color.WHITE);
-        score.setAlignment(Align.center);
+        Skin skin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
+        score = Utilities.initLabel(skin, "title", config.resolution / 2,
+                3.2f * config.resolution / 4, 1, Color.WHITE);
 
-        timer = new Label("00:00", mySkin);
-        timer.setSize(100, 20);
-        timer.setPosition(config.resolution / 2 - 44, config.resolution / 4);
-        timer.setFontScale(1);
-        timer.setColor(Color.GOLD);
-        timer.setAlignment(Align.center);
+        points = Utilities.initLabel(skin, "default", config.resolution / 2,
+                0.8f * config.resolution / 4, 1, Color.WHITE);
 
-        goalScored = new Label("", mySkin, "title");
-        goalScored.setSize(100, 20);
-        goalScored.setPosition(config.resolution / 2 - 44, config.resolution / 2);
-        goalScored.setFontScale(1.2f);
-        goalScored.setColor(Color.RED);
-        goalScored.setAlignment(Align.center);
+        timer = Utilities.initLabel(skin, "default", config.resolution / 2,
+                config.resolution / 4, 1, Color.GOLD);
+
+        alert = Utilities.initLabel(skin, "title", config.resolution / 2,
+                config.resolution / 2, 1.2f, Color.RED);
     }
+
 
     /**
      * Shows the view.
@@ -151,14 +145,19 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         loadTimeLabel();
         loadGoalLabel();
 
-        score.setText(gameOperator.getScoreLeft() + "-" + gameOperator.getScoreRight());
+        score.setText(gameOperator.getLevel().getLeftGoals()
+                + "-" + gameOperator.getLevel().getRightGoals());
+        points.setText("Points: " + gameOperator.getLevel().getScore());
+        if (!multiplayer) {
+            stage.addActor(points);
+        }
         stage.addActor(score);
         stage.addActor(timer);
-        stage.addActor(goalScored);
+        stage.addActor(alert);
 
         stage.draw();
 
-        if (gameOperator.checkGameFinished() && clear) {
+        if (gameOperator.isFinished() && clear) {
             game.setScreen(new MenuScreen(game, true));
             sound.stop();
         }
@@ -202,16 +201,15 @@ public class GameScreen extends ApplicationAdapter implements Screen {
      */
     private void loadGoalLabel() {
         if (gameOperator.isGoalScored) {
-            if (gameOperator.checkGameFinished()) {
-                goalScored.setText("GAME OVER!!!");
+            if (gameOperator.isFinished()) {
+                alert.setText("GAME OVER!!!");
             } else {
-                goalScored.setText("GOAL!!!");
+                alert.setText("GOAL!!!");
             }
 
             gameOperator.isGoalScored = false;
             clear = false;
         } else {
-
             if (!clear) {
                 Sound cheer = Gdx.audio.newSound(Gdx.files.internal("music/cheer.mp3"));
                 cheer.play(1.0f);
@@ -220,7 +218,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                goalScored.setText("");
+                alert.setText("");
                 clear = true;
             }
         }
@@ -234,6 +232,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         String formatted = String.format("%02d:%02d", time / 3600, (time / 60) % 60);
         timer.setText(formatted);
     }
+
 
     private void drawPlanet(Sprite sprite, float radius, Vector2 position) {
         int width = (int) CoordinateTranslator.translateSize(2 * radius);
