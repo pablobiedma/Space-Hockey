@@ -158,7 +158,9 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         stage.draw();
 
         if (gameOperator.isFinished() && clear) {
-            game.setScreen(new MenuScreen(game, true));
+            Sound background = Gdx.audio.newSound(Gdx.files.internal("music/open-space.mp3"));
+            background.loop();
+            game.setScreen(new PreGameScreen(game, background, player));
             sound.stop();
         }
     }

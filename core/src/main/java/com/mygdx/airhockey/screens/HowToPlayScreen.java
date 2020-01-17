@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -43,7 +42,7 @@ public class HowToPlayScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
         font = new BitmapFont(Gdx.files.internal("Craftacular_UI_Skin/text.fnt"), false);
-        font.setColor(Color.WHITE);
+        font.setColor(Color.LIGHT_GRAY);
 
         controls = Utilities.initLabel(skin, "title", config.resolution / 2,
                 9 * config.resolution / 10, 1f, Color.GOLD);
@@ -83,8 +82,8 @@ public class HowToPlayScreen implements Screen {
         //        Gdx.graphics.getHeight());
 
         font.draw(stage.getBatch(),
-                "Left player uses WASD to move his paddle."
-                        + "\nRight paddle is steered by the AI in single player"
+                "Player uses WASD keys to move the left paddle."
+                        + "\nRight paddle is controlled by the AI in single player"
                         + "\nand by arrow keys in local multiplayer mode.",
                 1.5f * config.resolution / 10, 8.5f * config.resolution / 10);
 

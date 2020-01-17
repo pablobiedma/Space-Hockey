@@ -2,18 +2,13 @@ package com.mygdx.airhockey.backend;
 
 import com.badlogic.gdx.Input;
 import com.mygdx.airhockey.movement.KeySet;
-//import java.io.IOException;
-//import java.io.InputStream;
-//import java.util.Properties;
 
 public class Config {
-    private static String configPath = "./config.properties";
     private static Config instance;
 
     public transient String bluePaddleTexturePath;
     public transient String redPaddleTexturePath;
     public transient String puckTexturePath;
-    public transient String pitchTexturePath;
 
     /**
      * Resolution and viewport parameters.
@@ -57,7 +52,7 @@ public class Config {
     /**
      * Constructor for config singleton.
      */
-    private Config(String configPath) {
+    private Config() {
         bluePaddleTexturePath = "sprite/planet1.png";
         redPaddleTexturePath = "sprite/planet2.png";
         puckTexturePath = "sprite/puck.png";
@@ -87,47 +82,6 @@ public class Config {
             Input.Keys.DPAD_LEFT, Input.Keys.DPAD_RIGHT, Input.Keys.DPAD_UP, Input.Keys.DPAD_DOWN);
         redPaddleKeys = new KeySet(
             Input.Keys.A, Input.Keys.D, Input.Keys.W, Input.Keys.S);
-        //try (InputStream input = Thread.currentThread()
-        //        .getContextClassLoader().getResourceAsStream(configPath)) {
-        //    Properties properties = new Properties();
-        //
-        //    if (input == null) {
-        //        System.out.println("Sorry, unable to find config.properties");
-        //        return;
-        //    }
-        //    properties.load(input);
-        //
-        //    bluePaddleTexturePath = properties.getProperty("BLUE_PADDLE_TEXTURE_PATH");
-        //    redPaddleTexturePath = properties.getProperty("RED_PADDLE_TEXTURE_PATH");
-        //    puckTexturePath = properties.getProperty("PUCK_TEXTURE_PATH");
-        //    pitchTexturePath = properties.getProperty("PITCH_TEXTURE_PATH");
-        //    viewportSize = Integer.parseInt(properties.getProperty("VIEWPORT_SIZE"));
-        //    resolution = Integer.parseInt(properties.getProperty("RESOLUTION"));
-        //    redPaddleX = -viewportSize / 4;
-        //    bluePaddleX = viewportSize / 4;
-        //
-        //    paddleRadius = Float.parseFloat(properties.getProperty("PADDLE_RADIUS"));
-        //    paddleDensity = Float.parseFloat(properties.getProperty("PADDLE_DENSITY"));
-        //    paddleFriction = Float.parseFloat(properties.getProperty("PADDLE_FRICTION"));
-        //    paddleRestitution = Float.parseFloat(properties.getProperty("PADDLE_RESTITUTION"));
-        //    paddleSpeed = Float.parseFloat(properties.getProperty("PADDLE_SPEED"));
-        //
-        //    puckRadius = Float.parseFloat(properties.getProperty("PUCK_RADIUS"));
-        //    puckDensity = Float.parseFloat(properties.getProperty("PUCK_DENSITY"));
-        //    puckFriction = Float.parseFloat(properties.getProperty("PUCK_FRICTION"));
-        //    puckRestitution = Float.parseFloat(properties.getProperty("PUCK_RESTITUTION"));
-        //
-        //    wallHeight = Float.parseFloat(properties.getProperty("WALL_HEIGHT"));
-        //    wallWidth = Float.parseFloat(properties.getProperty("WALL_WIDTH"));
-        //
-        //    bluePaddleKeys = new KeyCodeSet(Input.Keys.DPAD_LEFT, Input.Keys.DPAD_RIGHT,
-        //            Input.Keys.DPAD_UP, Input.Keys.DPAD_DOWN);
-        //    redPaddleKeys = new KeyCodeSet(Input.Keys.A, Input.Keys.D,
-        //    Input.Keys.W, Input.Keys.S);
-        //
-        //} catch (IOException ex) {
-        //    ex.printStackTrace();
-        //}
     }
 
     /**
@@ -136,7 +90,7 @@ public class Config {
      */
     public static Config getInstance() {
         if (instance == null) {
-            instance = new Config(configPath);
+            instance = new Config();
         }
         return instance;
     }

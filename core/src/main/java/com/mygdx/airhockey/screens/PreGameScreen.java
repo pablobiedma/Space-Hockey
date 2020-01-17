@@ -106,7 +106,6 @@ public class PreGameScreen implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(
                         new HowToPlayScreen(game, player, sound));
-                sound.stop();
                 return true;
             }
         });

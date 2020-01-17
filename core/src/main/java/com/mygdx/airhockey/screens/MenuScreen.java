@@ -23,9 +23,7 @@ public class MenuScreen implements Screen {
     private transient Game game;
     private static final TextureRegion backgroundTexture = new TextureRegion(
             new Texture("arcade.png"), 0, 0, 900, 900);
-    private static final Sound backgroundSound =
-            Gdx.audio.newSound(Gdx.files.internal("music/open-space.mp3"));
-
+    private static final Sound backgroundSound = Gdx.audio.newSound(Gdx.files.internal("music/open-space.mp3"));
 
     /**
      * Instantiates a menu screen.
