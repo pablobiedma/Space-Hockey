@@ -35,8 +35,8 @@ class AiMovementControllerTest {
 
     @Test
     void bodyXSmaller() {
-        Mockito.when(body.getPosition()).thenReturn(new Vector2(config.wallWidth -
-                config.bluePaddleX / 4,0f));
+        Mockito.when(body.getPosition()).thenReturn(new Vector2(config.wallWidth
+                - config.bluePaddleX / 4,0f));
         Mockito.when(puck.getBody().getPosition()).thenReturn(new Vector2(-5,0));
         //        Mockito.when(towardsDefault.len()).thenReturn(0.4f);
         System.out.println(MovementController.touchesMiddleLine(body));
@@ -44,21 +44,87 @@ class AiMovementControllerTest {
         Mockito.verify(body,Mockito.times(1)).setLinearVelocity(0f, 0f);
     }
 
+    @Test
+    void bodyXGreater() {
+        Mockito.when(body.getPosition()).thenReturn(new Vector2(config.wallWidth
+                - config.bluePaddleX / 4,1f));
+        Mockito.when(puck.getBody().getPosition()).thenReturn(new Vector2(-5,0));
+
+        System.out.println(MovementController.touchesMiddleLine(body));
+        System.out.println(puck.getBody().getPosition().x < 0);
+
+        aiMovementController.updateVelocity(body);
+
+        float x = config.wallWidth - config.bluePaddleX / 4
+                - body.getPosition().x;
+        float y = body.getPosition().y;
+        Vector2 towardsDefault = new Vector2(x, -y);
+        towardsDefault.setLength(config.paddleSpeed);
+        System.out.println(config.paddleSpeed);
+        Mockito.verify(body, Mockito.times(1)).setLinearVelocity(towardsDefault);
+    }
+
+    @Test
+    void puckBehindAI() {
+        Mockito.when(body.getPosition()).thenReturn(new Vector2(1f,0f));
+        Mockito.when(puck.getBody().getPosition())
+                .thenReturn(new Vector2(config.bluePaddleX + 1,0));
+
+        aiMovementController.updateVelocity(body);
+
+        float x = puck.getBody().getPosition().x - body.getPosition().x;
+        float y = puck.getBody().getPosition().y - body.getPosition().y;
+        Vector2 towardsPuck = new Vector2(x, y);
+        towardsPuck.setLength(config.paddleSpeed);
+        System.out.println(x);
+
+        Mockito.when(puck.getBody().getLinearVelocity()).thenReturn(new Vector2(1.5f,0f));
+        aiMovementController.updateVelocity(body);
+        Mockito.verify(body,Mockito.times(2)).setLinearVelocity(towardsPuck);
+    }
+
+    @Test
+    void towardGoal() {
+        Mockito.when(body.getPosition()).thenReturn(new Vector2(19f,0f));
+        Mockito.when(puck.getBody().getPosition())
+                .thenReturn(new Vector2(config.bluePaddleX + 1,0));
+        Mockito.when(puck.getBody().getLinearVelocity()).thenReturn(new Vector2(3f,0f));
+
+        System.out.println(config.wallWidth);
+        aiMovementController.updateVelocity(body);
+        Mockito.verify(body,Mockito.times(1)).setLinearVelocity(0f,0f);
+    }
+
+    @Test
+    void towardGoalElse() {
+        Mockito.when(body.getPosition()).thenReturn(new Vector2(5f,0f));
+        Mockito.when(puck.getBody().getPosition())
+                .thenReturn(new Vector2(config.bluePaddleX + 1,0));
+        Mockito.when(puck.getBody().getLinearVelocity()).thenReturn(new Vector2(3f,0f));
+
+        float x = body.getPosition().x;
+        float y = body.getPosition().y;
+        Vector2 towardsOwnGoal = new Vector2(config.wallWidth - x, -y);
+        towardsOwnGoal.setLength(config.paddleSpeed);
+        aiMovementController.updateVelocity(body);
+        Mockito.verify(body,Mockito.times(1)).setLinearVelocity(towardsOwnGoal);
+    }
+
     //    @Test
-    //    void bodyXGreater(){
+    //    void towardsPuck(){
+    //        Mockito.when(puck.getBody().getPosition()).thenReturn(new Vector2(10f,8f));
     //        Mockito.when(body.getPosition()).thenReturn(new Vector2(config.wallWidth -
-    //        config.bluePaddleX / 4,1f));
-    //        Mockito.when(puck.getBody().getPosition()).thenReturn(new Vector2(-5,0));
-    //
+    //                config.bluePaddleX / 4,0f));
+    //        float puckX = puck.getBody().getPosition().x;
+    //        float puckY = puck.getBody().getPosition().y;
+    //        float x = body.getPosition().x;
+    //        float y = body.getPosition().y;
+    //        Vector2 towardsPuck = new Vector2(puckX - x, puckY - y);
+    //        towardsPuck.setLength(config.paddleSpeed);
+    //        System.out.println(towardsPuck.x);
     //        System.out.println(MovementController.touchesMiddleLine(body));
     //        System.out.println(puck.getBody().getPosition().x < 0);
-    //        aiMovementController.updateVelocity(body);
-    //        float x = puck.getBody().getPosition().x -body.getPosition().x;
-    //        float y = puck.getBody().getPosition().y - body.getPosition().y;
-    //        Vector2 towardsDefault = new Vector2(config.wallWidth -
-    //        config.bluePaddleX / 4 - x, -y);
-    //        towardsDefault.setLength(config.paddleSpeed);
-    //        System.out.println(config.paddleSpeed);
-    //        Mockito.verify(body, Mockito.times(1)).setLinearVelocity(0.0f, -20.0f);
+    //        System.out.println(puck.getBody().getPosition().x > config.bluePaddleX);
+    //        Mockito.verify(body, Mockito.times(1)).setLinearVelocity(towardsPuck);
     //    }
 }
