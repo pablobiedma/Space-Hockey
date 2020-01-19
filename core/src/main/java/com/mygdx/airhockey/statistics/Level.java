@@ -168,7 +168,7 @@ public class Level {
      * Updates database, updates player points.
      */
     private void finalizeGame() {
-        player.updatePoints(score);
+        //        player.addDatabaseScore(score);
         finished = true;
     }
 }

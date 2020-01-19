@@ -46,7 +46,7 @@ public class LoginScreen extends AuthScreen {
         DatabaseController database = new DatabaseController(new TuDbConnectionFactory());
         Authentication auth = new Authentication(database);
         if (auth.signIn(username, password)) {
-            Player player = new Player(username, database.getPoints(username));
+            Player player = new Player(username, database.getPersonalTopScore(username));
             game.setScreen(new GameScreen(game, player));
             sound.stop();
         } else {
