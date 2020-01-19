@@ -3,9 +3,12 @@ package com.mygdx.airhockey.statistics;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.mygdx.airhockey.database.ConnectionFactory;
 import com.mygdx.airhockey.database.DatabaseController;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.mygdx.airhockey.database.TuDbConnectionFactory;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

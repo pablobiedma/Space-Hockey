@@ -169,6 +169,7 @@ public class Level {
      */
     private void finalizeGame() {
         //        player.addDatabaseScore(score);
+        // Maciek needs to adjust that, that's why it is not deleted.
         finished = true;
     }
 }

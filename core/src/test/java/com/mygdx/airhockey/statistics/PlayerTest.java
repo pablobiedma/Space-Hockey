@@ -49,12 +49,6 @@ class PlayerTest {
     }
 
 
-    //    @Test
-    //    void updatePoints() {
-    //        player.updatePoints(50);
-    //        assertEquals(50, player.getPoints());
-    //    }
-
     @Test
     void updateDatabaseScore() {
         database = Mockito.mock(DatabaseController.class);
