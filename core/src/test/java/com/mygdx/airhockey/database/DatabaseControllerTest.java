@@ -71,6 +71,7 @@ class DatabaseControllerTest {
         Mockito.when(resultSet.next()).thenReturn(false);
         Assertions.assertFalse(databaseMethods.userExists("----------"));
         Mockito.verify(resultSet,Mockito.times(2)).next();
+        Mockito.verify(conn, Mockito.times(2)).close();
     }
 
     @Test
@@ -83,6 +84,7 @@ class DatabaseControllerTest {
         Assertions.assertEquals(user, databaseMethods.getUser(test));
         Mockito.verify(resultSet,Mockito.times(1)).getString("username");
         Mockito.verify(resultSet,Mockito.times(1)).getString(pass);
+        Mockito.verify(conn, Mockito.times(2)).close();
     }
 
     @Test
@@ -93,6 +95,7 @@ class DatabaseControllerTest {
 
         Assertions.assertEquals(user.getPassword(), databaseMethods.getHashedPassword(test));
         Mockito.verify(resultSet,Mockito.times(1)).getString(pass);
+        Mockito.verify(conn, Mockito.times(2)).close();
     }
 
     @Test
@@ -100,9 +103,10 @@ class DatabaseControllerTest {
         String username = test;
         String hashedPassword = "XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg";
         databaseMethods.createUser(username, hashedPassword);
-        Mockito.verify(preparedStatement,Mockito.times(1)).setInt(2, 0);
+        Mockito.verify(preparedStatement,Mockito.times(2)).setString(1, username);
         Mockito.when(resultSet.next()).thenReturn(true);
         Assertions.assertTrue(databaseMethods.userExists(username));
+        Mockito.verify(conn, Mockito.times(3)).close();
 
     }
 
@@ -117,35 +121,42 @@ class DatabaseControllerTest {
         Assertions.assertNull(databaseMethods.getConnectionFactory());
     }
 
-    @Test
-    void getPoints() throws SQLException {
-        int points = 19;
 
-        Mockito.when(resultSet.getInt(score)).thenReturn(points);
-        Assertions.assertEquals(points, databaseMethods.getPoints(test));
-        Mockito.verify(resultSet, Mockito.times(1)).getInt(score);
-    }
 
     @Test
-    void updateScore() throws SQLException {
+    void addScore() throws SQLException {
         int points = 21;
 
         Mockito.when(resultSet.getInt(score)).thenReturn(points);
-        databaseMethods.updateScore(nick, points);
+        databaseMethods.addScore(nick, points, nick);
         Mockito.when(resultSet.next()).thenReturn(true);
-        Assertions.assertEquals(points, databaseMethods.getPoints(nick));
 
-        Mockito.verify(preparedStatement,Mockito.times(1)).setInt(1, points);
-        Mockito.verify(preparedStatement,Mockito.times(1)).setString(2,nick);
+        Mockito.verify(preparedStatement,Mockito.times(1)).setInt(2, points);
+        Mockito.verify(preparedStatement,Mockito.times(2)).setString(1,nick);
+        Mockito.verify(preparedStatement, Mockito.times(1)).setString(3,nick);
         Mockito.verify(preparedStatement,Mockito.times(1)).execute();
+        Mockito.verify(conn,Mockito.times(2)).close();
     }
 
     @Test
     void getScore() throws SQLException {
-        databaseMethods.getScore(test);
+        databaseMethods.getPersonalTopScore(test);
+        Mockito.verify(resultSet, Mockito.times(1)).getInt("game_id");
         Mockito.verify(resultSet, Mockito.times(1)).getString("username");
         Mockito.verify(resultSet, Mockito.times(1)).getInt(score);
         Mockito.verify(resultSet, Mockito.times(1)).getString("chosen_name");
+        Mockito.verify(conn, Mockito.times(2)).close();
+    }
+
+    @Test
+    void getPoints() throws SQLException {
+        Mockito.when(resultSet.next()).thenReturn(true).thenReturn(true)
+                .thenReturn(true).thenReturn(false);
+        databaseMethods.getPoints(test);
+
+        Mockito.verify(resultSet,Mockito.times(4)).next();
+        Mockito.verify(resultSet, Mockito.times(2)).getInt(score);
+        Mockito.verify(conn, Mockito.times(2)).close();
     }
 
     @Test
@@ -158,6 +169,7 @@ class DatabaseControllerTest {
         Mockito.verify(resultSet,Mockito.times(4)).next();
         Mockito.verify(resultSet, Mockito.times(3)).getString("chosen_name");
         Mockito.verify(resultSet, Mockito.times(3)).getInt(score);
+        Mockito.verify(conn, Mockito.times(1)).close();
     }
 
 }

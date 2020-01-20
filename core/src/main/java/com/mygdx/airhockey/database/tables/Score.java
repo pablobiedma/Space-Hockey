@@ -3,6 +3,7 @@ package com.mygdx.airhockey.database.tables;
 import java.util.Objects;
 
 public class Score {
+    int gameId;
     private String username;
     private int points;
     private String chosenName;
@@ -13,13 +14,21 @@ public class Score {
      * @param points score of player
      * @param chosenName name player chose for score board
      */
-    public Score(String username, int points, String chosenName) {
+    public Score(int gameId, String username, int points, String chosenName) {
+        this.gameId = gameId;
         this.username = username;
         this.points = points;
         this.chosenName = chosenName;
     }
 
 
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
 
     public String getUsername() {
         return username;
@@ -50,6 +59,7 @@ public class Score {
     @Override
     public String toString() {
         return "Score{"
+                + "GameId='" + gameId + '\''
                 + ", Username='" + username + '\''
                 + ", Score='" + points + '\''
                 + ", Chosen name='" + chosenName + '\''
@@ -59,7 +69,7 @@ public class Score {
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, points, chosenName);
+        return Objects.hash(gameId, username, points, chosenName);
     }
 
     @Override
@@ -71,7 +81,8 @@ public class Score {
             return false;
         }
         Score score = (Score) o;
-        return username.equals(score.getUsername())
+        return gameId == score.getGameId()
+                && username.equals(score.getUsername())
                 && points == score.getPoints()
                 && chosenName.equals(score.getChosenName());
     }

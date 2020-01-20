@@ -7,17 +7,18 @@ import com.mygdx.airhockey.statistics.Player;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class DatabaseController {
     private ConnectionFactory connectionFactory;
 
-
     transient Score score = null;
     transient User userDefine = null;
     transient int points = 0;
     transient String password = null;
+    transient boolean exists = false;
 
     /**
      * Constructor for database controller.
@@ -43,7 +44,7 @@ public class DatabaseController {
                 preparedStatement.setString(1, username);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
-                    return resultSet.next();
+                    exists = resultSet.next();
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -60,7 +61,7 @@ public class DatabaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return exists;
     }
 
     /**
@@ -118,7 +119,6 @@ public class DatabaseController {
                 try {
                     resultSet.next();
                     password = resultSet.getString("password");
-                    return password;
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -146,25 +146,19 @@ public class DatabaseController {
     public void createUser(final String username, final String hashedPassword) {
         try {
             String queryUser = "insert into User (Username, Password) VALUES (?,?)";
-            String queryScore = "insert into Score (username, score, chosen_name) VALUES (?,?,?)";
             Connection connection = connectionFactory.getConnection();
             PreparedStatement preparedStatementUser = connection.prepareStatement(queryUser);
-            PreparedStatement preparedStatementScore = connection.prepareStatement(queryScore);
             try {
                 preparedStatementUser.setString(1, username);
                 preparedStatementUser.setString(2, hashedPassword);
-                preparedStatementScore.setString(1, username);
-                preparedStatementScore.setInt(2, 0);
-                preparedStatementScore.setString(3, username);
                 if (!userExists(username)) {
                     preparedStatementUser.execute();
-                    preparedStatementScore.execute();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 preparedStatementUser.close();
-                preparedStatementScore.close();
+                //                preparedStatementScore.close();
                 connection.close();
             }
 
@@ -179,10 +173,10 @@ public class DatabaseController {
      * @param username of the user.
      * @return the score of the user.
      */
-    public Score getScore(String username) {
+    public int getPersonalTopScore(String username) {
         assert userExists(username);
         try {
-            String query = "select * from Score where username = ?";
+            String query = "select score from Score where username = ? ORDER BY score DESC";
             Connection connection = connectionFactory.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
@@ -190,8 +184,9 @@ public class DatabaseController {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
                     resultSet.next();
-                    score = new Score(resultSet.getString("username"),
+                    score = new Score(resultSet.getInt("game_id"), resultSet.getString("username"),
                             resultSet.getInt("score"), resultSet.getString("chosen_name"));
+                    score.getPoints();
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -207,24 +202,27 @@ public class DatabaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return score;
+        return score.getPoints();
     }
 
 
     /**
-     * Updates the score of a user.
-     *
-     * @param username of the user.
+     * Adds score to the database.
+     * @param username username of current player.
+     * @param score score of the last game.
+     * @param chosenName name player has chosen for the leaderboard.
      */
-    public void updateScore(String username, int score) {
+    public void addScore(String username, int score, String chosenName) {
         assert userExists(username);
         try {
-            String query = "update Score SET score = ? where Username = ?";
+            String query =
+                    " insert into Score (username, score, chosen_name) VALUES (?,?,?)";
             Connection connection = connectionFactory.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
-                preparedStatement.setInt(1, score);
-                preparedStatement.setString(2, username);
+                preparedStatement.setString(1, username);
+                preparedStatement.setInt(2, score);
+                preparedStatement.setString(3,chosenName);
                 preparedStatement.execute();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -243,18 +241,22 @@ public class DatabaseController {
      * @return score of game
      * @throws Exception from sql
      */
-    public int getPoints(String username) {
+    public List<Integer> getPoints(String username) {
         assert (userExists(username));
+        List<Integer> scores = new ArrayList<>();
         try {
-            String sql = "SELECT score FROM Score WHERE username = ?";
+            String sql = "SELECT score FROM Score WHERE username = ? ORDER BY score DESC";
             Connection connection = connectionFactory.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             try {
                 preparedStatement.setString(1,username);
                 ResultSet resultSet =  preparedStatement.executeQuery();
                 try {
-                    resultSet.next();
-                    points = resultSet.getInt("score");
+                    while (resultSet.next()) {
+                        points = resultSet.getInt("score");
+                        scores.add(points);
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -269,7 +271,7 @@ public class DatabaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return points;
+        return scores;
     }
 
 
@@ -282,10 +284,11 @@ public class DatabaseController {
         List<Player> players = new LinkedList<Player>();
         try {
             String query =
-                    "SELECT username, score, chosen_name FROM Score ORDER BY score DESC LIMIT = ?";
+                    "SELECT username, score, chosen_name FROM Score ORDER BY score DESC LIMIT ?";
             Connection connection = connectionFactory.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
+                preparedStatement.setInt(1,n);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
                     while (resultSet.next()) {

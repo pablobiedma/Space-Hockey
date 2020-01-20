@@ -54,7 +54,7 @@ class UserTest {
         Assertions.assertFalse(user.equals(userWrong));
         Assertions.assertTrue(user.equals(userSame));
         Assertions.assertTrue(user.equals(user));
-        Score score = new Score("abc", 4, "def");
+        Score score = new Score(6,"abc", 4, "def");
         Assertions.assertFalse(user.equals(score));
     }
 

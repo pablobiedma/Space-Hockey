@@ -50,20 +50,22 @@ public class Player {
         this.username = username;
     }
 
-    /**
-     * Updates user's points.
-     * @param amount to add to current score.
-     */
-    public void updatePoints(double amount) {
-        points += amount;
-    }
+
+    //    /**
+    //     * Updates user's points.
+    //     * @param amount to add to current score.
+    //     */
+    //    public void updatePoints(double amount) {
+    //        points += amount;
+    //    }
 
     /**
-     * Updates the score in the database.
+     * Adds the score to the database.
      * @param database to update.
+     * @param chosenName name the player chose for the leaderboard.
      */
-    public void updateDatabaseScore(DatabaseController database) {
-        database.updateScore(username, points);
+    public void addDatabaseScore(DatabaseController database, String chosenName) {
+        database.addScore(username, points, chosenName);
     }
 
 

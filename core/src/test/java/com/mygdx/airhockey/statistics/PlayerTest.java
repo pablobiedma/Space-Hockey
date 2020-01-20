@@ -48,17 +48,12 @@ class PlayerTest {
         assertEquals("abc", player.getUsername());
     }
 
-    @Test
-    void updatePoints() {
-        player.updatePoints(50);
-        assertEquals(50, player.getPoints());
-    }
 
     @Test
     void updateDatabaseScore() {
         database = Mockito.mock(DatabaseController.class);
-        player.updateDatabaseScore(database);
-        verify(database, times(1)).updateScore(anyString(), anyInt());
+        player.addDatabaseScore(database, "jet");
+        verify(database, times(1)).addScore(anyString(), anyInt(), anyString());
     }
 
     @Test
@@ -77,7 +72,7 @@ class PlayerTest {
         Assertions.assertFalse(player.equals(playerWrong));
         Assertions.assertTrue(player.equals(playerSame));
         Assertions.assertTrue(player.equals(player));
-        Score score = new Score("abc", 4, "def");
+        Score score = new Score(6,"abc", 4, "def");
         Assertions.assertFalse(player.equals(score));
     }
 
