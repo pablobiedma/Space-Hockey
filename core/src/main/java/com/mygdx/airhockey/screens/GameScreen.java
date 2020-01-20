@@ -55,7 +55,6 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     transient int time = 0;
     transient boolean clear = true;
     transient Player player;
-    transient Level level;
     private static final Sprite leftPaddleSprite =
             new Sprite(new Texture(config.redPaddleTexturePath));
     private static final Sprite rightPaddleSprite =
@@ -73,7 +72,6 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         this.game = game;
         this.multiplayer = multiplayer;
         this.player = player;
-        this.level = new Level(player);
         Box2D.init();
         stage = new Stage();
         world = new World(new Vector2(0, 0), true);
@@ -125,7 +123,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glLineWidth(5);
+        Gdx.gl.glLineWidth(1);
 
         stage.clear();
         camera.update();
@@ -133,7 +131,6 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gameOperator.updatePhysics();
-
         stage.getBatch().begin();
         stage.getBatch().draw(
                 backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -160,9 +157,15 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         if (gameOperator.isFinished() && clear) {
             Sound background = Gdx.audio.newSound(Gdx.files.internal("music/open-space.mp3"));
             background.loop();
-            game.setScreen(new PreGameScreen(game, background, player));
+            if (multiplayer) {
+                game.setScreen(new PreGameScreen(game,sound,player));
+            } else {
+                game.setScreen(new EndGameScreen(game,player, sound,
+                        gameOperator.getLevel().getScore()));
+            }
             sound.stop();
         }
+        //debugRenderer.render(world, camera.combined);
     }
 
     /**

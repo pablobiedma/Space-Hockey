@@ -128,13 +128,10 @@ public class GameOperator {
             level.goalRight();
             resetPositions();
             isGoalScored = true;
-            System.out.println(level.getScore());
-
         } else if (goalRight.checkForGoal(puck)) {
             level.goalLeft();
             resetPositions();
             isGoalScored = true;
-            System.out.println(level.getScore());
         }
 
         bluePaddle.updateVelocity();
