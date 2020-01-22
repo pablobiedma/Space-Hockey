@@ -176,7 +176,7 @@ public class DatabaseController {
     public int getPersonalTopScore(String username) {
         assert userExists(username);
         try {
-            String query = "select score from Score where username = ? ORDER BY score DESC";
+            String query = "select * from Score where username = ? ORDER BY score DESC";
             Connection connection = connectionFactory.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
