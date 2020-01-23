@@ -2,6 +2,7 @@ package com.mygdx.airhockey.statistics;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
@@ -53,7 +54,7 @@ class PlayerTest {
     void updateDatabaseScore() {
         database = Mockito.mock(DatabaseController.class);
         player.addDatabaseScore(database, "jet");
-        verify(database, times(1)).addScore(anyString(), anyInt(), anyString());
+        verify(database, times(1)).addScore(anyString(), anyFloat(), anyString());
     }
 
     @Test

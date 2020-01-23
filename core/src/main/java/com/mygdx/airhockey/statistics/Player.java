@@ -50,15 +50,6 @@ public class Player {
         this.username = username;
     }
 
-
-    //    /**
-    //     * Updates user's points.
-    //     * @param amount to add to current score.
-    //     */
-    //    public void updatePoints(double amount) {
-    //        points += amount;
-    //    }
-
     /**
      * Adds the score to the database.
      * @param database to update.

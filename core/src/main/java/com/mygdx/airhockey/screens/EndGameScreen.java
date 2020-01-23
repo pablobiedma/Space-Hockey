@@ -70,7 +70,8 @@ public class EndGameScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (nickname.getText().matches("[A-Za-z0-9_]{5,20}")) {
-                    DatabaseController databaseController = new DatabaseController(new TuDbConnectionFactory());
+                    DatabaseController databaseController =
+                            new DatabaseController(new TuDbConnectionFactory());
                     databaseController.addScore(player.getUsername(), score, nickname.getText());
                     game.setScreen(
                             new PreGameScreen(game, sound, player));

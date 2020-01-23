@@ -2,7 +2,7 @@ package com.mygdx.airhockey.statistics;
 
 public class Level {
     //constants regarding scoring and game rules
-    private static final int MAX_GOALS = 2;
+    private static final int MAX_GOALS = 7;
     private static final float POINTS_PER_GOAL_SCORED = 200;
     private static final float POINTS_PER_GOAL_CONCEDED = -100;
     private static final float POINTS_PER_WIN = 500;
@@ -153,21 +153,17 @@ public class Level {
     private void checkIfFinished() {
         if (leftGoal >= MAX_GOALS) {
             score += POINTS_PER_WIN;
-            finalizeGame();
+            finished = true;
         } else if (rightGoals >= MAX_GOALS) {
             score += POINTS_PER_LOSS;
-            finalizeGame();
+            finished = true;
         }
     }
 
     /**
-     * Finalizes the game.
-     * Updates database, updates player points.
+     * Getter for left goal.
+     * @return score of the left goal.
      */
-    private void finalizeGame() {
-        finished = true;
-    }
-
     public int getLeftGoal() {
         return leftGoal;
     }

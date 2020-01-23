@@ -32,19 +32,14 @@ public class PreGameScreen implements Screen {
     private static final TextureRegion backgroundTexture = new TextureRegion(
             new Texture("background.gif"), 0, 0, 400, 400);
     private transient Sound sound;
-//    private static final Player[] players = {
-//        new Player("cristiano_ronaldo", 1000),
-//        new Player("johntravolta123", 800),
-//        new Player("i_like_cats", 500),
-//        new Player("Destroyer2000", 250),
-//        new Player("Matthew", 100)
-//    };
+    private transient List<Player> players;
 
 
     /**
      * Instantiates a menu screen.
      */
     public PreGameScreen(Game game, Sound sound, Player player) {
+        this.sound = sound;
         this.player = player;
         this.game = game;
         stage = new Stage(new ScreenViewport());
@@ -63,7 +58,7 @@ public class PreGameScreen implements Screen {
         int colWidth = Gdx.graphics.getWidth() / 12;
 
         DatabaseController databaseController = new DatabaseController(new TuDbConnectionFactory());
-        List<Player> players = databaseController.getTopNScores(5);
+        players = databaseController.getTopNScores(5);
         for (int i = 0; i < 5; i++) {
             leaderboard[i][0] = new Label(players.get(i).getUsername(), skin);
             leaderboard[i][0].setPosition(colWidth * 3,

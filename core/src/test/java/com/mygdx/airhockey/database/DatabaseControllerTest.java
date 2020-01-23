@@ -131,7 +131,7 @@ class DatabaseControllerTest {
         databaseMethods.addScore(nick, points, nick);
         Mockito.when(resultSet.next()).thenReturn(true);
 
-        Mockito.verify(preparedStatement,Mockito.times(1)).setInt(2, points);
+        Mockito.verify(preparedStatement,Mockito.times(1)).setFloat(2, points);
         Mockito.verify(preparedStatement,Mockito.times(2)).setString(1,nick);
         Mockito.verify(preparedStatement, Mockito.times(1)).setString(3,nick);
         Mockito.verify(preparedStatement,Mockito.times(1)).execute();
