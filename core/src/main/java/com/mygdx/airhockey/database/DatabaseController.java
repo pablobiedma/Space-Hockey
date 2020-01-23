@@ -182,7 +182,7 @@ public class DatabaseController {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
                     if (resultSet.next()) {
-                        return resultSet.getFloat("score");
+                        points = resultSet.getFloat("score");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -199,7 +199,7 @@ public class DatabaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return points;
     }
 
 
