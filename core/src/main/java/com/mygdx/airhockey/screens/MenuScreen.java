@@ -26,7 +26,6 @@ public class MenuScreen implements Screen {
     private static final Sound backgroundSound =
             Gdx.audio.newSound(Gdx.files.internal("music/open-space.mp3"));
 
-
     /**
      * Instantiates a menu screen.
      * @param game to initialize the screen with.
@@ -42,12 +41,12 @@ public class MenuScreen implements Screen {
 
         Skin mySkin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
 
-        Label logo = new Label("SPACE HOCKEY", mySkin);
-        logo.setFontScale(1.75f);
+        Label logo = new Label("SPACE HOCKEY", mySkin, "title");
+        logo.setFontScale(1);
         logo.setAlignment(Align.center);
         logo.setWidth(1000);
         int rowHeight = Gdx.graphics.getWidth() / 12;
-        logo.setPosition(0, Gdx.graphics.getHeight() - rowHeight * 2);
+        logo.setPosition(10, Gdx.graphics.getHeight() - rowHeight * 2);
         logo.setColor(Color.GOLD);
         stage.addActor(logo);
 

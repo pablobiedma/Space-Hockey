@@ -12,8 +12,11 @@ import com.mygdx.airhockey.elements.Goal;
 import com.mygdx.airhockey.elements.Paddle;
 import com.mygdx.airhockey.elements.Pitch;
 import com.mygdx.airhockey.elements.Puck;
+import com.mygdx.airhockey.statistics.Level;
+import com.mygdx.airhockey.statistics.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 class GameOperatorTest {
@@ -34,6 +37,8 @@ class GameOperatorTest {
         goalLeft = Mockito.mock(Goal.class);
         goalRight = Mockito.mock(Goal.class);
         gameOperator = new GameOperator(pitch, redPaddle, bluePaddle, puck, goalLeft, goalRight);
+        Player player = Mockito.mock(Player.class);
+        gameOperator.level = new Level(player);
     }
 
     @Test
@@ -46,20 +51,19 @@ class GameOperatorTest {
 
         Mockito.when(goalLeft.checkForGoal(puck)).thenReturn(true);
         gameOperator.updatePhysics();
-        assertEquals(1, gameOperator.getScoreRight());
+        assertEquals(1, gameOperator.getLevel().getRightGoals());
 
         Mockito.when(goalLeft.checkForGoal(puck)).thenReturn(false);
         Mockito.when(goalRight.checkForGoal(puck)).thenReturn(true);
         gameOperator.updatePhysics();
-        assertEquals(1, gameOperator.getScoreLeft());
+        assertEquals(1, gameOperator.getLevel().getLeftGoals());
     }
 
     @Test
     void testGameFinished() {
-        assertFalse(gameOperator.checkGameFinished());
-
-        gameOperator.scoreRight = 10;
-        assertTrue(gameOperator.checkGameFinished());
+        assertFalse(gameOperator.isFinished());
+        gameOperator.getLevel().setFinished(true);
+        assertTrue(gameOperator.isFinished());
     }
 
     @Test
@@ -115,19 +119,6 @@ class GameOperatorTest {
     void setPuck() {
         gameOperator.setPuck(null);
         assertNull(gameOperator.getPuck());
-    }
-
-
-    @Test
-    void getandsetScoreLeft() {
-        gameOperator.setScoreLeft(1);
-        assertEquals(1, gameOperator.getScoreLeft());
-    }
-
-    @Test
-    void getandsetScoreRight() {
-        gameOperator.setScoreRight(1);
-        assertEquals(1, gameOperator.getScoreRight());
     }
 
     @Test

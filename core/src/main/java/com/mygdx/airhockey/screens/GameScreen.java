@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -20,7 +21,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Align;
 import com.mygdx.airhockey.backend.Config;
 import com.mygdx.airhockey.backend.CoordinateTranslator;
 import com.mygdx.airhockey.backend.GameOperator;
@@ -38,6 +38,7 @@ import com.mygdx.airhockey.statistics.Player;
  */
 public class GameScreen extends ApplicationAdapter implements Screen {
     private static final Config config = Config.getInstance();
+    transient boolean multiplayer;
     transient ShapeRenderer shapeRenderer;
     transient Game game;
     transient GameOperator gameOperator;
@@ -48,31 +49,40 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     transient Stage stage;
     transient Label score;
     transient Label timer;
-    transient Label goalScored;
+    transient Label points;
+    transient Label alert;
     transient TextureRegion backgroundTexture;
     transient int time = 0;
     transient boolean clear = true;
     transient Player player;
     transient Level level;
+    private static final Sprite leftPaddleSprite =
+            new Sprite(new Texture(config.redPaddleTexturePath));
+    private static final Sprite rightPaddleSprite =
+            new Sprite(new Texture(config.bluePaddleTexturePath));
+    private static final Sprite puckSprite = new Sprite(new Texture(config.puckTexturePath));
+    private static final Sound sound = Gdx.audio.newSound(
+            Gdx.files.internal("music/bensound-funkyelement.mp3"));
 
     /**
      * Constructor for game screen class.
      * Creates the game screen object.
      */
-    public GameScreen(Game game, Player player) {
+    public GameScreen(Game game, Player player, boolean multiplayer) {
         backgroundTexture = new TextureRegion(new Texture("background.gif"), 0, 0, 400, 400);
         this.game = game;
+        this.multiplayer = multiplayer;
         this.player = player;
         this.level = new Level(player);
         Box2D.init();
         stage = new Stage();
         world = new World(new Vector2(0, 0), true);
-        gameOperator = new GameOperator(world);
+        gameOperator = new GameOperator(world, player, multiplayer);
         debugRenderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(config.viewportSize, config.viewportSize);
         shapeRenderer = new ShapeRenderer();
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/bensound-funkyelement.mp3"));
-        sound.play();
+        batch = new SpriteBatch();
+        sound.loop();
         initializeUI();
     }
 
@@ -80,29 +90,27 @@ public class GameScreen extends ApplicationAdapter implements Screen {
      * Initializes the UI.
      */
     private void initializeUI() {
-        Skin mySkin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
-        score = new Label("5-5", mySkin);
-        score.setSize(100, 20);
-        score.setPosition(config.resolution / 2 - 45, 3 * config.resolution / 4);
-        score.setFontScale(2);
-        score.setColor(Color.WHITE);
-        score.setAlignment(Align.center);
+        int paddleWidth = (int) CoordinateTranslator.translateSize(2 * config.paddleRadius);
+        leftPaddleSprite.setSize(paddleWidth, paddleWidth);
+        rightPaddleSprite.setSize(paddleWidth, paddleWidth);
 
-        timer = new Label("00:00", mySkin);
-        timer.setSize(100, 20);
-        timer.setPosition(config.resolution / 2 - 44, config.resolution / 4);
-        timer.setFontScale(1);
-        timer.setColor(Color.GOLD);
-        timer.setAlignment(Align.center);
+        int puckWidth = (int) CoordinateTranslator.translateSize(2 * config.puckRadius);
+        puckSprite.setSize(puckWidth, puckWidth);
 
-        goalScored = new Label("", mySkin);
-        goalScored.setSize(100, 20);
-        goalScored.setPosition(config.resolution / 2 - 44, config.resolution / 2);
-        goalScored.setFontScale(2);
-        goalScored.setColor(Color.RED);
-        goalScored.setAlignment(Align.center);
+        Skin skin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
+        score = Utilities.initLabel(skin, "title", config.resolution / 2,
+                3.2f * config.resolution / 4, 1, Color.WHITE);
 
+        points = Utilities.initLabel(skin, "default", config.resolution / 2,
+                0.8f * config.resolution / 4, 1, Color.WHITE);
+
+        timer = Utilities.initLabel(skin, "default", config.resolution / 2,
+                config.resolution / 4, 1, Color.GOLD);
+
+        alert = Utilities.initLabel(skin, "title", config.resolution / 2,
+                config.resolution / 2, 1.2f, Color.RED);
     }
+
 
     /**
      * Shows the view.
@@ -132,21 +140,32 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         stage.getBatch().end();
 
         drawPitch();
-        drawPuck();
-        drawPaddles();
+        drawElements();
 
         loadTimeLabel();
         loadGoalLabel();
 
-        score.setText(gameOperator.getScoreLeft() + "-" + gameOperator.getScoreRight());
+        score.setText(gameOperator.getLevel().getLeftGoals()
+                + "-" + gameOperator.getLevel().getRightGoals());
+        points.setText("Points: " + gameOperator.getLevel().getScore());
+        if (!multiplayer) {
+            stage.addActor(points);
+        }
         stage.addActor(score);
         stage.addActor(timer);
-        stage.addActor(goalScored);
+        stage.addActor(alert);
 
         stage.draw();
 
-        if (gameOperator.checkGameFinished() && clear) {
-            game.setScreen(new MenuScreen(game, true));
+        if (gameOperator.isFinished() && clear) {
+            if (multiplayer) {
+                game.setScreen(new MenuScreen(game, true));
+            } else {
+                game.setScreen(new EndGameScreen(
+                        game, player,sound, gameOperator.getLevel().getScore()));
+            }
+
+            sound.stop();
         }
     }
 
@@ -188,25 +207,24 @@ public class GameScreen extends ApplicationAdapter implements Screen {
      */
     private void loadGoalLabel() {
         if (gameOperator.isGoalScored) {
-            if (gameOperator.checkGameFinished()) {
-                goalScored.setText("GAME OVER!!!");
+            if (gameOperator.isFinished()) {
+                alert.setText("GAME OVER!!!");
             } else {
-                goalScored.setText("GOAL!!!");
+                alert.setText("GOAL!!!");
             }
 
             gameOperator.isGoalScored = false;
             clear = false;
         } else {
-
             if (!clear) {
-                Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/cheer.mp3"));
-                sound.play(1.0f);
+                Sound cheer = Gdx.audio.newSound(Gdx.files.internal("music/cheer.mp3"));
+                cheer.play(1.0f);
                 try {
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                goalScored.setText("");
+                alert.setText("");
                 clear = true;
             }
         }
@@ -221,41 +239,25 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         timer.setText(formatted);
     }
 
-    /**
-     * Draws paddles.
-     */
-    private void drawPaddles() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.WHITE);
-        Vector2 redPaddlePosition = CoordinateTranslator.translatePosition(
-                gameOperator.getRedPaddle().getBody().getPosition());
-        Vector2 bluePaddlePosition = CoordinateTranslator.translatePosition(
-                gameOperator.getBluePaddle().getBody().getPosition());
-        shapeRenderer.circle(redPaddlePosition.x, redPaddlePosition.y,
-                CoordinateTranslator.translateSize(config.paddleRadius));
-        shapeRenderer.circle(bluePaddlePosition.x, bluePaddlePosition.y,
-                CoordinateTranslator.translateSize(config.paddleRadius));
-        shapeRenderer.end();
+
+    private void drawPlanet(Sprite sprite, float radius, Vector2 position) {
+        int width = (int) CoordinateTranslator.translateSize(2 * radius);
+        Vector2 spritePos = CoordinateTranslator.translatePosition(position);
+        sprite.setPosition(spritePos.x - width / 2, spritePos.y - width / 2);
+        sprite.draw(batch);
     }
 
     /**
-     * Draws puck.
+     * Draws paddles.
      */
-    private void drawPuck() {
-        Vector2 puckPosition = CoordinateTranslator.translatePosition(
-                gameOperator.getPuck().getBody().getPosition());
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.LIGHT_GRAY);
-        shapeRenderer.circle(puckPosition.x, puckPosition.y,
-                CoordinateTranslator.translateSize(config.puckRadius), 64);
-        shapeRenderer.end();
-
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.circle(puckPosition.x, puckPosition.y,
-                CoordinateTranslator.translateSize(config.puckRadius), 64);
-        shapeRenderer.end();
+    private void drawElements() {
+        batch.begin();
+        drawPlanet(leftPaddleSprite, config.paddleRadius,
+                gameOperator.getRedPaddle().getBody().getPosition());
+        drawPlanet(rightPaddleSprite, config.paddleRadius,
+                gameOperator.getBluePaddle().getBody().getPosition());
+        drawPlanet(puckSprite, config.puckRadius, gameOperator.getPuck().getBody().getPosition());
+        batch.end();
     }
 
     @Override

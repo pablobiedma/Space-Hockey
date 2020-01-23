@@ -36,24 +36,24 @@ class LevelTest {
 
     @Test
     void getPlayerGoals() {
-        assertEquals(0, level.getPlayerGoals());
+        assertEquals(0, level.getLeftGoals());
     }
 
     @Test
     void getAiGoals() {
-        assertEquals(0, level.getAiGoals());
+        assertEquals(0, level.getRightGoals());
     }
 
     @Test
     void goalFor() {
-        level.goalFor();
-        assertEquals(1, level.getPlayerGoals());
+        level.goalLeft();
+        assertEquals(1, level.getLeftGoals());
     }
 
     @Test
     void goalAgainst() {
-        level.goalAgainst();
-        assertEquals(1, level.getAiGoals());
+        level.goalRight();
+        assertEquals(1, level.getRightGoals());
     }
 
     @Test
@@ -71,7 +71,7 @@ class LevelTest {
     @Test
     void playerWins() {
         for (int i = 0; i < 7; i++) {
-            level.goalFor();
+            level.goalLeft();
         }
         assertTrue(level.isFinished());
     }
@@ -79,7 +79,7 @@ class LevelTest {
     @Test
     void aiWins() {
         for (int i = 0; i < 7; i++) {
-            level.goalAgainst();
+            level.goalRight();
         }
         assertTrue(level.isFinished());
     }
@@ -98,14 +98,14 @@ class LevelTest {
 
     @Test
     void setPlayerGoals() {
-        level.setPlayerGoals(5);
-        assertEquals(level.getPlayerGoals(), 5);
+        level.setLeftGoal(5);
+        assertEquals(level.getLeftGoals(), 5);
     }
 
     @Test
     void setAiGoals() {
-        level.setAiGoals(5);
-        assertEquals(level.getAiGoals(),5);
+        level.setRightGoals(5);
+        assertEquals(level.getRightGoals(),5);
     }
 
     @Test
