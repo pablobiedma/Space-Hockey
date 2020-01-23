@@ -80,7 +80,7 @@ class PlayerTest {
     @Test
     void testToString() {
         Player player = new Player("mies", 1);
-        String string = "Player{Username='mies', Points='1'}";
+        String string = "Player{Username='mies', Points='1.0'}";
         Assertions.assertEquals(string, player.toString());
     }
 

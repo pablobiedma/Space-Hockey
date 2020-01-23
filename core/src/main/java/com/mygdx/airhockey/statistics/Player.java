@@ -5,7 +5,7 @@ import com.mygdx.airhockey.database.DatabaseController;
 import java.util.Objects;
 
 public class Player {
-    private int points;
+    private float points;
     private String username;
 
     /**
@@ -13,7 +13,7 @@ public class Player {
      * @param username for the player.
      * @param points the player has.
      */
-    public Player(String username, int points) {
+    public Player(String username, float points) {
         this.username = username;
         this.points = points;
     }
@@ -22,7 +22,7 @@ public class Player {
      * Getter for points.
      * @return points of the user.
      */
-    public double getPoints() {
+    public float getPoints() {
         return points;
     }
 
@@ -30,7 +30,7 @@ public class Player {
      * Setter for points.
      * @param points value to set.
      */
-    public void setPoints(int points) {
+    public void setPoints(float points) {
         this.points = points;
     }
 
@@ -49,6 +49,15 @@ public class Player {
     public void setUsername(String username) {
         this.username = username;
     }
+
+
+    //    /**
+    //     * Updates user's points.
+    //     * @param amount to add to current score.
+    //     */
+    //    public void updatePoints(double amount) {
+    //        points += amount;
+    //    }
 
     /**
      * Adds the score to the database.
