@@ -125,13 +125,13 @@ class DatabaseControllerTest {
 
     @Test
     void addScore() throws SQLException {
-        int points = 21;
+        float points = 21;
 
-        Mockito.when(resultSet.getInt(score)).thenReturn(points);
+        Mockito.when(resultSet.getFloat(score)).thenReturn(points);
         databaseMethods.addScore(nick, points, nick);
         Mockito.when(resultSet.next()).thenReturn(true);
 
-        Mockito.verify(preparedStatement,Mockito.times(1)).setInt(2, points);
+        Mockito.verify(preparedStatement,Mockito.times(1)).setFloat(2, points);
         Mockito.verify(preparedStatement,Mockito.times(2)).setString(1,nick);
         Mockito.verify(preparedStatement, Mockito.times(1)).setString(3,nick);
         Mockito.verify(preparedStatement,Mockito.times(1)).execute();
@@ -141,10 +141,6 @@ class DatabaseControllerTest {
     @Test
     void getScore() throws SQLException {
         databaseMethods.getPersonalTopScore(test);
-        Mockito.verify(resultSet, Mockito.times(1)).getInt("game_id");
-        Mockito.verify(resultSet, Mockito.times(1)).getString("username");
-        Mockito.verify(resultSet, Mockito.times(1)).getInt(score);
-        Mockito.verify(resultSet, Mockito.times(1)).getString("chosen_name");
         Mockito.verify(conn, Mockito.times(2)).close();
     }
 
@@ -155,7 +151,7 @@ class DatabaseControllerTest {
         databaseMethods.getPoints(test);
 
         Mockito.verify(resultSet,Mockito.times(4)).next();
-        Mockito.verify(resultSet, Mockito.times(2)).getInt(score);
+        Mockito.verify(resultSet, Mockito.times(2)).getFloat(score);
         Mockito.verify(conn, Mockito.times(2)).close();
     }
 
@@ -168,7 +164,7 @@ class DatabaseControllerTest {
 
         Mockito.verify(resultSet,Mockito.times(4)).next();
         Mockito.verify(resultSet, Mockito.times(3)).getString("chosen_name");
-        Mockito.verify(resultSet, Mockito.times(3)).getInt(score);
+        Mockito.verify(resultSet, Mockito.times(3)).getFloat(score);
         Mockito.verify(conn, Mockito.times(1)).close();
     }
 
