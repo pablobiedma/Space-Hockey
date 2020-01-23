@@ -1,6 +1,5 @@
 package com.mygdx.airhockey.database;
 
-import com.mygdx.airhockey.database.tables.Score;
 import com.mygdx.airhockey.database.tables.User;
 import com.mygdx.airhockey.statistics.Player;
 
@@ -14,9 +13,8 @@ import java.util.List;
 public class DatabaseController {
     private ConnectionFactory connectionFactory;
 
-    transient Score score = null;
     transient User userDefine = null;
-    transient int points = 0;
+    transient float points = 0;
     transient String password = null;
     transient boolean exists = false;
 
@@ -173,7 +171,7 @@ public class DatabaseController {
      * @param username of the user.
      * @return the score of the user.
      */
-    public int getPersonalTopScore(String username) {
+    public float getPersonalTopScore(String username) {
         assert userExists(username);
         try {
             String query = "select * from Score where username = ? ORDER BY score DESC";
@@ -183,10 +181,9 @@ public class DatabaseController {
                 preparedStatement.setString(1, username);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
-                    resultSet.next();
-                    score = new Score(resultSet.getInt("game_id"), resultSet.getString("username"),
-                            resultSet.getInt("score"), resultSet.getString("chosen_name"));
-                    score.getPoints();
+                    if (resultSet.next()) {
+                        return resultSet.getFloat("score");
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -202,7 +199,7 @@ public class DatabaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return score.getPoints();
+        return 0;
     }
 
 
@@ -212,7 +209,7 @@ public class DatabaseController {
      * @param score score of the last game.
      * @param chosenName name player has chosen for the leaderboard.
      */
-    public void addScore(String username, int score, String chosenName) {
+    public void addScore(String username, float score, String chosenName) {
         assert userExists(username);
         try {
             String query =
@@ -221,7 +218,7 @@ public class DatabaseController {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
                 preparedStatement.setString(1, username);
-                preparedStatement.setInt(2, score);
+                preparedStatement.setFloat(2, score);
                 preparedStatement.setString(3,chosenName);
                 preparedStatement.execute();
             } catch (Exception e) {
@@ -241,9 +238,9 @@ public class DatabaseController {
      * @return score of game
      * @throws Exception from sql
      */
-    public List<Integer> getPoints(String username) {
+    public List<Float> getPoints(String username) {
         assert (userExists(username));
-        List<Integer> scores = new ArrayList<>();
+        List<Float> scores = new ArrayList<>();
         try {
             String sql = "SELECT score FROM Score WHERE username = ? ORDER BY score DESC";
             Connection connection = connectionFactory.getConnection();
@@ -253,7 +250,7 @@ public class DatabaseController {
                 ResultSet resultSet =  preparedStatement.executeQuery();
                 try {
                     while (resultSet.next()) {
-                        points = resultSet.getInt("score");
+                        points = resultSet.getFloat("score");
                         scores.add(points);
                     }
 
@@ -293,7 +290,7 @@ public class DatabaseController {
                 try {
                     while (resultSet.next()) {
                         String username = resultSet.getString("chosen_name");
-                        int score = resultSet.getInt("score");
+                        float score = resultSet.getFloat("score");
                         Player player = new Player(username,score);
                         players.add(player);
                     }
