@@ -24,7 +24,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.airhockey.backend.Config;
 import com.mygdx.airhockey.backend.CoordinateTranslator;
 import com.mygdx.airhockey.backend.GameOperator;
-import com.mygdx.airhockey.statistics.Level;
 import com.mygdx.airhockey.statistics.Player;
 
 //music Music: www.bensound.com"
@@ -106,7 +105,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
                 config.resolution / 4, 1, Color.GOLD);
 
         alert = Utilities.initLabel(skin, "title", config.resolution / 2,
-                config.resolution / 2, 1.2f, Color.RED);
+                config.resolution / 2, 1f, Color.GOLD);
     }
 
 
@@ -124,7 +123,6 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glLineWidth(1);
-
         stage.clear();
         camera.update();
         world.step(1 / 60f, 6, 2);
@@ -165,7 +163,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
             }
             sound.stop();
         }
-        //debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined);
     }
 
     /**

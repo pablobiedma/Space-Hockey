@@ -12,7 +12,7 @@ public class DesktopLauncher {
      */
     public static void main(String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
+//        System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
         config.samples = 1;
         config.title = "AIR HOCKEY";
         config.useGL30 = true;
