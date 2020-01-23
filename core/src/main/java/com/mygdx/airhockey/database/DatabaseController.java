@@ -182,6 +182,7 @@ public class DatabaseController {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 try {
                     if (resultSet.next()) {
+                        connection.close();
                         return resultSet.getFloat("score");
                     }
                 } catch (Exception e) {
