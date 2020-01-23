@@ -17,7 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.airhockey.backend.Config;
+import com.mygdx.airhockey.database.DatabaseController;
+import com.mygdx.airhockey.database.TuDbConnectionFactory;
 import com.mygdx.airhockey.statistics.Player;
+
+import java.util.List;
 
 public class PreGameScreen implements Screen {
 
@@ -28,13 +32,13 @@ public class PreGameScreen implements Screen {
     private static final TextureRegion backgroundTexture = new TextureRegion(
             new Texture("background.gif"), 0, 0, 400, 400);
     private transient Sound sound;
-    private static final Player[] players = {
-        new Player("cristiano_ronaldo", 1000),
-        new Player("johntravolta123", 800),
-        new Player("i_like_cats", 500),
-        new Player("Destroyer2000", 250),
-        new Player("Matthew", 100)
-    };
+//    private static final Player[] players = {
+//        new Player("cristiano_ronaldo", 1000),
+//        new Player("johntravolta123", 800),
+//        new Player("i_like_cats", 500),
+//        new Player("Destroyer2000", 250),
+//        new Player("Matthew", 100)
+//    };
 
 
     /**
@@ -58,12 +62,14 @@ public class PreGameScreen implements Screen {
 
         int colWidth = Gdx.graphics.getWidth() / 12;
 
+        DatabaseController databaseController = new DatabaseController(new TuDbConnectionFactory());
+        List<Player> players = databaseController.getTopNScores(5);
         for (int i = 0; i < 5; i++) {
-            leaderboard[i][0] = new Label(players[i].getUsername(), skin);
+            leaderboard[i][0] = new Label(players.get(i).getUsername(), skin);
             leaderboard[i][0].setPosition(colWidth * 3,
                     Gdx.graphics.getHeight() - rowHeight * (3 + i * 0.5f));
             stage.addActor(leaderboard[i][0]);
-            leaderboard[i][1] = new Label(players[i].getPoints() + "", skin);
+            leaderboard[i][1] = new Label(players.get(i).getPoints() + "", skin);
             leaderboard[i][1].setPosition(colWidth * 8,
                     Gdx.graphics.getHeight() - rowHeight * (3 + i * 0.5f));
             leaderboard[i][1].setColor(Color.GOLD);

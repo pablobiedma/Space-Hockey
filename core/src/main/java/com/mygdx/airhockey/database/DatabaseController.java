@@ -212,7 +212,7 @@ public class DatabaseController {
      * @param score score of the last game.
      * @param chosenName name player has chosen for the leaderboard.
      */
-    public void addScore(String username, int score, String chosenName) {
+    public void addScore(String username, float score, String chosenName) {
         assert userExists(username);
         try {
             String query =
@@ -221,7 +221,7 @@ public class DatabaseController {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
                 preparedStatement.setString(1, username);
-                preparedStatement.setInt(2, score);
+                preparedStatement.setFloat(2, score);
                 preparedStatement.setString(3,chosenName);
                 preparedStatement.execute();
             } catch (Exception e) {

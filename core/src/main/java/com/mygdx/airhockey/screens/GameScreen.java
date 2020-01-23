@@ -158,7 +158,12 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         stage.draw();
 
         if (gameOperator.isFinished() && clear) {
-            game.setScreen(new MenuScreen(game, true));
+            if(multiplayer) {
+                game.setScreen(new MenuScreen(game, true));
+            } else {
+                game.setScreen(new EndGameScreen(game, player,sound, gameOperator.getLevel().getScore()));
+            }
+
             sound.stop();
         }
     }

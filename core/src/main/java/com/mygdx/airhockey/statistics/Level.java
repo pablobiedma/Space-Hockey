@@ -2,13 +2,13 @@ package com.mygdx.airhockey.statistics;
 
 public class Level {
     //constants regarding scoring and game rules
-    private static final int MAX_GOALS = 7;
-    private static final double POINTS_PER_GOAL_SCORED = 200;
-    private static final double POINTS_PER_GOAL_CONCEDED = -100;
-    private static final double POINTS_PER_WIN = 500;
-    private static final double POINTS_PER_LOSS = -300;
+    private static final int MAX_GOALS = 2;
+    private static final float POINTS_PER_GOAL_SCORED = 200;
+    private static final float POINTS_PER_GOAL_CONCEDED = -100;
+    private static final float POINTS_PER_WIN = 500;
+    private static final float POINTS_PER_LOSS = -300;
     //fields
-    private double score = 0;
+    private float score = 0;
     private boolean started;
     private boolean finished;
     private int leftGoal = 0;
@@ -52,7 +52,7 @@ public class Level {
      * Getter for score.
      * @return score for current level.
      */
-    public double getScore() {
+    public float getScore() {
         return score;
     }
 
@@ -60,7 +60,7 @@ public class Level {
      * Setter for score.
      * @param score value to set.
      */
-    public void setScore(double score) {
+    public void setScore(float score) {
         this.score = score;
     }
 
@@ -165,8 +165,6 @@ public class Level {
      * Updates database, updates player points.
      */
     private void finalizeGame() {
-        //        player.addDatabaseScore(score);
-        // Maciek needs to adjust that, that's why it is not deleted.
         finished = true;
     }
 

@@ -26,7 +26,6 @@ public class MenuScreen implements Screen {
     private static final Sound backgroundSound =
             Gdx.audio.newSound(Gdx.files.internal("music/open-space.mp3"));
 
-
     /**
      * Instantiates a menu screen.
      * @param game to initialize the screen with.
