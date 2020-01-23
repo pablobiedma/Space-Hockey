@@ -47,15 +47,11 @@ public class LoginScreen extends AuthScreen {
         Authentication auth = new Authentication(database);
         if (auth.signIn(username, password)) {
             Player player = new Player(username, database.getPersonalTopScore(username));
-            game.setScreen(new GameScreen(game, player));
+            game.setScreen(new PreGameScreen(game,sound, player));
             sound.stop();
         } else {
-            Player player = new Player("anonymous", 0);
-            game.setScreen(new GameScreen(game, player));
-            sound.stop();
             txfUsername.setColor(Color.RED);
             txfPassword.setColor(Color.RED);
-            System.out.println("Try again");
         }
     }
 

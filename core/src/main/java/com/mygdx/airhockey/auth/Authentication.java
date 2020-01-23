@@ -45,7 +45,10 @@ public class Authentication {
      */
 
     public boolean signUp(String username, String password) {
-        if (database.userExists(username)) {
+        if(!username.matches("[A-Za-z0-9_]{5,20}") ||
+                !password.matches("[A-Za-z0-9_]{5,20}")) {
+            return false;
+        } else if (database.userExists(username)) {
             System.out.println("Account with this username already exists!");
             return false;
         } else {
