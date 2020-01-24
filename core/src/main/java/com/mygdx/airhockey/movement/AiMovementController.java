@@ -41,45 +41,69 @@ public class AiMovementController implements MovementController {
         if (puck.getBody().getPosition().x < 0) {
             //System.out.println("waiting");
             //if already close to the starting position, then do not move
-            double eps = 0.5;
-            if (towardsDefault.len() < eps) {
-                body.setLinearVelocity(0, 0);
-            } else {
-                towardsDefault.setLength(config.paddleSpeed);
-                body.setLinearVelocity(towardsDefault);
-            }
+            DoNotMove(body);
         } else if (puck.getBody().getPosition().x > config.bluePaddleX) {
             //if the puck is close to my own goal move towards own goal,
             // unless the puck is stuck or you are already
             //at the goal
             //System.out.println("defending");
             //if puck does not move in x direction, hit it
-            towardsPuck.setLength(config.paddleSpeed);
-            double eps = 2;
-            if (puck.getBody().getLinearVelocity().x < eps) {
-                body.setLinearVelocity(towardsPuck);
-            } else {
-                if (towardsOwnGoal.len() < eps) {
-                    body.setLinearVelocity(0, 0);
-                } else {
-                    towardsOwnGoal.setLength(config.paddleSpeed);
-                    body.setLinearVelocity(towardsOwnGoal);
-                }
-            }
+            Defending(body);
         } else {
             //if the puck is not close to my own goal, but still on my own half,
             // attack - move towards the puck
             //System.out.println("attacking");
             //calculate the vector towards the puck
-            towardsPuck.setLength(config.paddleSpeed);
-            //don't score own goals - if towards the puck vector
-            // does not lead to a hit in the direction of
-            // opponents half, then don't move
-            if (towardsPuck.x > 0) {
+            Attacking(body);
+        }
+    }
+
+    /**
+     * Makes a body not move.
+     * @param body to be applied to.
+     */
+    public void DoNotMove(Body body) {
+        double eps = 0.5;
+        if (towardsDefault.len() < eps) {
+            body.setLinearVelocity(0, 0);
+        } else {
+            towardsDefault.setLength(config.paddleSpeed);
+            body.setLinearVelocity(towardsDefault);
+        }
+    }
+
+    /**
+     * Defending behaviour.
+     * @param body to be applied to.
+     */
+    public void Defending(Body body) {
+        towardsPuck.setLength(config.paddleSpeed);
+        double eps = 2;
+        if (puck.getBody().getLinearVelocity().x < eps) {
+            body.setLinearVelocity(towardsPuck);
+        } else {
+            if (towardsOwnGoal.len() < eps) {
                 body.setLinearVelocity(0, 0);
             } else {
-                body.setLinearVelocity(towardsPuck);
+                towardsOwnGoal.setLength(config.paddleSpeed);
+                body.setLinearVelocity(towardsOwnGoal);
             }
+        }
+    }
+
+    /**
+     * Attacking behaviour.
+     * @param body to be applied to.
+     */
+    public void Attacking(Body body) {
+        towardsPuck.setLength(config.paddleSpeed);
+        //don't score own goals - if towards the puck vector
+        // does not lead to a hit in the direction of
+        // opponents half, then don't move
+        if (towardsPuck.x > 0 && puck.getBody().getLinearVelocity().x > 1) {
+            body.setLinearVelocity(0, 0);
+        } else {
+            body.setLinearVelocity(towardsPuck);
         }
     }
 }
