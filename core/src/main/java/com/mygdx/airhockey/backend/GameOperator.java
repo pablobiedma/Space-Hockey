@@ -25,7 +25,7 @@ public class GameOperator {
     private transient Pitch pitch;
     private transient ControllerManager controllerManager;
     private transient GoalManager goalManager;
-    private transient  Level level;
+    public transient  Level level;
     public transient boolean isGoalScored;
 
     /**
