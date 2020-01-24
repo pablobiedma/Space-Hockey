@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.airhockey.GdxTestRunner;
+import com.mygdx.airhockey.backend.generators.BodyGenerator;
 import com.mygdx.airhockey.elements.Goal;
 import com.mygdx.airhockey.elements.Paddle;
 import com.mygdx.airhockey.elements.Pitch;
@@ -15,6 +16,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+
+
 
 @RunWith(GdxTestRunner.class)
 class HeadlessTest {
@@ -43,13 +46,13 @@ class HeadlessTest {
     @Test
     public void createBody() {
         Gdx.gl = Mockito.mock(GL20.class);
-        assertNotNull(gameOperator.createBody(world, 0,0));
+        assertNotNull(BodyGenerator.createBody(world, 0,0));
     }
 
     @Test
     public void makePitch() {
         Gdx.gl = Mockito.mock(GL20.class);
-        assertNotNull(gameOperator.makePitch(world));
+        assertNotNull(BodyGenerator.makePitch(world));
     }
 
     //@Test

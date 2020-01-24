@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.mygdx.airhockey.backend.generators.BodyGenerator;
 import com.mygdx.airhockey.elements.Goal;
 import com.mygdx.airhockey.elements.Paddle;
 import com.mygdx.airhockey.elements.Pitch;
@@ -16,8 +17,8 @@ import com.mygdx.airhockey.statistics.Level;
 import com.mygdx.airhockey.statistics.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
+
 
 class GameOperatorTest {
     private transient GameOperator gameOperator;
@@ -69,7 +70,7 @@ class GameOperatorTest {
     @Test
     void createFixtureDef() {
         CircleShape circleShape = Mockito.mock(CircleShape.class);
-        FixtureDef fixtureDef = gameOperator.createFixtureDef(circleShape,0,0,0,0);
+        FixtureDef fixtureDef = BodyGenerator.createFixtureDef(circleShape,0,0,0,0);
         assertNotNull(fixtureDef);
     }
 
@@ -90,62 +91,62 @@ class GameOperatorTest {
 
     @Test
     void getRedPaddle() {
-        assertEquals(redPaddle, gameOperator.getRedPaddle());
+        assertEquals(redPaddle, gameOperator.getControllerManager().getRedPaddle());
     }
 
     @Test
     void setRedPaddle() {
-        gameOperator.setRedPaddle(null);
-        assertNull(gameOperator.getRedPaddle());
+        gameOperator.getControllerManager().setRedPaddle(null);
+        assertNull(gameOperator.getControllerManager().getRedPaddle());
     }
 
     @Test
     void getBluePaddle() {
-        assertEquals(bluePaddle, gameOperator.getBluePaddle());
+        assertEquals(bluePaddle, gameOperator.getControllerManager().getBluePaddle());
     }
 
     @Test
     void setBluePaddle() {
-        gameOperator.setBluePaddle(null);
-        assertNull(gameOperator.getBluePaddle());
+        gameOperator.getControllerManager().setBluePaddle(null);
+        assertNull(gameOperator.getControllerManager().getBluePaddle());
     }
 
     @Test
     void getPuck() {
-        assertEquals(puck, gameOperator.getPuck());
+        assertEquals(puck, gameOperator.getControllerManager().getPuck());
     }
 
     @Test
     void setPuck() {
-        gameOperator.setPuck(null);
-        assertNull(gameOperator.getPuck());
+        gameOperator.getControllerManager().setPuck(null);
+        assertNull(gameOperator.getControllerManager().getPuck());
     }
 
     @Test
     void getGoalLeft() {
-        assertEquals(goalLeft, gameOperator.getGoalLeft());
+        assertEquals(goalLeft, gameOperator.getGoalManager().getGoalLeft());
     }
 
     @Test
     void setGoalLeft() {
-        gameOperator.setGoalLeft(null);
-        assertNull(gameOperator.getGoalLeft());
+        gameOperator.getGoalManager().setGoalLeft(null);
+        assertNull(gameOperator.getGoalManager().getGoalLeft());
     }
 
     @Test
     void getGoalRight() {
-        assertEquals(gameOperator.getGoalRight(), goalRight);
+        assertEquals(gameOperator.getGoalManager().getGoalRight(), goalRight);
     }
 
     @Test
     void setGoalRight() {
-        gameOperator.setGoalRight(null);
-        assertNull(gameOperator.getGoalRight());
+        gameOperator.getGoalManager().setGoalRight(null);
+        assertNull(gameOperator.getGoalManager().getGoalRight());
     }
 
     @Test
     void resetTest() {
-        gameOperator.resetPositions();
+        gameOperator.getControllerManager().resetPositions();
         Mockito.verify(puck, Mockito.times(1)).resetPosition(0, 0);
     }
 

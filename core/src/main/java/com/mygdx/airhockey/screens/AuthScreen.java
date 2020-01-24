@@ -3,35 +3,28 @@ package com.mygdx.airhockey.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
-abstract class AuthScreen implements Screen {
+abstract class AuthScreen extends ScreenBase {
     public static final int HEIGHT = 40;
-    protected transient Game game;
-    protected transient Stage stage;
     protected transient TextField txfUsername;
     protected transient TextField txfPassword;
     transient int rowHeight = Gdx.graphics.getWidth() / 12;
     transient int colWidth = Gdx.graphics.getWidth() / 12;
-    protected transient Sound sound;
 
     /**
      * Constructor for login screen.
      *
      * @param g game of the login screen;
      */
-    public AuthScreen(Game g, Sound sound) {
-        this.sound = sound;
+    public AuthScreen(Game g, String soundPath) {
+        super(g, soundPath, "background.gif");
         game = g;
-        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -82,7 +75,6 @@ abstract class AuthScreen implements Screen {
      */
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
     }

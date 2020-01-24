@@ -22,8 +22,8 @@ public class LoginScreen extends AuthScreen {
      *
      * @param g game of the login screen;
      */
-    public LoginScreen(Game g, Sound sound) {
-        super(g,sound);
+    public LoginScreen(Game g, String soundPath) {
+        super(g,soundPath);
         backgroundTexture = new TextureRegion(new Texture("background.gif"), 0, 0, 400, 400);
 
         createBtn("Log in", new ClickListener() {
@@ -47,7 +47,7 @@ public class LoginScreen extends AuthScreen {
         Authentication auth = new Authentication(database);
         if (auth.signIn(username, password)) {
             Player player = new Player(username, database.getPersonalTopScore(username));
-            game.setScreen(new PreGameScreen(game,sound, player));
+            game.setScreen(new PreGameScreen(game,"music/bensound-funkyelement.mp3", player));
         } else {
             txfUsername.setColor(Color.RED);
             txfPassword.setColor(Color.RED);

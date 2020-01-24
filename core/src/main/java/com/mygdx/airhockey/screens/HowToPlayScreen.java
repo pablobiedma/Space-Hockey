@@ -2,31 +2,24 @@ package com.mygdx.airhockey.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.airhockey.backend.Config;
 import com.mygdx.airhockey.statistics.Player;
 
-public class HowToPlayScreen implements Screen {
-    private transient Game game;
-    private transient Stage stage;
+public class HowToPlayScreen extends ScreenBase {
     private static final TextureRegion backgroundTexture = new TextureRegion(
             new Texture("background.gif"), 0, 0, 400, 400);
-    private transient Sound sound;
     private transient BitmapFont font;
     private transient Skin skin;
     private transient Label controls;
@@ -37,19 +30,18 @@ public class HowToPlayScreen implements Screen {
     /**
      * Instantiates a menu screen.
      */
-    public HowToPlayScreen(Game game, Player player, Sound sound) {
-        this.game = game;
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
+    public HowToPlayScreen(Game game, Player player, String soundPath) {
+        super(game, soundPath, "background.gif");
         skin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
         font = new BitmapFont(Gdx.files.internal("Craftacular_UI_Skin/text.fnt"), false);
         font.setColor(Color.WHITE);
 
-        controls = Utilities.initLabel(skin, "title", config.resolution / 2,
+        String skinPath = "Craftacular_UI_Skin/craftacular-ui.json";
+        controls = Utilities.initLabel(skinPath, "title", config.resolution / 2,
                 9 * config.resolution / 10, 1f, Color.GOLD);
         controls.setText("CONTROLS");
 
-        scoring = Utilities.initLabel(skin, "title", config.resolution / 2,
+        scoring = Utilities.initLabel(skinPath, "title", config.resolution / 2,
                 7 * config.resolution / 10, 1f, Color.GOLD);
         scoring.setText("SCORING");
 
@@ -60,7 +52,7 @@ public class HowToPlayScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(
-                        new PreGameScreen(game, sound, player));
+                        new PreGameScreen(game, "music/bensound-funkyelement.mp3", player));
                 return true;
             }
         });
