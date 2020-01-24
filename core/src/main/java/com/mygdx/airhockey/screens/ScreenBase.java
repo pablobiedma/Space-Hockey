@@ -22,7 +22,7 @@ public abstract class ScreenBase implements Screen {
     transient Camera camera;
     transient Stage stage;
 
-    protected Sound sound;
+    protected transient Sound sound;
 
     /**
      * Constructor.
