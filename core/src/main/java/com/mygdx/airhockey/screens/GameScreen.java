@@ -253,10 +253,11 @@ public class GameScreen extends ApplicationAdapter implements Screen {
     private void drawElements() {
         batch.begin();
         drawPlanet(leftPaddleSprite, config.paddleRadius,
-                gameOperator.getRedPaddle().getBody().getPosition());
+                gameOperator.getControllerManager().getRedPaddle().getBody().getPosition());
         drawPlanet(rightPaddleSprite, config.paddleRadius,
-                gameOperator.getBluePaddle().getBody().getPosition());
-        drawPlanet(puckSprite, config.puckRadius, gameOperator.getPuck().getBody().getPosition());
+                gameOperator.getControllerManager().getBluePaddle().getBody().getPosition());
+        drawPlanet(puckSprite, config.puckRadius,
+                gameOperator.getControllerManager().getPuck().getBody().getPosition());
         batch.end();
     }
 
