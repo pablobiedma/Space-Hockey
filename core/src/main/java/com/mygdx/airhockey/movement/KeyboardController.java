@@ -32,24 +32,31 @@ public class KeyboardController implements MovementController {
             }
 
         } else {
-            float vertical = 0;
-            float horizontal = 0;
-
-            if (input.isKeyPressed(keycodes.getKeyCodeLeft())) {
-                horizontal -= config.paddleSpeed;
-            }
-            if (input.isKeyPressed(keycodes.getKeyCodeRight())) {
-                horizontal += config.paddleSpeed;
-            }
-            if (input.isKeyPressed(keycodes.getKeyCodeUp())) {
-                vertical += config.paddleSpeed;
-            }
-            if (input.isKeyPressed(keycodes.getKeyCodeDown())) {
-                vertical -= config.paddleSpeed;
-            }
-            body.setLinearVelocity(horizontal, vertical);
+            updateVelocityKeyPresses(body);
         }
 
+    }
+
+    /**
+     * determines how to velocity should be updated based on key pressed.
+     */
+    private void updateVelocityKeyPresses(Body body) {
+        float vertical = 0;
+        float horizontal = 0;
+
+        if (input.isKeyPressed(keycodes.getKeyCodeLeft())) {
+            horizontal -= config.paddleSpeed;
+        }
+        if (input.isKeyPressed(keycodes.getKeyCodeRight())) {
+            horizontal += config.paddleSpeed;
+        }
+        if (input.isKeyPressed(keycodes.getKeyCodeUp())) {
+            vertical += config.paddleSpeed;
+        }
+        if (input.isKeyPressed(keycodes.getKeyCodeDown())) {
+            vertical -= config.paddleSpeed;
+        }
+        body.setLinearVelocity(horizontal, vertical);
     }
 
     /**
