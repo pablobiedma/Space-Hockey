@@ -84,11 +84,10 @@ public class Score {
         return equalsHelp(score);
     }
 
-    public boolean equalsHelp(Score score) {
+    private boolean equalsHelp(Score score) {
         return gameId == score.getGameId()
                 && username.equals(score.getUsername())
                 && points == score.getPoints()
                 && chosenName.equals(score.getChosenName());
     }
-
 }
