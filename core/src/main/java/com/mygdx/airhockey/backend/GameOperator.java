@@ -22,10 +22,10 @@ import com.mygdx.airhockey.statistics.Player;
  */
 public class GameOperator {
     private static Config config = Config.getInstance();
-    Pitch pitch;
-    ControllerManager controllerManager;
-    GoalManager goalManager;
-    Level level;
+    private transient Pitch pitch;
+    private transient ControllerManager controllerManager;
+    private transient GoalManager goalManager;
+    private transient  Level level;
     public transient boolean isGoalScored;
 
     /**
