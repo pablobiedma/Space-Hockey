@@ -41,20 +41,20 @@ public class AiMovementController implements MovementController {
         if (puck.getBody().getPosition().x < 0) {
             //System.out.println("waiting");
             //if already close to the starting position, then do not move
-            DoNotMove(body);
+            doNotMove(body);
         } else if (puck.getBody().getPosition().x > config.bluePaddleX) {
             //if the puck is close to my own goal move towards own goal,
             // unless the puck is stuck or you are already
             //at the goal
             //System.out.println("defending");
             //if puck does not move in x direction, hit it
-            Defending(body);
+            defending(body);
         } else {
             //if the puck is not close to my own goal, but still on my own half,
             // attack - move towards the puck
             //System.out.println("attacking");
             //calculate the vector towards the puck
-            Attacking(body);
+            attacking(body);
         }
     }
 
@@ -62,7 +62,7 @@ public class AiMovementController implements MovementController {
      * Makes a body not move.
      * @param body to be applied to.
      */
-    private void DoNotMove(Body body) {
+    private void doNotMove(Body body) {
         double eps = 0.5;
         if (towardsDefault.len() < eps) {
             body.setLinearVelocity(0, 0);
@@ -76,7 +76,7 @@ public class AiMovementController implements MovementController {
      * Defending behaviour.
      * @param body to be applied to.
      */
-    private void Defending(Body body) {
+    private void defending(Body body) {
         towardsPuck.setLength(config.paddleSpeed);
         double eps = 2;
         if (puck.getBody().getLinearVelocity().x < eps) {
@@ -95,7 +95,7 @@ public class AiMovementController implements MovementController {
      * Attacking behaviour.
      * @param body to be applied to.
      */
-    private void Attacking(Body body) {
+    private void attacking(Body body) {
         towardsPuck.setLength(config.paddleSpeed);
         //don't score own goals - if towards the puck vector
         // does not lead to a hit in the direction of
