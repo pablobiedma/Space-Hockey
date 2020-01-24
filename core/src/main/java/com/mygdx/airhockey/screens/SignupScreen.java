@@ -2,10 +2,7 @@ package com.mygdx.airhockey.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.airhockey.auth.Authentication;
@@ -14,16 +11,16 @@ import com.mygdx.airhockey.database.TuDbConnectionFactory;
 
 
 public class SignupScreen extends AuthScreen {
-    transient TextureRegion backgroundTexture;
+    transient String soundPath;
 
     /**
      * Constructor for signup screen.
      *
      * @param g game of the login screen;
      */
-    public SignupScreen(Game g, Sound s) {
-        super(g,s);
-        backgroundTexture = new TextureRegion(new Texture("background.gif"), 0, 0, 400, 400);
+    public SignupScreen(Game g, String soundPath) {
+        super(g,soundPath);
+        this.soundPath = soundPath;
 
         createBtn("Sign up", new ClickListener() {
             @Override
@@ -44,7 +41,7 @@ public class SignupScreen extends AuthScreen {
         DatabaseController database = new DatabaseController(new TuDbConnectionFactory());
         Authentication auth = new Authentication(database);
         if (auth.signUp(username, password)) {
-            game.setScreen(new LoginScreen(game, sound));
+            game.setScreen(new LoginScreen(game,soundPath));
         } else {
             txfUsername.setColor(Color.RED);
             txfPassword.setColor(Color.RED);

@@ -42,22 +42,23 @@ public class EndGameScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        Skin skin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
-        Label points = Utilities.initLabel(skin, "title", Gdx.graphics.getWidth() / 2,
+        String skinPath = "Craftacular_UI_Skin/craftacular-ui.json";
+        Label points = Utilities.initLabel(skinPath, "title", Gdx.graphics.getWidth() / 2,
                 Gdx.graphics.getHeight() - rowHeight * 3.5f, 1.5f, Color.RED);
         points.setText("" + score);
         stage.addActor(points);
 
-        Label text = Utilities.initLabel(skin, "default", Gdx.graphics.getWidth() / 2,
+        Label text = Utilities.initLabel(skinPath, "default", Gdx.graphics.getWidth() / 2,
                 Gdx.graphics.getHeight() - rowHeight * 2.25f, 1, Color.GOLD);
         text.setText("Your score:");
         stage.addActor(text);
 
-        Label text2 = Utilities.initLabel(skin, "default", Gdx.graphics.getWidth() / 2,
+        Label text2 = Utilities.initLabel(skinPath, "default", Gdx.graphics.getWidth() / 2,
                 Gdx.graphics.getHeight() - rowHeight * 5, 1, Color.GOLD);
         text2.setText("Enter a nickname to\nsave the score:");
         stage.addActor(text2);
 
+        Skin skin = new Skin(Gdx.files.internal(skinPath));
         nickname = new TextField(player.getUsername(), skin);
         nickname.setPosition(colWidth * 3, rowHeight * 5);
         nickname.setSize(colWidth * 6, rowHeight);

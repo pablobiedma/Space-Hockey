@@ -3,7 +3,6 @@ package com.mygdx.airhockey.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,26 +16,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class MenuScreen implements Screen {
+public class MenuScreen extends ScreenBase implements Screen {
 
     private transient Stage stage;
     private transient Game game;
     private static final TextureRegion backgroundTexture = new TextureRegion(
             new Texture("arcade.png"), 0, 0, 900, 900);
-    private static final Sound backgroundSound =
-            Gdx.audio.newSound(Gdx.files.internal("music/open-space.mp3"));
+    private static final String backgroundSound = "music/open-space.mp3";
 
     /**
      * Instantiates a menu screen.
      * @param game to initialize the screen with.
      */
     public MenuScreen(Game game, boolean playSound) {
+        super(game, backgroundSound, "arcade.png");
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
         if (playSound) {
-            backgroundSound.loop();
+            sound.loop();
         }
 
         Skin mySkin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
@@ -82,7 +81,7 @@ public class MenuScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MenuScreen.this.game.setScreen(
-                        new SignupScreen(MenuScreen.this.game, backgroundSound));
+                        new SignupScreen(game, backgroundSound));
                 return true;
             }
         });

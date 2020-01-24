@@ -2,10 +2,7 @@ package com.mygdx.airhockey.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.airhockey.auth.Authentication;
@@ -15,17 +12,14 @@ import com.mygdx.airhockey.statistics.Player;
 
 
 public class LoginScreen extends AuthScreen {
-    transient TextureRegion backgroundTexture;
 
     /**
      * Constructor for login screen.
      *
      * @param g game of the login screen;
      */
-    public LoginScreen(Game g, Sound sound) {
-        super(g,sound);
-        backgroundTexture = new TextureRegion(new Texture("background.gif"), 0, 0, 400, 400);
-
+    public LoginScreen(Game g, String soundPath) {
+        super(g,soundPath);
         createBtn("Log in", new ClickListener() {
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int point, int button) {

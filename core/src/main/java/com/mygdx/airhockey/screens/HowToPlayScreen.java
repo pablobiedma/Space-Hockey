@@ -45,11 +45,12 @@ public class HowToPlayScreen implements Screen {
         font = new BitmapFont(Gdx.files.internal("Craftacular_UI_Skin/text.fnt"), false);
         font.setColor(Color.WHITE);
 
-        controls = Utilities.initLabel(skin, "title", config.resolution / 2,
+        String skinPath = "Craftacular_UI_Skin/craftacular-ui.json";
+        controls = Utilities.initLabel(skinPath, "title", config.resolution / 2,
                 9 * config.resolution / 10, 1f, Color.GOLD);
         controls.setText("CONTROLS");
 
-        scoring = Utilities.initLabel(skin, "title", config.resolution / 2,
+        scoring = Utilities.initLabel(skinPath, "title", config.resolution / 2,
                 7 * config.resolution / 10, 1f, Color.GOLD);
         scoring.setText("SCORING");
 

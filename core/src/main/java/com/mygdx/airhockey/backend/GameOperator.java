@@ -26,7 +26,6 @@ public class GameOperator {
     private transient ControllerManager controllerManager;
     private transient GoalManager goalManager;
     public transient  Level level;
-    public transient boolean isGoalScored;
 
     /**
      * Constructor for game operator.
