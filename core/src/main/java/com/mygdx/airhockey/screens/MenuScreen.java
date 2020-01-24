@@ -2,7 +2,6 @@ package com.mygdx.airhockey.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,21 +21,20 @@ public class MenuScreen extends ScreenBase {
     private transient Game game;
     private static final TextureRegion backgroundTexture = new TextureRegion(
             new Texture("arcade.png"), 0, 0, 900, 900);
-    private static final String backgroundSound = "music/open-space.mp3";
 
     /**
      * Instantiates a menu screen.
      * @param game to initialize the screen with.
      */
     public MenuScreen(Game game, boolean playSound) {
-        super(game, backgroundSound, "arcade.png");
+        super(game, "music/open-space.mp3", "arcade.png");
+        if (playSound) {
+            System.out.println("playing");
+            backgroundSound.play();
+        }
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-
-        if (playSound) {
-            sound.loop();
-        }
 
         Skin mySkin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
 
@@ -61,7 +59,7 @@ public class MenuScreen extends ScreenBase {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MenuScreen.this.game.setScreen(
-                        new LoginScreen(MenuScreen.this.game, backgroundSound));
+                        new LoginScreen(MenuScreen.this.game, "music/open-space.mp3"));
                 return true;
             }
         });
@@ -81,7 +79,7 @@ public class MenuScreen extends ScreenBase {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MenuScreen.this.game.setScreen(
-                        new SignupScreen(game, backgroundSound));
+                        new SignupScreen(game, "music/open-space.mp3"));
                 return true;
             }
         });

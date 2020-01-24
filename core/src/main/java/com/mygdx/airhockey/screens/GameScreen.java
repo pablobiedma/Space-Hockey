@@ -1,7 +1,6 @@
 package com.mygdx.airhockey.screens;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -51,7 +50,8 @@ public class GameScreen extends ScreenBase  {
         gameOperator = new GameOperator(world, player, multiplayer);
         shapeRenderer = new ShapeRenderer();
         shapeDrawer = new ShapeDrawer(shapeRenderer, batch);
-        sound.loop();
+        backgroundSound.stop();
+        gameSound.loop();
         initializeUI();
     }
 
@@ -112,7 +112,7 @@ public class GameScreen extends ScreenBase  {
         stage.draw();
 
         if (gameOperator.isFinished() && clear) {
-            sound.stop();
+            gameSound.stop();
             if (multiplayer) {
                 game.setScreen(new MenuScreen(game, true));
             } else {
@@ -121,7 +121,7 @@ public class GameScreen extends ScreenBase  {
                         "music/bensound-funkyelement.mp3", gameOperator.getLevel().getScore()));
             }
 
-            sound.stop();
+            gameSound.stop();
         }
     }
 

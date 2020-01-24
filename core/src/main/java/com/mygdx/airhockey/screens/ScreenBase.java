@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,16 +12,19 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.airhockey.backend.Config;
 
 public abstract class ScreenBase implements Screen {
-    protected final Sound cheer = Gdx.audio.newSound(Gdx.files.internal("music/cheer.mp3"));
+    protected static final Sound cheer =
+            Gdx.audio.newSound(Gdx.files.internal("music/cheer.mp3"));
+    protected static final Sound gameSound =
+            Gdx.audio.newSound(Gdx.files.internal("music/bensound-funkyelement.mp3"));
+    protected static final Sound backgroundSound =
+            Gdx.audio.newSound(Gdx.files.internal("music/open-space.mp3"));
+
     protected static final Config config = Config.getInstance();
     transient TextureRegion backgroundTexture;
 
     transient Game game;
     transient SpriteBatch batch;
-    transient Camera camera;
     transient Stage stage;
-
-    protected transient Sound sound;
 
     /**
      * Constructor.
@@ -31,14 +33,10 @@ public abstract class ScreenBase implements Screen {
      * @param texturePath texture to use.
      */
     public ScreenBase(Game game, String soundPath, String texturePath) {
-        this.sound = Gdx.audio.newSound(
-                Gdx.files.internal(soundPath));
         backgroundTexture = new TextureRegion(new Texture(texturePath), 0, 0, 400, 400);
         this.game = game;
         batch = new SpriteBatch();
         stage = new Stage();
-        this.sound.loop();
-
     }
 
     /**
