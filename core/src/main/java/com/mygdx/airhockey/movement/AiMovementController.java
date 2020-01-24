@@ -62,7 +62,7 @@ public class AiMovementController implements MovementController {
      * Makes a body not move.
      * @param body to be applied to.
      */
-    public void DoNotMove(Body body) {
+    private void DoNotMove(Body body) {
         double eps = 0.5;
         if (towardsDefault.len() < eps) {
             body.setLinearVelocity(0, 0);
@@ -76,7 +76,7 @@ public class AiMovementController implements MovementController {
      * Defending behaviour.
      * @param body to be applied to.
      */
-    public void Defending(Body body) {
+    private void Defending(Body body) {
         towardsPuck.setLength(config.paddleSpeed);
         double eps = 2;
         if (puck.getBody().getLinearVelocity().x < eps) {
@@ -95,7 +95,7 @@ public class AiMovementController implements MovementController {
      * Attacking behaviour.
      * @param body to be applied to.
      */
-    public void Attacking(Body body) {
+    private void Attacking(Body body) {
         towardsPuck.setLength(config.paddleSpeed);
         //don't score own goals - if towards the puck vector
         // does not lead to a hit in the direction of
