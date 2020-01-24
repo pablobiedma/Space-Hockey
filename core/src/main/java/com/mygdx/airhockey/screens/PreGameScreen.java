@@ -2,20 +2,14 @@ package com.mygdx.airhockey.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.airhockey.backend.Config;
 import com.mygdx.airhockey.database.DatabaseController;
 import com.mygdx.airhockey.database.TuDbConnectionFactory;
@@ -24,12 +18,8 @@ import com.mygdx.airhockey.statistics.Player;
 import java.util.List;
 
 public class PreGameScreen extends ScreenBase {
-
-    private transient Game game;
     private transient Player player;
     private transient Label[][] leaderboard = new Label[5][2];
-    private static final TextureRegion backgroundTexture = new TextureRegion(
-            new Texture("background.gif"), 0, 0, 400, 400);
     private transient List<Player> players;
 
 
@@ -74,7 +64,7 @@ public class PreGameScreen extends ScreenBase {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(
                         new GameScreen(game, player, false));
-                sound.stop();
+                backgroundSound.stop();
                 return true;
             }
         });
@@ -88,7 +78,7 @@ public class PreGameScreen extends ScreenBase {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(
                         new GameScreen(game, player, true));
-                sound.stop();
+                backgroundSound.stop();
                 return true;
             }
         });
@@ -102,7 +92,6 @@ public class PreGameScreen extends ScreenBase {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(
                         new HowToPlayScreen(game, player, "music/open-space.mp3"));
-                sound.stop();
                 return true;
             }
         });
