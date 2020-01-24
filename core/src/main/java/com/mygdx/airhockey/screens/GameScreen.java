@@ -239,7 +239,12 @@ public class GameScreen extends ApplicationAdapter implements Screen {
         timer.setText(formatted);
     }
 
-
+    /**
+     * draw planets on game elements.
+     * @param sprite sprite to use.
+     * @param radius radius of game element.
+     * @param position position of game element.
+     */
     private void drawPlanet(Sprite sprite, float radius, Vector2 position) {
         int width = (int) CoordinateTranslator.translateSize(2 * radius);
         Vector2 spritePos = CoordinateTranslator.translatePosition(position);

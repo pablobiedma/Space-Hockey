@@ -71,6 +71,13 @@ public class GameOperator {
         this.goalRight = new Goal(config.wallWidth + config.goalDepth - 1, -config.goalWidth);
     }
 
+    /**
+     * Create an paddle object.
+     * @param world World for the paddle to be placed in.
+     * @param posX X position to be placed.
+     * @param movementController The movementController for handling movement.
+     * @return the created Paddle.
+     */
     final Paddle makePaddle(World world,
                       float posX, MovementController movementController) {
         Body paddleBody = createBody(world, posX, 0);
@@ -80,6 +87,11 @@ public class GameOperator {
         return new Paddle(paddleBody, movementController);
     }
 
+    /**
+     * Create an puck object.
+     * @param world World for the paddle to be placed in.
+     * @return the created Puck.
+     */
     final Puck makePuck(World world) {
         Body puckBody = createBody(world, 0, 0);
         FixtureDef puckFixtureDef = createFixtureDef(new CircleShape(), config.puckRadius,
