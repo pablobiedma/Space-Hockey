@@ -2,7 +2,10 @@ package com.mygdx.airhockey.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.airhockey.auth.Authentication;
@@ -12,6 +15,7 @@ import com.mygdx.airhockey.statistics.Player;
 
 
 public class LoginScreen extends AuthScreen {
+    transient TextureRegion backgroundTexture;
 
     /**
      * Constructor for login screen.
@@ -20,6 +24,8 @@ public class LoginScreen extends AuthScreen {
      */
     public LoginScreen(Game g, String soundPath) {
         super(g,soundPath);
+        backgroundTexture = new TextureRegion(new Texture("background.gif"), 0, 0, 400, 400);
+
         createBtn("Log in", new ClickListener() {
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int point, int button) {
@@ -41,7 +47,7 @@ public class LoginScreen extends AuthScreen {
         Authentication auth = new Authentication(database);
         if (auth.signIn(username, password)) {
             Player player = new Player(username, database.getPersonalTopScore(username));
-            game.setScreen(new PreGameScreen(game,sound, player));
+            game.setScreen(new PreGameScreen(game,"music/bensound-funkyelement.mp3", player));
         } else {
             txfUsername.setColor(Color.RED);
             txfPassword.setColor(Color.RED);

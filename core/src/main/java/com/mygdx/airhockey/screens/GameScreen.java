@@ -21,7 +21,7 @@ import com.mygdx.airhockey.statistics.Player;
 /**
  * Game screen class - implements the game screen functionality.
  */
-public class GameScreen extends ScreenBase implements Screen {
+public class GameScreen extends ScreenBase  {
     transient boolean multiplayer;
     transient ShapeRenderer shapeRenderer;
     transient ShapeDrawer shapeDrawer;
@@ -117,7 +117,8 @@ public class GameScreen extends ScreenBase implements Screen {
                 game.setScreen(new MenuScreen(game, true));
             } else {
                 game.setScreen(new EndGameScreen(
-                        game, player,sound, gameOperator.getLevel().getScore()));
+                        game, player,
+                        "music/bensound-funkyelement.mp3", gameOperator.getLevel().getScore()));
             }
 
             sound.stop();

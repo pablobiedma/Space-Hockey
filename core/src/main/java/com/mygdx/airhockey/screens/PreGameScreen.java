@@ -23,27 +23,22 @@ import com.mygdx.airhockey.statistics.Player;
 
 import java.util.List;
 
-public class PreGameScreen implements Screen {
+public class PreGameScreen extends ScreenBase {
 
     private transient Game game;
     private transient Player player;
-    private transient Stage stage;
     private transient Label[][] leaderboard = new Label[5][2];
     private static final TextureRegion backgroundTexture = new TextureRegion(
             new Texture("background.gif"), 0, 0, 400, 400);
-    private transient Sound sound;
     private transient List<Player> players;
 
 
     /**
      * Instantiates a menu screen.
      */
-    public PreGameScreen(Game game, Sound sound, Player player) {
-        this.sound = sound;
+    public PreGameScreen(Game game, String soundPath, Player player) {
+        super(game, soundPath, "background.gif");
         this.player = player;
-        this.game = game;
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
         Skin skin = new Skin(Gdx.files.internal("Craftacular_UI_Skin/craftacular-ui.json"));
 
         Label logo = new Label("LEADERBOARD", skin, "title");
@@ -106,7 +101,7 @@ public class PreGameScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(
-                        new HowToPlayScreen(game, player, sound));
+                        new HowToPlayScreen(game, player, "music/open-space.mp3"));
                 sound.stop();
                 return true;
             }

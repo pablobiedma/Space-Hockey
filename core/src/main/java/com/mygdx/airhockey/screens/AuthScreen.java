@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
-abstract class AuthScreen extends ScreenBase implements Screen {
+abstract class AuthScreen extends ScreenBase {
     public static final int HEIGHT = 40;
     protected transient TextField txfUsername;
     protected transient TextField txfPassword;

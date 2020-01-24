@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class MenuScreen extends ScreenBase implements Screen {
+public class MenuScreen extends ScreenBase {
 
     private transient Stage stage;
     private transient Game game;

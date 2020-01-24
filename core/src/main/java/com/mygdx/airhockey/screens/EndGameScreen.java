@@ -19,7 +19,7 @@ import com.mygdx.airhockey.database.TuDbConnectionFactory;
 import com.mygdx.airhockey.statistics.Player;
 
 
-public class EndGameScreen implements Screen {
+public class EndGameScreen extends ScreenBase {
     private transient float score;
     protected transient Game game;
     protected transient Stage stage;
@@ -28,15 +28,14 @@ public class EndGameScreen implements Screen {
     transient int colWidth = Gdx.graphics.getWidth() / 12;
     protected transient Sound sound;
     private transient Player player;
-    private static final Texture backgroundTexture = new Texture("background.gif");
 
     /**
      * Constructor for login screen.
      * @param g game of the login screen;
      */
-    public EndGameScreen(Game g, Player player, Sound sound, float score) {
+    public EndGameScreen(Game g, Player player, String soundPath, float score) {
+        super(g, soundPath, "background.gif");
         this.score = score;
-        this.sound = sound;
         this.player = player;
         game = g;
         stage = new Stage();
@@ -75,7 +74,7 @@ public class EndGameScreen implements Screen {
                             new DatabaseController(new TuDbConnectionFactory());
                     databaseController.addScore(player.getUsername(), score, nickname.getText());
                     game.setScreen(
-                            new PreGameScreen(game, sound, player));
+                            new PreGameScreen(game, null, player));
                 } else {
                     nickname.setColor(Color.RED);
                 }
