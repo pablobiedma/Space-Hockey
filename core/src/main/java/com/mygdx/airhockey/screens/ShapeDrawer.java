@@ -18,8 +18,8 @@ public class ShapeDrawer {
             new Sprite(new Texture(config.bluePaddleTexturePath));
     private static final Sprite puckSprite = new Sprite(new Texture(config.puckTexturePath));
 
-    private ShapeRenderer shapeRenderer;
-    private Batch batch;
+    private transient ShapeRenderer shapeRenderer;
+    private transient Batch batch;
 
     /**
      * Draws shapes.
