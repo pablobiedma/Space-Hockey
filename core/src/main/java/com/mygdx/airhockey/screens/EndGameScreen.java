@@ -74,7 +74,7 @@ public class EndGameScreen extends ScreenBase {
                             new DatabaseController(new TuDbConnectionFactory());
                     databaseController.addScore(player.getUsername(), score, nickname.getText());
                     game.setScreen(
-                            new PreGameScreen(game, null, player));
+                            new PreGameScreen(game, "music/open-space.mp3", player));
                 } else {
                     nickname.setColor(Color.RED);
                 }
