@@ -81,10 +81,18 @@ public class Score {
             return false;
         }
         Score score = (Score) o;
+        return equalsHelp(score);
+    }
+
+    /**
+     * Helping method for equals method.
+     * @param score the score to be compared.
+     * @return true if equal, false otherwise.
+     */
+    private boolean equalsHelp(Score score) {
         return gameId == score.getGameId()
                 && username.equals(score.getUsername())
                 && points == score.getPoints()
                 && chosenName.equals(score.getChosenName());
     }
-
 }
