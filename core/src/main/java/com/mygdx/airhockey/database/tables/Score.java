@@ -81,6 +81,10 @@ public class Score {
             return false;
         }
         Score score = (Score) o;
+        return equalsHelp(score);
+    }
+
+    public boolean equalsHelp(Score score) {
         return gameId == score.getGameId()
                 && username.equals(score.getUsername())
                 && points == score.getPoints()
