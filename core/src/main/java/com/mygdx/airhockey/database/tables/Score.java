@@ -84,6 +84,11 @@ public class Score {
         return equalsHelp(score);
     }
 
+    /**
+     * Helping method for equals method.
+     * @param score the score to be compared.
+     * @return true if equal, false otherwise.
+     */
     private boolean equalsHelp(Score score) {
         return gameId == score.getGameId()
                 && username.equals(score.getUsername())
